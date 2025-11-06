@@ -1,68 +1,23 @@
 <?php
-// =========================
-// 商品一覧画面（Vanika）
-// =========================
+// =============================
+// DB接続設定（ロリポップ MySQL）
+// =============================
+$dsn = 'mysql:host=mysql327.phy.lolipop.lan;dbname=LAA1607954-aso;charset=utf8';
+$user = 'LAA1607954';
+$password = 'innovation';  // DBパスワード
 
-// ソート順選択の処理
-$order = isset($_GET['order']) ? $_GET['order'] : 'price';
-
-// 仮の商品データ（DB接続前の仮データ）
-$items = [
-  ['price' => 1000, 'image' => 'sample1.jpg'],
-  ['price' => 500,  'image' => 'sample2.jpg'],
-  ['price' => 1000, 'image' => 'sample3.jpg'],
-  ['price' => 500,  'image' => 'sample4.jpg'],
-];
-
-// 価格順ソート処理
-if ($order === 'price') {
-  usort($items, function ($a, $b) {
-    return $a['price'] <=> $b['price'];
-  });
+try {
+    $pdo = new PDO($dsn, $user, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+    // echo "DB接続成功"; // ← 確認用に一時的に有効化してもOK
+} catch (PDOException $e) {
+    exit('DB接続エラー: ' . $e->getMessage());
 }
 ?>
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vanika - 商品一覧</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    body {
-      background-color: #f5e1c4;
-      padding-top: 60px;   /* ヘッダー分 */
-      padding-bottom: 80px; /* フッター分 */
-    }
-    .item-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      margin-top: 20px;
-    }
-    .item {
-      background-color: #e0e0e0;
-      text-align: center;
-      padding: 20px 0;
-    }
-    .bottom-nav a {
-      text-align: center;
-      color: #000;
-    }
-    .bottom-nav i {
-      display: block;
-      font-size: 1.2rem;
-    }
-  </style>
-</head>
-<body>
-
-<!-- 共通ヘッダー -->
-<?php include('header.php'); ?>
 
 <!-- ===== メイン ===== -->
-<section class="section">
+<section class="section has-background-warning-light">
   <div class="container">
 
     <!-- ソート -->
@@ -94,8 +49,5 @@ if ($order === 'price') {
   </div>
 </section>
 
-<!-- 共通フッター -->
-<?php include('footer.php'); ?>
 
-</body>
-</html>
+show-homeの1をホームの画像に当てはめる
