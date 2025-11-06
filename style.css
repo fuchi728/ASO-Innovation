@@ -1,0 +1,17 @@
+#back_button{
+    border:none;
+}
+
+#page_title {
+  position: relative;
+  margin:20px;
+}
+
+.navbar-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  width: 100%;
+}
