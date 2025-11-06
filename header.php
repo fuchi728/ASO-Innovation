@@ -11,4 +11,4 @@
     <link rel="stylesheet" href="title.css">
 </head>
 
-<body class="has-background-warning-light">
+<body>
