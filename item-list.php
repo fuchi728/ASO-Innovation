@@ -9,10 +9,9 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-require 'db-connect.php'; // ← これで$pdoが使える
-
 ?>
 
+<?php require 'db-connect.php';?>
 <?php require 'header.php'; ?>
 <?php require 'header-menu.php'; ?>
 
