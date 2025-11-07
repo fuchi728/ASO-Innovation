@@ -1,5 +1,9 @@
-html,body {
+html {
     padding-top: 2rem;
-    padding-bottom: 3.5rem;
     height: 100%;
+    background-color: #fffaeb;
+}
+
+body{
+    padding-bottom: 3.25rem;
 }
