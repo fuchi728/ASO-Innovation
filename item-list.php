@@ -1,53 +1,46 @@
 <?php
-// =============================
-// DB接続設定（ロリポップ MySQL）
-// =============================
-$dsn = 'mysql:host=mysql327.phy.lolipop.lan;dbname=LAA1607954-aso;charset=utf8';
-$user = 'LAA1607954';
-$password = 'innovation';  // DBパスワード
+// ========================================
+// 商品一覧画面（show_home=1の画像を取得）
+// ========================================
 
-try {
-    $pdo = new PDO($dsn, $user, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-    // echo "DB接続成功"; // ← 確認用に一時的に有効化してもOK
-} catch (PDOException $e) {
-    exit('DB接続エラー: ' . $e->getMessage());
-}
+
+
+
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
+require 'db-connect.php'; // ← これで$pdoが使える
+
 ?>
 
-<!-- ===== メイン ===== -->
+<?php require 'header.php'; ?>
+<?php require 'header-menu.php'; ?>
+
 <section class="section has-background-warning-light">
   <div class="container">
 
-    <!-- ソート -->
-    <div class="field has-addons is-justify-content-flex-end">
-      <div class="control">
-        <div class="select is-small">
-          <select onchange="location.href='?order='+this.value">
-            <option value="price" <?= $order==='price'?'selected':'' ?>>価格順</option>
-          </select>
-        </div>
-      </div>
-      <div class="control">
-        <button class="button is-small">
-          <i class="fas fa-sort"></i>
-        </button>
-      </div>
-    </div>
-
-    <!-- 商品一覧 -->
     <div class="item-grid">
-      <?php foreach ($items as $item): ?>
-        <div class="item">
-          <p>写真</p>
-          <p>¥<?= number_format($item['price']) ?></p>
-        </div>
-      <?php endforeach; ?>
+      <?php 
+        $pdo=new PDO($connect, USER, PASS);
+        $sql = $pdo->query('select * from item_image where show_home=1');
+        $items = $sql->fetchAll();
+        if (empty($items)): ?>
+        <p>現在表示できる商品がありません。</p>
+      <?php else: ?>
+        <?php 
+          foreach ($items as $item){
+            echo '<div class="item">';
+            echo '<img src="item-image/', $item['image_path'], '" alt="商品画像">';
+            echo '<p>商品ID：', $item['item_id'], ')</p>';
+            echo '</div>';
+          }
+        ?>
+
+      <?php endif; ?>
     </div>
 
   </div>
 </section>
 
-
-show-homeの1をホームの画像に当てはめる
+<?php require 'footer-menu.php'; ?>
+<?php require 'footer.php'; ?>
