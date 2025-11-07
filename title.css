@@ -1,0 +1,20 @@
+#page_title {
+  position: relative;
+  margin:0 0 20px 20px;
+  background-color: #fffaeb;
+}
+
+.navbar-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  width: 100%;
+  pointer-events: none;
+}
+
+#back_button{
+  border:none;
+  background-color: #fffaeb;
+}
