@@ -1,4 +1,7 @@
-<?php require 'header.php'; ?>
+<?php
+$css_files = ['main-style.css','selledit_style.css'];
+require 'header.php';
+?>
 <?php require 'header-menu.php'; ?>
 
 <?php
@@ -50,7 +53,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   <div class="miya">
   <div class="container">
     <div class="header">
-      <span class="back-arrow">&lt;</span>
+      <a href="home.php" class="button is-medium is-outlined">
+    <span class="icon is-small">
+        <i class="fas fa-angle-left"></i>
+    </span>
+</a>
       <div class="image-upload-wrapper">
         <div class="image-upload-box">
           <span class="camera-icon">📸</span>
