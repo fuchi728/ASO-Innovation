@@ -1,0 +1,38 @@
+.page_title {
+  text-align: center;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+#user_icon {
+  width: 48px;
+  height: 48px;
+}
+
+#user_icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: 1px solid;
+}
+
+.columns.is-mobile.is-vcentered > .column:last-child {
+  align-self: flex-start;
+  margin-top: -0.5rem;
+}
+
+
+#history {
+  background-color: white;
+}
+
+#history a{
+  color: #B8B4B4;
+  border:none;
+}
+
+#help_link{
+  color: #B8B4B4;
+  text-decoration: underline;
+  text-decoration-color: #B8B4B4;
+}
