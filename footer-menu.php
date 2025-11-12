@@ -18,7 +18,7 @@
             </span>
             <span class="is-size-7">出品</span>
         </a>
-        <a class="navbar-item is-flex is-flex-direction-column is-align-items-center" href="#">
+        <a class="navbar-item is-flex is-flex-direction-column is-align-items-center" href="mypage.php">
             <span class="icon">
                 <i class="fas fa-user"></i>
             </span>
