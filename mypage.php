@@ -17,15 +17,17 @@ require 'header.php';
       <div class="column is-narrow p-0">
         <div class="is-flex is-align-items-center">
           <figure id="user_icon" class="image is-64x64 m-3">
-            <img class="is-rounded" src="user_icon/default.png" alt="ユーザー画像">
+            <a href="#">
+              <img class="is-rounded" src="user_icon/default.png" alt="ユーザー画像">
+            </a>
           </figure>
         </div>
       </div>
       <div class="column">
-        <p class="title is-5 m-0">ニックネーム</p>
+        <a href="#" class="title is-5 m-0">ニックネーム</a>
       </div>
       <div class="column is-narrow">
-        <a href="#">編集</a>
+        <a href="mypage-edit.php">編集</a>
       </div>
     </div>
   </div>
