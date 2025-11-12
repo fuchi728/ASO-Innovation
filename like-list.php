@@ -6,11 +6,12 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 ?>
 
-<?php require 'db-connect.php';?>
-<?php require 'header.php'; ?>
-<?php require 'header-menu.php'; ?>
-
-<link rel="stylesheet" href="like-list.css">
+<?php
+$css_files = ['main-style.css','like-list.css'];
+require 'header.php';
+require 'header-menu.php';
+?>
+<link rel="stylesheet" href="css/like-list.css">
 
 <section class="section has-background-warning-light">
   <div class="container">

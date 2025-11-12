@@ -1,0 +1,96 @@
+/* ===== 背景 ===== */
+section.section {
+  background-color: #fff8e1; /* has-background-warning-light */
+  border-radius: 16px 16px 0 0;
+  padding-top: 10px;
+}
+
+/* ===== ソート部分 ===== */
+.sort-bar {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.sort-center {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sort-bar select {
+  background: #fff;
+  font-size: 0.9rem;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.sort-bar i {
+  font-size: 24px;
+  color: #333;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.sort-bar i:hover {
+  transform: scale(1.1);
+}
+
+/* ===== 商品一覧部分 ===== */
+.item-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.item {
+  background-color: #ffffff;
+  text-align: center;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  width: auto !important;
+  display: block;
+}
+
+/* 商品画像エリア */
+.image-box img {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  margin-bottom: 6px;
+  object-fit: cover;
+}
+
+/* ===== ヘッダー・ナビバー ===== */
+.navbar, .bottom-nav {
+  background-color: #f9deb0;
+}
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0;
+  box-shadow: 0 -1px 3px rgba(0,0,0,0.1);
+}
+
+.bottom-nav a {
+  text-align: center;
+  color: #000;
+  flex: 1;
+  padding: 6px 0;
+}
+
+.bottom-nav i {
+  display: block;
+  font-size: 1.3rem;
+  margin-bottom: 2px;
+}
