@@ -5,8 +5,12 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 require 'db-connect.php';
+
+
+$css_files = ['main-style.css','item-list.css'];
 require 'header.php';
 require 'header-menu.php';
+
 
 $pdo = new PDO($connect, USER, PASS);
 
