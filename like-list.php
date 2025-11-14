@@ -1,17 +1,17 @@
 <?php
 // ========================================
-// いいね一覧画面（item_imageテーブルから取得）
+// いいね一覧画面（goodテーブルから取得）
 // ========================================
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-?>
 
-<?php
 $css_files = ['main-style.css','like-list.css'];
+require 'db-connect.php';  // ← DB接続を追加
 require 'header.php';
 require 'header-menu.php';
 ?>
-<link rel="stylesheet" href="css/like-list.css">
+
+
 
 <section class="section has-background-warning-light">
   <div class="container">
@@ -19,17 +19,31 @@ require 'header-menu.php';
 
     <div class="item-grid">
       <?php 
+        // ★ いいねされた商品を取得
         $pdo = new PDO($connect, USER, PASS);
-        $sql = $pdo->query('SELECT * FROM item_image WHERE show_home = 1');
-        $items = $sql->fetchAll();
+
+        // goodテーブルから item_id を取得 → item と item_image を結合して商品情報を取る
+        $sql = "
+          SELECT i.item_id, i.item_name, i.price, im.image_path
+          FROM good g
+          JOIN item i ON g.item_id = i.item_id
+          LEFT JOIN item_image im ON i.item_id = im.item_id AND im.show_home = 1
+          WHERE g.is_delete = 0
+        ";
+
+        $stmt = $pdo->query($sql);
+        $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         if (empty($items)): ?>
           <p>現在「いいね」された商品はありません。</p>
       <?php else: ?>
         <?php foreach ($items as $item): ?>
           <div class="item">
-            <img src="item-image/<?= htmlspecialchars($item['image_path']) ?>" alt="商品画像">
-            <p>商品ID：<?= htmlspecialchars($item['item_id']) ?></p>
+            <div class="image-box">
+              <img src="item-image/<?= htmlspecialchars($item['image_path'] ?? 'no-image.png') ?>" alt="商品画像">
+            </div>
+            <p><?= htmlspecialchars($item['item_name']) ?></p>
+            <p>¥<?= number_format($item['price']) ?></p>
           </div>
         <?php endforeach; ?>
       <?php endif; ?>
