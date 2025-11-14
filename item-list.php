@@ -9,12 +9,23 @@ require 'header.php';
 require 'header-menu.php';
 
 $pdo = new PDO($connect, USER, PASS);
+
+// 並び替え処理
 $order = $_GET['sort'] ?? 'price_asc';
-$sql = match($order) {
-  'price_desc' => 'SELECT * FROM item ORDER BY price DESC',
-  'id_desc'    => 'SELECT * FROM item ORDER BY item_id DESC',
-  default      => 'SELECT * FROM item ORDER BY price ASC'
+$order_sql = match($order) {
+  'price_desc' => 'i.price DESC',
+  'id_desc'    => 'i.item_id DESC',
+  default      => 'i.price ASC'
 };
+
+// ✅ item と item_image を結合して取得
+$sql = "
+  SELECT i.*, im.image_path
+  FROM item i
+  LEFT JOIN item_image im ON i.item_id = im.item_id AND im.show_home = 1
+  ORDER BY $order_sql
+";
+
 $items = $pdo->query($sql)->fetchAll();
 ?>
 
@@ -27,10 +38,10 @@ $items = $pdo->query($sql)->fetchAll();
     <!-- ソートメニュー -->
     <div class="sort-bar">
       <div class="sort-center">
-        <select id="sortSelect">
-          <option value="price_asc">価格順（安い順）</option>
-          <option value="price_desc">価格順（高い順）</option>
-          <option value="id_desc">新着順</option>
+        <select id="sortSelect" onchange="location.href='?sort='+this.value;">
+          <option value="price_asc" <?= $order=='price_asc'?'selected':'' ?>>価格順（安い順）</option>
+          <option value="price_desc" <?= $order=='price_desc'?'selected':'' ?>>価格順（高い順）</option>
+          <option value="id_desc" <?= $order=='id_desc'?'selected':'' ?>>新着順</option>
         </select>
         <i class="fas fa-sort-amount-up"></i>
       </div>
@@ -45,7 +56,10 @@ $items = $pdo->query($sql)->fetchAll();
           <div class="item">
             <a href="item-detail.php?item_id=<?= htmlspecialchars($item['item_id']) ?>">
               <div class="image-box">
-                <img src="item-image/no-image.png" alt="商品画像">
+                <img 
+                  src="item-image/<?= htmlspecialchars($item['image_path'] ?? 'no-image.png') ?>" 
+                  alt="商品画像"
+                >
               </div>
             </a>
             <p><?= htmlspecialchars($item['item_name']) ?></p>
