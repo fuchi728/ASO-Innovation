@@ -7,7 +7,7 @@ require 'header.php';
 require 'header-menu.php';
 ?>
 
-<link rel="stylesheet" href="css/sell-list.css">
+
 
 <section class="section">
   <div class="container">
