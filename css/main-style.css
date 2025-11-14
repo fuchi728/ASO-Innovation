@@ -7,3 +7,12 @@ html {
 body{
     padding-bottom: 3.25rem;
 }
+
+.content {
+    margin:3% 10% 0 10%;
+}
+
+#button {
+    background-color: #E8B931;
+    color: white;
+}
