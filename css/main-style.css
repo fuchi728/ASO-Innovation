@@ -1,9 +1,18 @@
 html {
-    padding-top: 2rem;
+    padding-top: 3rem;
     height: 100%;
     background-color: #fffaeb;
 }
 
 body{
     padding-bottom: 3.25rem;
+}
+
+.content {
+    margin:3% 10% 0 10%;
+}
+
+#button {
+    background-color: #E8B931;
+    color: white;
 }
