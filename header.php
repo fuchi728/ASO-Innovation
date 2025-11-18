@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
- 
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,16 +10,12 @@
     <!-- <link rel="stylesheet" href="css/main_style.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/title.css"> -->
- 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <?php
     foreach ($css_files as $css) {
         echo '<link rel="stylesheet" href="css/' . $css . '">' . "\n";
     }
     ?>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="main-style.css">
-    <link rel="stylesheet" href="title.css">
-    <link rel="stylesheet" href="item-list.css">
 </head>
- 
+
 <body>
