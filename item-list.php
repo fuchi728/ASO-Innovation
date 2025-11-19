@@ -59,26 +59,27 @@ $items = $pdo->query($sql)->fetchAll();
         <i class="fas fa-sort-amount-up"></i>
       </div>
     </div>
-
-    <!-- 商品一覧 -->
-    <div class="item-grid">
-      <?php if (empty($items)): ?>
-        <p>現在表示できる商品がありません。</p>
-      <?php else:
-        foreach ($items as $item): ?>
-          <div class="item">
-            <a href="item-detail.php?item_id=<?= htmlspecialchars($item['item_id']) ?>">
-              <div class="image-box">
-                <img 
-                  src="item-image/<?= htmlspecialchars($item['image_path'] ?? 'no-image.png') ?>" 
-                  alt="商品画像">
-              </div>
-            </a>
-            <p><?= htmlspecialchars($item['item_name']) ?></p>
-            <p>¥<?= number_format($item['price']) ?></p>
+<!-- 商品一覧 -->
+<div class="item-grid">
+  <?php if (empty($items)): ?>
+    <p>現在表示できる商品がありません。</p>
+  <?php else:
+    foreach ($items as $item): ?>
+      <!-- 全体をリンク化 -->
+      <a href="item-detail.php?item_id=<?= htmlspecialchars($item['item_id']) ?>" class="item-link">
+        <div class="item">
+          <div class="image-box">
+            <img 
+              src="item-image/<?= htmlspecialchars($item['image_path'] ?? 'no-image.png') ?>" 
+              alt="商品画像">
           </div>
-      <?php endforeach; endif; ?>
-    </div>
+          <p><?= htmlspecialchars($item['item_name']) ?></p>
+          <p>¥<?= number_format($item['price']) ?></p>
+        </div>
+      </a>
+  <?php endforeach; endif; ?>
+</div>
+
   </div>
 </section>
 
