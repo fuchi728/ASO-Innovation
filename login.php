@@ -1,5 +1,4 @@
 <?php require 'header.php'; ?>
-<?php require 'header-menu.php'; ?>
 
 <?php
 // ログイン処理（仮）
@@ -17,11 +16,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <title>Vanika ログイン</title>
+
+  
+   
     <style>
         body {
             font-family: 'Noto Sans JP', sans-serif;
@@ -95,10 +92,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             margin-bottom: 10px;
         }
     </style>
-</head>
-<body>
-<div class="login-container">
-    <div class="logo">🛍️<span>Vanika</span></div>
+
+<div class="logo">
+    <img src="logo-image/Vanikaロゴ.png" alt="Vanikaロゴ" class="logo-img">
+</div>
     <h2>ログイン</h2>
 
     <?php if (!empty($error)): ?>
@@ -117,8 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <a href="signup.php">新規アカウントを作成はこちらから ➜</a>
     </div>
 </div>
-</body>
-</html>
 
-<?php require 'footer-menu.php'; ?>
+
+
 <?php require 'footer.php'; ?>
