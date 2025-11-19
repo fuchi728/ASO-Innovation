@@ -57,7 +57,7 @@ require 'header.php';
     $sql3->execute([$_SESSION['user']['user_id']]);
     $follower = $sql3->fetchColumn();
     ?>
-    <a href="">フォロワー：<?= $followed ?></a>
+    <a href="follower-list">フォロワー：<?= $followed ?></a>
     <a href="follow-list">フォロー中：<?= $follower ?></a>
   </div>
 
