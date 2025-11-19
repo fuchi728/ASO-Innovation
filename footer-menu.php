@@ -13,7 +13,7 @@
                 </span>
                 <span class="is-size-7">いいね</span>
             </a>
-            <a class="navbar-item is-flex is-flex-direction-column is-align-items-center" href="sell-list.php">
+            <a class="navbar-item is-flex is-flex-direction-column is-align-items-center" href="Listing Status Screen.php">
                 <span class="icon">
                     <i class="fas fa-plus-circle"></i>
                 </span>
