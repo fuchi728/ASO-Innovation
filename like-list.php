@@ -5,13 +5,11 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-$css_files = ['main-style.css','like-list.css'];
+$css_files = ['main-style.css', 'like-list.css'];
 require 'db-connect.php';  // ← DB接続を追加
 require 'header.php';
 require 'header-menu.php';
 ?>
-
-
 
 <section class="section has-background-warning-light">
   <div class="container">
@@ -22,7 +20,6 @@ require 'header-menu.php';
         // ★ いいねされた商品を取得
         $pdo = new PDO($connect, USER, PASS);
 
-        // goodテーブルから item_id を取得 → item と item_image を結合して商品情報を取る
         $sql = "
           SELECT i.item_id, i.item_name, i.price, im.image_path
           FROM good g
@@ -38,13 +35,16 @@ require 'header-menu.php';
           <p>現在「いいね」された商品はありません。</p>
       <?php else: ?>
         <?php foreach ($items as $item): ?>
-          <div class="item">
-            <div class="image-box">
-              <img src="item-image/<?= htmlspecialchars($item['image_path'] ?? 'no-image.png') ?>" alt="商品画像">
+          <!-- 🔹 カード全体をリンク化 -->
+          <a href="item-detail.php?item_id=<?= htmlspecialchars($item['item_id']) ?>" class="item-link">
+            <div class="item">
+              <div class="image-box">
+                <img src="item-image/<?= htmlspecialchars($item['image_path'] ?? 'no-image.png') ?>" alt="商品画像">
+              </div>
+              <p><?= htmlspecialchars($item['item_name']) ?></p>
+              <p>¥<?= number_format($item['price']) ?></p>
             </div>
-            <p><?= htmlspecialchars($item['item_name']) ?></p>
-            <p>¥<?= number_format($item['price']) ?></p>
-          </div>
+          </a>
         <?php endforeach; ?>
       <?php endif; ?>
     </div>
