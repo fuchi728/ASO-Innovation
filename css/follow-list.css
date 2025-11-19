@@ -1,0 +1,27 @@
+.follow-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 1rem;
+}
+
+.follow-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff7e6;
+  border-radius: 10px;
+  padding: 10px 14px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.user-name {
+  font-weight: bold;
+  color: #333;
+}
+
+.follow-form .button {
+  background-color: #ffcc00;
+  border: none;
+  color: #000;
+}

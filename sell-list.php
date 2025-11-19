@@ -22,7 +22,7 @@ $sells = $sql->fetchAll();
 
     <!-- 🔹 戻る矢印（文字のみ「＜」） -->
     <div class="back-btn">
-      <a href="mypage.php" class="back-arrow">＜</a>
+      <a href="#" onclick=”history.back()” class="back-arrow">＜</a>
     </div>
 
     <!-- タイトルと出品数 -->
