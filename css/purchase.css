@@ -1,0 +1,121 @@
+/* ========================================
+   購入画面 purchase.css
+======================================== */
+body {
+  background-color: #fff7e5;
+}
+
+.back-btn {
+  margin-bottom: 10px;
+}
+
+.back-arrow {
+  font-size: 1.8rem;
+  color: #333;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.item-summary {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.image-box {
+  flex: 1;
+  text-align: center;
+}
+
+.image-box img {
+  object-fit: contain;
+  width: 100px;
+  height: 100px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+
+.item-info {
+  flex: 1;
+  text-align: center;
+}
+
+.item-name {
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-bottom: 5px;
+}
+
+.item-price {
+  color: #d46f00;
+  font-size: 1rem;
+}
+
+.field {
+  margin-bottom: 15px;
+}
+
+.label {
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.required {
+  color: red;
+  font-size: 0.85rem;
+}
+
+.input,
+.select select {
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.fee,
+.total {
+  background: #fff;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.total {
+  color: #d46f00;
+}
+
+.button.is-warning {
+  font-weight: bold;
+  font-size: 1.1rem;
+  border-radius: 10px;
+}
+/* タイトルバー全体（＜ とタイトル） */
+.title-bar {
+  display: flex;
+  align-items: center;        /* 縦位置を中央揃え */
+  justify-content: center;    /* 全体を中央寄せ */
+  position: relative;
+  margin-bottom: 15px;
+}
+
+/* 戻る矢印（左固定） */
+.back-arrow {
+  position: absolute;
+  left: 0;                    /* 画面左端に固定 */
+  font-size: 1.8rem;
+  color: #333;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* タイトル文字（中央） */
+.title-bar .title {
+  margin: 0;
+  font-size: 1.2rem;
+  text-align: center;
+  width: 100%;
+}
