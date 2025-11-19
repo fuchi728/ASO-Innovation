@@ -57,8 +57,8 @@ require 'header.php';
     $sql3->execute([$_SESSION['user']['user_id']]);
     $follower = $sql3->fetchColumn();
     ?>
-    フォロワー：<?= $followed ?>
-    フォロー中：<?= $follower ?>
+    <a href="">フォロワー：<?= $followed ?></a>
+    <a href="follow-list">フォロー中：<?= $follower ?></a>
   </div>
 
   <div class="block">
@@ -84,7 +84,7 @@ require 'header.php';
             </div>
             <div class="card-content">
               <p class="title is-6 mb-5">{{item.item_name}}</p>
-              <p class="subtitle is-6">¥{{item.price}}</p>
+              <p class="subtitle is-6">¥{{item.price.toLocaleString()}}</p>
             </div>
           </div>
         </div>
