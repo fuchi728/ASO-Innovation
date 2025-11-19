@@ -1,4 +1,6 @@
-<?php session_start(); ?>
+<?php session_start(); 
+ini_set('display_errors', 1);
+error_reporting(E_ALL);?>
 <?php require 'db-connect.php'; ?>
 <?php
 if (isset($_POST['email']) && isset($_POST['password'])) {
