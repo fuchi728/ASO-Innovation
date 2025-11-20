@@ -7,7 +7,7 @@ require 'header.php';
 
 <!--ページタイトル-->
 <nav id="page_title" class="navbar is-flex is-fixed-top is-justify-content-space-between is-align-items-center" role="navigation" aria-label="main navigation">
-    <a href="item-list.php" id="back_button" class="button is-medium is-outlined">
+    <a href="#" onclick="history.back()" id="back_button" class="button is-medium is-outlined">
         <span class="icon is-small">
             <i class="fas fa-angle-left"></i></a>
     </span>
