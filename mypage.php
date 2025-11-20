@@ -27,9 +27,9 @@ require 'header.php';
             <a href="sell-list.php">
               <?php
               if (empty($user['profile_image'])) {
-                echo '<img src="user_icon/default.png" alt="ユーザー画像">';
+                echo '<img src="user-icon/default.png" alt="ユーザー画像">';
               } else {
-                echo '<img src="user_icon/' . htmlspecialchars($user['profile_image']) . '" alt="ユーザー画像">';
+                echo '<img src="user-icon/' . htmlspecialchars($user['profile_image']) . '" alt="ユーザー画像">';
               }
               ?>
             </a>
@@ -72,26 +72,28 @@ require 'header.php';
   <div id="app">
     <div id="history" class="box">
       <p class="title is-6">閲覧履歴</p>
-      <div class="columns is-mobile is-multiline" v-if="history.length > 0">
-        <div class="column is-half" v-for="item in history" :key="item.item_id">
-          <div class="card">
-            <div class="card-image">
-              <a :href="'item-detail.php?id=' + item.item_id">
-                <figure class="image is-64x64">
-                  <img :src="'item-image/' + item.image_path">
-                </figure>
-              </a>
-            </div>
-            <div class="card-content">
-              <p class="title is-6 mb-5">{{item.item_name}}</p>
-              <p class="subtitle is-6">¥{{item.price.toLocaleString()}}</p>
+      <div v-if="history.length > 0">
+        <div class="columns is-mobile is-multiline">
+          <div class="column is-half" v-for="item in history" :key="item.item_id">
+            <div class="card">
+              <div class="card-image">
+                <a :href="'item-detail.php?id=' + item.item_id">
+                  <figure class="image is-64x64">
+                    <img :src="'item-image/' + item.image_path">
+                  </figure>
+                </a>
+              </div>
+              <div class="card-content">
+                <p class="title is-6 mb-5">{{item.item_name}}</p>
+                <p class="subtitle is-6">¥{{item.price.toLocaleString()}}</p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="mt-3">
-        <a v-if="total > 2 && !expanded" class="button" @click="showMore">...さらに表示</a>
-        <a v-if="expanded" class="button" @click="closeMore">×閉じる</a>
+        <div class="mt-3">
+          <a v-if="total > 4 && !expanded" class="button" @click="showMore">...さらに表示</a>
+          <a v-if="expanded" class="button" @click="closeMore">×閉じる</a>
+        </div>
       </div>
       <p v-else class="m-3">閲覧履歴はありません</p>
     </div>
