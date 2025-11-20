@@ -24,6 +24,9 @@
   margin-top: -0.5rem;
 }
 
+.follow a{
+  color: black;
+}
 
 #history {
   background-color: white;

@@ -47,7 +47,7 @@ require 'header.php';
     </div>
   </div>
 
-  <div class="has-text-right block">
+  <div class="follow has-text-right block">
     <?php
     $sql2 = $pdo->prepare('select count(*) from follow where followed_id=?');
     $sql2->execute([$_SESSION['user']['user_id']]);
@@ -57,7 +57,7 @@ require 'header.php';
     $sql3->execute([$_SESSION['user']['user_id']]);
     $follower = $sql3->fetchColumn();
     ?>
-    <a href="follower-list">フォロワー：<?= $followed ?></a>
+    <a href="follower-list">フォロワー：<?= $followed ?></a>　
     <a href="follow-list">フォロー中：<?= $follower ?></a>
   </div>
 
