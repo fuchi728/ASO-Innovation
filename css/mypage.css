@@ -37,6 +37,12 @@
   border: none;
 }
 
+#history img{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
 #help_link {
   color: #B8B4B4;
   text-decoration: underline;

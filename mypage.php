@@ -75,19 +75,19 @@ require 'header.php';
       <div v-if="history.length > 0">
         <div class="columns is-mobile is-multiline">
           <div class="column is-half" v-for="item in history" :key="item.item_id">
-            <div class="card">
-              <div class="card-image">
-                <a :href="'item-detail.php?id=' + item.item_id">
-                  <figure class="image is-64x64">
+            <a :href="'item-detail.php?item_id=' +  item.item_id" class="item-link">
+              <div class="card has-text-centered">
+                <div class="card-image is-flex is-justify-content-center">
+                  <figure class="image is-64x64 ">
                     <img :src="'item-image/' + item.image_path">
                   </figure>
-                </a>
+                </div>
+                <div class="card-content">
+                  <p class="title is-6 mb-5">{{item.item_name}}</p>
+                  <p class="subtitle is-6">¥{{item.price.toLocaleString()}}</p>
+                </div>
               </div>
-              <div class="card-content">
-                <p class="title is-6 mb-5">{{item.item_name}}</p>
-                <p class="subtitle is-6">¥{{item.price.toLocaleString()}}</p>
-              </div>
-            </div>
+            </a>
           </div>
         </div>
         <div class="mt-3">
