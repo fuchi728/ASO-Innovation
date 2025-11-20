@@ -1,0 +1,59 @@
+/* 商品画像スライダー */
+.mySwiper {
+  max-width: 500px;
+}
+
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+  background-color: white;
+}
+
+.swiper-slide img {
+  width: 100%;
+  height: 300px;
+  object-fit: contain;
+  display: block;
+}
+
+.swiper-pagination-bullet-active {
+  background: #E8B931;
+}
+
+/* ユーザーアイコン */
+.user_icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.user_icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border: 1px solid black;
+}
+
+/* コメント */
+.comment-scroll-area {
+  max-height: 200px;
+  overflow-y: auto;/* 縦スクロール */
+  padding-right: 10px;
+  padding-bottom: 30px;
+}
+
+.comment {
+  background-color: #95845a1a;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.purchase{
+  position: fixed;
+  bottom: 5rem;
+  right: 25px;
+}
