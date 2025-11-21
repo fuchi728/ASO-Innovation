@@ -70,11 +70,11 @@ require 'header.php';
 
   <!-- 閲覧履歴 -->
   <div id="app">
-    <div id="history" class="box">
+    <div id="history" class="box mb-3">
       <p class="title is-6">閲覧履歴</p>
       <div v-if="history.length > 0">
         <div class="columns is-mobile is-multiline">
-          <div class="column is-half" v-for="item in history" :key="item.item_id">
+          <div class="column is-half-mobile is-one-quarter-desktop" v-for="item in history" :key="item.item_id">
             <a :href="'item-detail.php?item_id=' +  item.item_id" class="item-link">
               <div class="card has-text-centered">
                 <div class="card-image is-flex is-justify-content-center">
