@@ -88,6 +88,7 @@
 <div class="login-container">
     <div class="container">
         <img src="logo-image/Vanikaロゴ.png">
+        <h2>ログイン</h2>
     </div>
 
     <?php
