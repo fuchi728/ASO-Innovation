@@ -16,6 +16,10 @@
         echo '<link rel="stylesheet" href="css/' . $css . '">' . "\n";
     }
     ?>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="main-style.css">
+    <link rel="stylesheet" href="title.css">
+    <link rel="stylesheet" href="item-list.css">
 </head>
  
 <body>
