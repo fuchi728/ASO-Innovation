@@ -1,5 +1,5 @@
 <?php
-$css_files = ['main-style.css','selledit_style.css'];
+$css_files = ['main-style.css','Product Listing Form.css'];
 require 'header.php';
 ?>
 <?php require 'header-menu.php'; ?>
@@ -53,11 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   <div class="miya">
   <div class="container">
     <div class="header">
-      <a href="home.php" class="button is-medium is-outlined">
-    <span class="icon is-small">
-        <i class="fas fa-angle-left"></i>
-    </span>
-</a>
+
       <div class="image-upload-wrapper">
         <div class="image-upload-box">
           <span class="camera-icon">📸</span>
@@ -120,7 +116,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       </div>
 
       <!-- 更新ボタン -->
-      <button type="submit" class="update-button">更新する</button>
+      <button type="submit" class="Listing-button">出品する</button>
     </form>
   </div>
 

@@ -1,0 +1,182 @@
+<?php session_start(); ?>
+<?php
+$css_files = ['main-style.css', 'title.css', 'item-detail.css'];
+require 'header.php';
+?>
+<?php require 'db-connect.php'; ?>
+
+<!--ページタイトル-->
+<nav id="page_title" class="navbar is-flex is-fixed-top is-justify-content-space-between is-align-items-center" role="navigation" aria-label="main navigation">
+    <a href="#" onclick="history.back()" id="back_button" class="button is-medium is-outlined">
+        <span class="icon is-small">
+            <i class="fas fa-angle-left"></i></a>
+    </span>
+    <div class="navbar-center">
+        <span class="title is-6">商品詳細</span>
+    </div>
+</nav>
+
+<!--商品詳細-->
+<?php
+// 商品情報取得
+$pdo = new PDO($connect, USER, PASS);
+$sql1 = $pdo->prepare('
+    select i.*, u.nickname as seller_nickname,u.profile_image AS seller_profile
+    from item i
+    left join sell s on i.item_id = s.item_id and s.is_delete = 0
+    left join user_info u on s.user_id = u.user_id
+    where i.item_id = ?
+');
+$sql1->execute([$_GET['item_id']]);
+$item = $sql1->fetch(PDO::FETCH_ASSOC);
+// 画像情報取得
+$sql2 = $pdo->prepare('select image_path from item_image where item_id=?');
+$sql2->execute([$_GET['item_id']]);
+$images = $sql2->fetchAll(PDO::FETCH_COLUMN);
+// いいね済みチェック
+$isLiked = false;
+$user_id = $_SESSION['user']['user_id'];
+if ($user_id) {
+    $sql = $pdo->prepare("select 1 from good where user_id=? and item_id=? and is_delete=0");
+    $sql->execute([$user_id, $_GET['item_id']]);
+    $isLiked = $sql->fetch() ? true : false;
+}
+?>
+
+<!--商品画像表示-->
+
+<div class="content">
+    <div class="columns">
+        <div class="column">
+            <div class="is-flex is-justify-content-center block">
+                <!-- 画像スライダー -->
+                <div class="swiper mySwiper">
+                    <div class="swiper-wrapper">
+                        <?php
+                        foreach ($images as $img) {
+                            echo '<div class="swiper-slide">';
+                            echo '<img class="image_size " src="item-image/', htmlspecialchars($img), '" alt="商品画像">';
+                            echo '</div>';
+                        };
+                        ?>
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+        </div>
+        <!--商品情報-->
+        <div class="column mb-3">
+            <div class="block">
+                <div class="mb-3 is-flex">
+                    <span class="title"><?= htmlspecialchars($item['item_name']) ?></span>
+                    <!-- いいね -->
+                    <div id="app" class="ml-auto">
+                        <i class="fa-heart is-size-2 has-text-danger"
+                            :class="liked ? 'fas' : 'far'"
+                            @click="toggleLike"></i>
+                    </div>
+                </div>
+                <span class="subtitle is-4">¥<?= number_format($item['price']) ?></span>
+            </div>
+
+            <div class="block">
+                <div class="mb-3">
+                    <span class="title is-6">商品概要</span>
+                </div>
+                <span><?= htmlspecialchars($item['detail']) ?></span>
+            </div>
+
+            <div class="block">
+                <span class="title is-6">出品者</span>
+                <div class="is-flex is-align-items-center">
+                    <figure class="user_icon image is-32x32 m-2">
+                        <?php
+                        $icon = $item['seller_profile'] ?: 'default.png';
+                        ?>
+                        <img class="is-rounded" src="user-icon/<?= htmlspecialchars($icon) ?>" alt="ユーザー画像">
+                    </figure>
+                    <span><?= htmlspecialchars($item['seller_nickname']) ?></span>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <!-- コメント -->
+    <div class="comment block">
+        <div class="mb-3">
+            <span class="title is-6">コメント</span>
+        </div>
+        <div class="comment-scroll-area">
+            <?php
+            $sql3 = $pdo->prepare('
+                        select c.*, u.nickname, u.profile_image
+                        from comment c
+                        left join user_info u on c.user_id = u.user_id
+                        where c.item_id = ? and c.is_delete = 0
+                        order by c.comment_time desc
+                    ');
+            $sql3->execute([$_GET['item_id']]);
+            $comments = $sql3->fetchAll(PDO::FETCH_ASSOC);
+            foreach ($comments as $comment):
+                $icon = $comment['profile_image'] ?: 'default.png';
+            ?>
+                <div class="is-flex is-align-items-center">
+                    <figure class="user_icon image is-24x24 m-2">
+                        <img class="is-rounded" src="user-icon/<?= htmlspecialchars($icon) ?>" alt="ユーザー画像">
+                    </figure>
+                    <span class="is-size-6"><?= htmlspecialchars($comment['nickname']) ?></span>
+                    <span class="is-size-7 has-text-grey m-2"><?= $comment['comment_time'] ?></span>
+                </div>
+
+                <div class="comment_text mb-3">
+                    <p><?= nl2br(htmlspecialchars($comment['main_text'])) ?></p>
+                </div>
+            <?php endforeach; ?>
+        </div>
+        <div class="message-input-area">
+            <div class="field has-addons pt-3 pr-6">
+                <!-- テキスト入力 -->
+                <div class="control is-expanded">
+                    <form action="comment-insert.php" method="post">
+                        <input class="input" type="text" placeholder="メッセージを入力" name="main_text">
+                        <input type="hidden" name="item_id" value="<?= $_GET['item_id'] ?>">
+                </div>
+                <!-- 送信アイコン -->
+                <div class="control">
+
+                    <button class="button">
+                        <i class="fas fa-pen-square is-size-4"></i>
+                    </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 購入ボタン -->
+    <form action="purchase.php" method="get">
+        <button id="button" type="submit" class="purchase button is-medium">購入</button>
+    </form>
+</div>
+
+<!-- Swiper読み込み -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+    new Swiper(".mySwiper", {
+        loop: true,
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+    });
+</script>
+<!-- いいね -->
+<script>
+    window.INIT_LIKED = <?= json_encode($isLiked) ?>;
+    window.ITEM_ID = <?= json_encode($_GET['item_id']) ?>;
+</script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.7.11/dist/vue.js"></script>
+<script src="./script/item-detail.js"></script>
+
+<?php require 'footer-menu.php'; ?>
+<?php require 'footer.php'; ?>

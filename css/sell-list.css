@@ -1,0 +1,63 @@
+.item-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.item-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.item {
+  background: #fff;
+  border-radius: 8px;
+  text-align: center;
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+
+.image-box {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.image-box img {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+}
+
+.title-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-bottom: 10px;
+}
+
+/* ＜ボタンを左端に固定 */
+.back-arrow {
+  position: absolute;
+  left: 10px;
+  color: #000;
+  text-decoration: none;
+  font-size: 1.2rem;
+}
+
+/* タイトルを中央寄せ */
+.title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #000;
+  text-align: center;
+}

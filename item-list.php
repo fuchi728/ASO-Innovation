@@ -1,46 +1,86 @@
 <?php
 // ========================================
-// 商品一覧画面（show_home=1の画像を取得）
+// 商品一覧画面（価格順・新着順・いいね順対応）
 // ========================================
-
-
-
-
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
+require 'db-connect.php';
 
-require 'db-connect.php'; // ← これで$pdoが使える
+$css_files = ['main-style.css', 'item-list.css'];
+require 'header.php';
+require 'header-menu.php';
 
+$pdo = new PDO($connect, USER, PASS);
+$order = $_GET['sort'] ?? 'price_asc';
+
+switch ($order) {
+  case 'price_desc':
+    $orderBy = 'i.price DESC';
+    break;
+  case 'id_desc':
+    $orderBy = 'i.item_id DESC';
+    break;
+  case 'like_desc':
+    $orderBy = 'good_count DESC';
+    break;
+  default:
+    $orderBy = 'i.price ASC';
+}
+
+$sql = "
+  SELECT 
+    i.*, 
+    im.image_path,
+    COUNT(g.item_id) AS good_count
+  FROM item i
+  LEFT JOIN good g ON i.item_id = g.item_id AND g.is_delete = 0
+  LEFT JOIN item_image im ON i.item_id = im.item_id AND im.show_home = 1
+  GROUP BY i.item_id
+  ORDER BY $orderBy
+";
+$items = $pdo->query($sql)->fetchAll();
 ?>
 
-<?php require 'header.php'; ?>
-<?php require 'header-menu.php'; ?>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="css/item-list.css">
 
 <section class="section has-background-warning-light">
   <div class="container">
 
-    <div class="item-grid">
-      <?php 
-        $pdo=new PDO($connect, USER, PASS);
-        $sql = $pdo->query('select * from item_image where show_home=1');
-        $items = $sql->fetchAll();
-        if (empty($items)): ?>
-        <p>現在表示できる商品がありません。</p>
-      <?php else: ?>
-        <?php 
-          foreach ($items as $item){
-            echo '<div class="item">';
-            echo '<img src="item-image/', $item['image_path'], '" alt="商品画像">';
-            echo '<p>商品ID：', $item['item_id'], ')</p>';
-            echo '</div>';
-          }
-        ?>
-
-      <?php endif; ?>
+    <!-- ソートメニュー -->
+    <div class="sort-bar">
+      <div class="sort-center">
+        <select id="sortSelect" onchange="location.href='?sort='+this.value;">
+          <option value="price_asc" <?= $order=='price_asc'?'selected':'' ?>>価格順（安い順）</option>
+          <option value="price_desc" <?= $order=='price_desc'?'selected':'' ?>>価格順（高い順）</option>
+          <option value="id_desc" <?= $order=='id_desc'?'selected':'' ?>>新着順</option>
+          <option value="like_desc" <?= $order=='like_desc'?'selected':'' ?>>いいね順</option>
+        </select>
+        <i class="fas fa-sort-amount-up"></i>
+      </div>
     </div>
+<!-- 商品一覧 -->
+<div class="item-grid">
+  <?php if (empty($items)): ?>
+    <p>現在表示できる商品がありません。</p>
+  <?php else:
+    foreach ($items as $item): ?>
+      <!-- 全体をリンク化 -->
+      <a href="item-detail.php?item_id=<?= htmlspecialchars($item['item_id']) ?>" class="item-link">
+        <div class="item">
+          <div class="image-box">
+            <img 
+              src="item-image/<?= htmlspecialchars($item['image_path'] ?? 'no-image.png') ?>" 
+              alt="商品画像">
+          </div>
+          <p><?= htmlspecialchars($item['item_name']) ?></p>
+          <p>¥<?= number_format($item['price']) ?></p>
+        </div>
+      </a>
+  <?php endforeach; endif; ?>
+</div>
 
   </div>
 </section>
 
-<?php require 'footer-menu.php'; ?>
-<?php require 'footer.php'; ?>
+<?php require 'footer-menu.php'; require 'footer.php'; ?>

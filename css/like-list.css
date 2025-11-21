@@ -20,12 +20,14 @@ section.section {
 }
 
 .item img {
-  max-width: 100%;
+  width: 100%;
   height: auto;
   border-radius: 6px;
   margin-bottom: 6px;
+  object-fit: cover;
 }
 
+/* ヘッダー・ナビバー */
 .navbar, .bottom-nav {
   background-color: #f9deb0;
 }
