@@ -45,6 +45,7 @@
         margin: 8px 0;
         font-size: 14px;
     }
+
     .login-btn {
         width: 90%;
         padding: 10px;
@@ -66,15 +67,18 @@
         color: #7b6d5b;
         margin-top: 10px;
     }
+
     .signup {
         margin-top: 30px;
         font-size: 14px;
     }
+
     .signup a {
         text-decoration: none;
         color: #333;
         font-weight: bold;
     }
+
     .error {
         color: red;
         font-size: 14px;
@@ -82,11 +86,10 @@
     }
 </style>
 <div class="login-container">
-<div class="container">
-    <!-- ★ ここがロゴ画像に差し替えた部分 ★ -->
-    <img src="/mnt/data/Vanikaロゴ.jpg" alt="Vanikaロゴ" class="logo-img">
-</div>
-    <h2>ログイン</h2>
+    <div class="container">
+        <img src="logo-image/Vanikaロゴ.png">
+        <h2>ログイン</h2>
+    </div>
 
     <?php
     if (isset($_SESSION['login_error'])) {
