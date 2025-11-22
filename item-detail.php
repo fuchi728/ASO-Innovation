@@ -7,7 +7,7 @@ require 'header.php';
 
 <!--ページタイトル-->
 <nav id="page_title" class="navbar is-flex is-fixed-top is-justify-content-space-between is-align-items-center" role="navigation" aria-label="main navigation">
-    <a href="#" onclick="history.back()" id="back_button" class="button is-medium is-outlined">
+    <a href="item-list.php" id="back_button" class="button is-medium is-outlined">
         <span class="icon is-small">
             <i class="fas fa-angle-left"></i></a>
     </span>
@@ -21,7 +21,7 @@ require 'header.php';
 // 商品情報取得
 $pdo = new PDO($connect, USER, PASS);
 $sql1 = $pdo->prepare('
-    select i.*, u.nickname as seller_nickname,u.profile_image AS seller_profile
+    select i.*, s.user_id as other_user, u.nickname as seller_nickname,u.profile_image AS seller_profile
     from item i
     left join sell s on i.item_id = s.item_id and s.is_delete = 0
     left join user_info u on s.user_id = u.user_id
@@ -85,17 +85,27 @@ if ($user_id) {
                 </div>
                 <span><?= htmlspecialchars($item['detail']) ?></span>
             </div>
-
+            <!-- 出品者 -->
             <div class="block">
                 <span class="title is-6">出品者</span>
                 <div class="is-flex is-align-items-center">
+                    <?php
+                    if ($user_id != $item['other_user']) {
+                        echo '<a href="other-user.php?other_user=' . urlencode($item['other_user']) . '" class="is-flex is-align-items-center">';
+                    }
+                    ?>
                     <figure class="user_icon image is-32x32 m-2">
                         <?php
                         $icon = $item['seller_profile'] ?: 'default.png';
                         ?>
                         <img class="is-rounded" src="user-icon/<?= htmlspecialchars($icon) ?>" alt="ユーザー画像">
                     </figure>
-                    <span><?= htmlspecialchars($item['seller_nickname']) ?></span>
+                    <?= htmlspecialchars($item['seller_nickname']) ?>
+                    <?php
+                    if ($user_id != $item['other_user']) {
+                        echo '</a>';
+                    }
+                    ?>
                 </div>
             </div>
         </div>
@@ -122,10 +132,20 @@ if ($user_id) {
                 $icon = $comment['profile_image'] ?: 'default.png';
             ?>
                 <div class="is-flex is-align-items-center">
+                    <?php
+                    if ($user_id != $comment['user_id']) {
+                        echo '<a href="other-user.php?other_user=' . urlencode($comment['user_id']) . '" class="is-flex is-align-items-center">';
+                    }
+                    ?>
                     <figure class="user_icon image is-24x24 m-2">
                         <img class="is-rounded" src="user-icon/<?= htmlspecialchars($icon) ?>" alt="ユーザー画像">
                     </figure>
                     <span class="is-size-6"><?= htmlspecialchars($comment['nickname']) ?></span>
+                    <?php
+                    if ($user_id != $comment['user_id']) {
+                        echo '</a>';
+                    }
+                    ?>
                     <span class="is-size-7 has-text-grey m-2"><?= $comment['comment_time'] ?></span>
                 </div>
 
