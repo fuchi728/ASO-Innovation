@@ -64,26 +64,39 @@ require 'header.php';
   <div class="block">
     <p>お名前：<?= htmlspecialchars($user['name']) ?></p>
     <p>住所：<?= htmlspecialchars($user['address']) ?></p>
-    <p>自己紹介：<?= htmlspecialchars($user['self_introduction']) ?></p>
-
+    自己紹介：
+    <div class="self_introduction block">
+      <div id="self_introduction_app">
+        <div v-for="(line, index) in visibleLines" :key="index">
+          <span v-if="line !== ''">{{ line }}</span>
+          <br v-else>
+        </div>
+        <a v-if="lines.length > 4 && !expanded" @click="expanded = true" class="button">
+          さらに表示
+        </a>
+        <a v-if="expanded" @click="expanded = false" class="button">
+          ×閉じる
+        </a>
+      </div>
+    </div>
   </div>
 
   <!-- 閲覧履歴 -->
-  <div id="app">
-    <div id="history" class="box">
+  <div id="history_app">
+    <div id="history" class="box mb-3">
       <p class="title is-6">閲覧履歴</p>
       <div v-if="history.length > 0">
         <div class="columns is-mobile is-multiline">
-          <div class="column is-half" v-for="item in history" :key="item.item_id">
-            <a :href="'item-detail.php?item_id=' +  item.item_id" class="item-link">
-              <div class="card has-text-centered">
-                <div class="card-image is-flex is-justify-content-center">
-                  <figure class="image is-64x64 ">
+          <div class="column is-half-mobile is-one-quarter-desktop" v-for="item in history" :key="item.item_id">
+            <a :href="'item-detail.php?item_id=' + item.item_id + '&from=mypage'" class="item-link">
+              <div class="card has-text-centered m-0">
+                <div class="card-image is-flex is-justify-content-center p-3">
+                  <figure class="image is-96x96">
                     <img :src="'item-image/' + item.image_path">
                   </figure>
                 </div>
-                <div class="card-content">
-                  <p class="title is-6 mb-5">{{item.item_name}}</p>
+                <div class="card-content pt-2">
+                  <p class="title is-6  mb-5">{{item.item_name}}</p>
                   <p class="subtitle is-6">¥{{item.price.toLocaleString()}}</p>
                 </div>
               </div>
@@ -109,8 +122,12 @@ require 'header.php';
   </form>
 </div>
 
+<script>
+  window.PROFILE_TEXT = <?= json_encode($user['self_introduction'] ?? '', JSON_UNESCAPED_UNICODE); ?>;
+</script>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.7.11/dist/vue.js"></script>
-<script src="./script/mypage.js"></script>
+<script src="./script/history.js"></script>
+<script src="./script/self-introduction.js"></script>
 
 <?php require 'footer-menu.php'; ?>
 <?php require 'footer.php'; ?>

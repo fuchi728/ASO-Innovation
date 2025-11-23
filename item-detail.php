@@ -6,11 +6,26 @@ require 'header.php';
 <?php require 'db-connect.php'; ?>
 
 <!--ページタイトル-->
+<?php
+// 遷移元取得
+$from = $_GET['from'] ?? null;
+$item_id = $_GET['item_id'] ?? null;
+
+if ($from === 'mypage') {
+    $back_link = 'mypage.php';
+} else if ($from === 'other_user') {
+    $back_link = 'mypage.php';
+} else {
+    $back_link = 'item-list.php';
+}
+?>
+
 <nav id="page_title" class="navbar is-flex is-fixed-top is-justify-content-space-between is-align-items-center" role="navigation" aria-label="main navigation">
-    <a href="#" onclick="history.back()" id="back_button" class="button is-medium is-outlined">
+    <a href="<?= $back_link ?>" id="back_button" class="button is-medium is-outlined">
         <span class="icon is-small">
-            <i class="fas fa-angle-left"></i></a>
-    </span>
+            <i class="fas fa-angle-left"></i>
+        </span>
+    </a>
     <div class="navbar-center">
         <span class="title is-6">商品詳細</span>
     </div>
@@ -21,24 +36,24 @@ require 'header.php';
 // 商品情報取得
 $pdo = new PDO($connect, USER, PASS);
 $sql1 = $pdo->prepare('
-    select i.*, u.nickname as seller_nickname,u.profile_image AS seller_profile
+    select i.*, s.user_id as other_user, u.nickname as seller_nickname,u.profile_image AS seller_profile
     from item i
     left join sell s on i.item_id = s.item_id and s.is_delete = 0
     left join user_info u on s.user_id = u.user_id
     where i.item_id = ?
 ');
-$sql1->execute([$_GET['item_id']]);
+$sql1->execute([$item_id]);
 $item = $sql1->fetch(PDO::FETCH_ASSOC);
 // 画像情報取得
 $sql2 = $pdo->prepare('select image_path from item_image where item_id=?');
-$sql2->execute([$_GET['item_id']]);
+$sql2->execute([$item_id]);
 $images = $sql2->fetchAll(PDO::FETCH_COLUMN);
 // いいね済みチェック
 $isLiked = false;
 $user_id = $_SESSION['user']['user_id'];
 if ($user_id) {
     $sql = $pdo->prepare("select 1 from good where user_id=? and item_id=? and is_delete=0");
-    $sql->execute([$user_id, $_GET['item_id']]);
+    $sql->execute([$user_id, $item_id]);
     $isLiked = $sql->fetch() ? true : false;
 }
 ?>
@@ -85,17 +100,27 @@ if ($user_id) {
                 </div>
                 <span><?= htmlspecialchars($item['detail']) ?></span>
             </div>
-
+            <!-- 出品者 -->
             <div class="block">
                 <span class="title is-6">出品者</span>
                 <div class="is-flex is-align-items-center">
+                    <?php
+                    if ($user_id != $item['other_user']) {
+                        echo '<a href="other-user.php?other_user=' . urlencode($item['other_user']) . '&from=' . urlencode($from) . '&item_id=' . urlencode($item_id) . '" class="is-flex is-align-items-center">';
+                    }
+                    ?>
                     <figure class="user_icon image is-32x32 m-2">
                         <?php
                         $icon = $item['seller_profile'] ?: 'default.png';
                         ?>
                         <img class="is-rounded" src="user-icon/<?= htmlspecialchars($icon) ?>" alt="ユーザー画像">
                     </figure>
-                    <span><?= htmlspecialchars($item['seller_nickname']) ?></span>
+                    <?= htmlspecialchars($item['seller_nickname']) ?>
+                    <?php
+                    if ($user_id != $item['other_user']) {
+                        echo '</a>';
+                    }
+                    ?>
                 </div>
             </div>
         </div>
@@ -122,10 +147,20 @@ if ($user_id) {
                 $icon = $comment['profile_image'] ?: 'default.png';
             ?>
                 <div class="is-flex is-align-items-center">
+                    <?php
+                    if ($user_id != $comment['user_id']) {
+                        echo '<a href="other-user.php?other_user=' . urlencode($comment['user_id']) . '&from=' . urlencode($from) . '&item_id=' . urlencode($item_id) . '" class="is-flex is-align-items-center">';
+                    }
+                    ?>
                     <figure class="user_icon image is-24x24 m-2">
                         <img class="is-rounded" src="user-icon/<?= htmlspecialchars($icon) ?>" alt="ユーザー画像">
                     </figure>
                     <span class="is-size-6"><?= htmlspecialchars($comment['nickname']) ?></span>
+                    <?php
+                    if ($user_id != $comment['user_id']) {
+                        echo '</a>';
+                    }
+                    ?>
                     <span class="is-size-7 has-text-grey m-2"><?= $comment['comment_time'] ?></span>
                 </div>
 
@@ -134,27 +169,27 @@ if ($user_id) {
                 </div>
             <?php endforeach; ?>
         </div>
-        <div class="message-input-area">
+        <!-- コメント入力 -->
+        <form action="comment-insert.php" method="post">
             <div class="field has-addons pt-3 pr-6">
-                <!-- テキスト入力 -->
                 <div class="control is-expanded">
-                    <form action="comment-insert.php" method="post">
-                        <input class="input" type="text" placeholder="メッセージを入力" name="main_text">
-                        <input type="hidden" name="item_id" value="<?= $_GET['item_id'] ?>">
+                    <input class="input" type="text" placeholder="メッセージを入力" name="main_text">
+                    <input type="hidden" name="item_id" value="<?= $item_id ?>">
+                    <input type="hidden" name="from" value="<?= $from ?>">
                 </div>
                 <!-- 送信アイコン -->
                 <div class="control">
-
                     <button class="button">
                         <i class="fas fa-pen-square is-size-4"></i>
                     </button>
-                    </form>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
     <!-- 購入ボタン -->
-    <form action="purchase.php" method="get">
+    <form action="purchase.php" method="post">
+        <input type="hidden" name="item_id" value="<?= $item_id ?>">
+        <input type="hidden" name="from" value="<?= $from ?>">
         <button id="button" type="submit" class="purchase button is-medium">購入</button>
     </form>
 </div>
@@ -176,7 +211,7 @@ if ($user_id) {
     window.ITEM_ID = <?= json_encode($_GET['item_id']) ?>;
 </script>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.7.11/dist/vue.js"></script>
-<script src="./script/item-detail.js"></script>
+<script src="./script/good.js"></script>
 
 <?php require 'footer-menu.php'; ?>
 <?php require 'footer.php'; ?>
