@@ -38,6 +38,10 @@
   border: 1px solid black;
 }
 
+a{
+  color: black;
+}
+
 /* コメント */
 .comment-scroll-area {
   max-height: 200px;

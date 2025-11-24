@@ -11,5 +11,5 @@ $item_id = $_POST['item_id'] ?? null;
 $main_text = $_POST['main_text'] ?? null;
 $sql = $pdo->prepare("insert into comment (main_text, item_id, user_id) values (?, ?, ?)");
 $sql->execute([$main_text, $item_id, $user_id]);
-header("Location: item-detail.php?item_id=" . urlencode($item_id));
+header("Location: item-detail.php?item_id=" . urlencode($item_id). '&from='. urlencode($_POST['from']));
 exit;
