@@ -9,7 +9,7 @@ new Vue({
   },
     methods: {
         toggleLike: function () {
-            fetch("../test/like-insert.php", {
+            fetch("../ASO-Innovation/like-insert.php", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
