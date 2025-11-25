@@ -1,10 +1,11 @@
+/* ===== 全体 ===== */
 section {
   background: #fff8e1;
   border-radius: 16px 16px 0 0;
-  padding: 10px;
+  padding-bottom: 20px;
 }
 
-/* ===== ソートバー（中央寄せ） ===== */
+/* ===== ソートバー ===== */
 .sort-bar {
   display: flex;
   justify-content: center;
@@ -25,18 +26,73 @@ section {
   border: 1px solid #ccc;
 }
 
-.sort-bar i {
-  font-size: 20px;
-  color: #333;
-  cursor: pointer;
-  transition: 0.2s;
+/* ===== ★ container の外に出したフル幅エリア ===== */
+.item-wrapper {
+  width: 100vw;                 /* 画面幅いっぱい */
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);  /* container の中央に合わせる */
+  padding: 0 15px;
+  box-sizing: border-box;
 }
 
-.sort-bar i:hover {
-  transform: scale(1.1);
+/* ===== スマホ：2列 ===== */
+.item-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin-top: 20px;
 }
 
-/* ===== 商品一覧（2列） ===== */
+/* ===== PC：4列 ===== */
+@media (min-width: 1024px) {
+  .item-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ===== 商品カード ===== */
+.item {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  text-align: center;
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+.item-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+/* ===== 正方形の画像枠 ===== */
+.image-box {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.image-box img {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+}
+
+/* ===== 商品名・価格 ===== */
+.item p {
+  margin: 6px 0;
+  font-size: 0.9rem;
+  color: #000;
+}
+
 .item-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -44,60 +100,14 @@ section {
   margin-top: 20px;
 }
 
-/* ===== 商品カード ===== */
-.item {
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  padding: 10px;
-  border: 1px solid #ddd;
-}
-
-/* ===== カード全体をクリック可能に ===== */
-.item-link {
-  text-decoration: none;
-  color: inherit;
-  display: block;
-}
-
-/* ===== hoverしても背景は変わらない ===== */
-.item-link:hover .item {
-  background-color: #fff;
-  transition: none;
-}
-
-/* ===== 画像ボックス（白枠で正方形） ===== */
-.image-box {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  background: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid #eee;
-  border-radius: 6px;
-  overflow: hidden;
-}
-
-/* ===== 画像（暗くならない） ===== */
-.image-box img {
-  max-width: 90%;
-  max-height: 90%;
-  object-fit: contain;
-  filter: none;
-  transition: none;
-}
-
-/* ===== 商品名・価格（常に黒） ===== */
-.item p {
-  margin: 6px 0;
-  font-size: 0.9rem;
-  color: #000;
-}
-
-/* ===== hoverしても黒のまま ===== */
-.item-link:hover p {
-  color: #000;
+/* PCでは100%の横幅を強制して4列 */
+@media (min-width: 1024px) {
+  .item-grid {
+    width: 100vw !important;       /* 画面の幅をそのまま使う */
+    margin-left: 50% !important;
+    transform: translateX(-50%) !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    padding: 0 20px;
+    box-sizing: border-box;
+  }
 }
