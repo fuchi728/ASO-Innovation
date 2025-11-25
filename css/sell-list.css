@@ -1,3 +1,4 @@
+/* ===== デフォルト（スマホ2列） ===== */
 .item-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -5,6 +6,20 @@
   margin-top: 20px;
 }
 
+/* ===== PCでは4列にする ===== */
+@media (min-width: 1024px) {
+  .item-grid {
+    width: 100vw;                     /* 画面幅をそのまま使う */
+    margin-left: 50%;
+    transform: translateX(-50%);      /* container の中央に合わせる */
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    padding: 0 20px;                  /* 少し左右に余白 */
+    box-sizing: border-box;
+  }
+}
+
+/* ===== カード ===== */
 .item-link {
   text-decoration: none;
   color: inherit;
@@ -37,6 +52,7 @@
   object-fit: contain;
 }
 
+/* ===== タイトルエリア ===== */
 .title-area {
   display: flex;
   align-items: center;
@@ -45,7 +61,6 @@
   margin-bottom: 10px;
 }
 
-/* ＜ボタンを左端に固定 */
 .back-arrow {
   position: absolute;
   left: 10px;
@@ -54,7 +69,6 @@
   font-size: 1.2rem;
 }
 
-/* タイトルを中央寄せ */
 .title {
   font-size: 1.1rem;
   font-weight: bold;
