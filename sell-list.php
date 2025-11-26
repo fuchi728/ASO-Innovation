@@ -1,7 +1,7 @@
 <?php
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-require 'db-connect.php';
+require_once 'db-connect.php';
 
 $css_files = ['main-style.css', 'sell-list.css'];
 require 'header.php';

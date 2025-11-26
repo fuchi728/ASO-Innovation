@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'db-connect.php';
+require_once 'db-connect.php';
 
 $item_id = $_GET['item_id'] ?? null;
 $from = $_GET['from'] ?? null;

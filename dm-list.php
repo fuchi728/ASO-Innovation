@@ -1,5 +1,5 @@
 <?php session_start(); ?>
-<?php require 'db-connect.php'; ?>
+<?php require_once 'db-connect.php'; ?>
 
 <?php
 $css_files = ['main-style.css', 'dm-list-style.css'];

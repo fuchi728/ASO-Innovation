@@ -3,7 +3,7 @@
 $css_files = ['main-style.css', 'title.css', 'mypage.css'];
 require 'header.php';
 ?>
-<?php require 'db-connect.php'; ?>
+<?php require_once 'db-connect.php'; ?>
 
 <!--ページタイトル-->
 <nav id="page_title" class="navbar is-flex is-fixed-top is-justify-content-space-between is-align-items-center" role="navigation" aria-label="main navigation">

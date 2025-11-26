@@ -1,5 +1,5 @@
 <?php session_start(); ?>
-<?php require 'db-connect.php'; ?>
+<?php require_once 'db-connect.php'; ?>
 <?php
 // ログインチェック
 if (!isset($_SESSION['user']['user_id'])) {
