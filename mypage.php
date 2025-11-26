@@ -9,7 +9,7 @@ if (!isset($_SESSION['user']['user_id'])) {
 $css_files = ['main-style.css', 'title.css', 'mypage.css'];
 require 'header.php';
 ?>
-<?php require 'db-connect.php'; ?>
+<?php require_once 'db-connect.php'; ?>
 
 <!--ページタイトル-->
 <div class="page_title">

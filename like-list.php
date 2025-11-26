@@ -12,7 +12,7 @@ if (!isset($_SESSION['user']['user_id'])) {
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-require 'db-connect.php';
+require_once 'db-connect.php';
 $css_files = ['main-style.css', 'item-list.css']; // ← item-list.cssを共通利用
 require 'header.php';
 require 'header-menu.php';
