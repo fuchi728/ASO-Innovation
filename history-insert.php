@@ -3,6 +3,7 @@ session_start();
 require 'db-connect.php';
 
 $item_id = $_GET['item_id'] ?? null;
+$from = $_GET['from'] ?? null;
 
 if (!isset($_SESSION['user']['user_id'])) {
     header("Location: item-detail.php?item_id=" . urlencode($item_id));
@@ -21,5 +22,5 @@ $sql = $pdo->prepare("
 $sql->execute([$user_id, $item_id]);
 
 // 詳細ページにリダイレクト
-header("Location: item-detail.php?item_id=" . urlencode($item_id));
+header("Location: item-detail.php?item_id=" . urlencode($item_id) . '&from=' . $from);
 exit;

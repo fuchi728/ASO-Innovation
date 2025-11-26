@@ -5,7 +5,7 @@ require 'db-connect.php';
 
 // ログイン確認
 if (!isset($_SESSION['user']['user_id'])) {
-    echo json_encode(["success" => false, "error" => "ログインしてください"]);
+    header("Location: login.php");
     exit;
 }
 

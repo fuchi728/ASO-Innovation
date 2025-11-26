@@ -20,6 +20,11 @@ new Vue({
             })
             .then(res => res.json())
             .then(json => {
+                if (json.require_login) {
+                    window.location.href = "login.php";
+                    return;
+                }
+                
                 if (json.success) {
                     this.liked = json.liked;
                 } else {
