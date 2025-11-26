@@ -1,0 +1,12 @@
+/* 管理者タブメニュー */
+.admin-tab-menu .tabs ul li a {
+  background: #f3c98b;
+  border-radius: 6px;
+  padding: 5px 8px;
+  color: #000;
+  font-weight: bold;
+}
+
+.admin-tab-menu .tabs ul li a:hover {
+  background: #ebb877;
+}
