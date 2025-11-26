@@ -1,12 +1,77 @@
-/* 管理者タブメニュー */
-.admin-tab-menu .tabs ul li a {
-  background: #f3c98b;
-  border-radius: 6px;
-  padding: 5px 8px;
-  color: #000;
-  font-weight: bold;
+/* ==============================
+    管理者ヘッダー（上部固定）
+   ============================== */
+
+.admin-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #F7DFB9; /* 画像のベージュ */
+    z-index: 20;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.admin-tab-menu .tabs ul li a:hover {
-  background: #ebb877;
+/* ---- 上段：ロゴ + タイトル + 検索 ---- */
+.admin-header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+}
+
+.admin-title-area {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.admin-logo {
+    height: 32px;
+}
+
+.admin-title {
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+/* ---- 検索アイコン ---- */
+.admin-search-icon i {
+    font-size: 1.6rem;
+    color: #000;
+}
+
+/* ---- 下段メニュー ---- */
+.admin-menu {
+    display: flex;
+    justify-content: space-between;
+    background: #F2D9A4;
+    padding: 10px 0;
+    border-top: 1px solid #e8cc9d;
+}
+
+.admin-tab {
+    flex: 1;
+    text-align: center;
+    font-size: 1rem;
+    color: #000;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px 0;
+    border-right: 1px solid #e6d5b2;
+}
+
+/* 最後だけ境界線なし */
+.admin-tab:last-child {
+    border-right: none;
+}
+
+/* ホバーなし（色も変えない） */
+.admin-tab:hover {
+    background: #F2D9A4;
+}
+
+/* ヘッダー分の余白（固定対策） */
+.admin-header-space {
+    height: 126px; /* 上段60px + メニュー約66px */
 }
