@@ -9,18 +9,16 @@ if (!isset($_SESSION['user']['user_id'])) {
 $pdo = new PDO($connect, USER, PASS);
 
 // 送信データの取得
-// ログイン中のユーザーが送信者
 $sender_id = $_SESSION['user']['user_id'];
-
-// フォームから送られてきた値
-$item_id = $_POST['item_id'] ?? null;
-$receiver_id = $_POST['receiver_id'] ?? null;
+$item_id   = $_POST['item_id'] ?? null;
+$partner_id = $_POST['partner_id'] ?? null; 
 $main_text = $_POST['main_text'] ?? null;
+
 
 // DBにメッセージを追加
 $sql = $pdo->prepare("insert into DM (main_text, sender_id, receiver_id, item_id) values (?, ?, ?, ?)");
-$sql->execute([$main_text, $sender_id, $receiver_id, $item_id]);
+$sql->execute([$main_text, $sender_id, $partner_id, $item_id]);
 
 // メッセージ画面にリダイレクト
-header("Location: dm-detail.php?item_id=" . urlencode($item_id) . '&sender_id=' . urlencode($sender_id) . '&receiver_id=' . urlencode($receiver_id));
+header("Location: dm-detail.php?item_id=" . urlencode($item_id) . '&partner_id=' . urlencode($sender_id));
 exit;

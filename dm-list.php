@@ -7,65 +7,67 @@ require 'header.php';
 ?>
 <?php require 'header-menu.php'; ?>
 
-<div class="tabs is-fullwidth">
-  <ul>
-    <li><a href="dm-list.php">取引一覧</a></li>
-  </ul>
+<div class="mt-6">
+    <h1 class="dm_list title is-5 has-text-centered">取引一覧</h1>
 </div>
 
 <?php
-// ログインチェック
-if (!isset($_SESSION['user'])) {
-  header('Location: login.php');
-  exit;
-}
-
 // ログイン中ユーザーIDを取得
 $user_id = $_SESSION['user']['user_id'];
 
 $pdo = new PDO($connect, USER, PASS);
 
-// DMテーブルからログインユーザーに関係するメッセージを商品ごとにまとめる。
-// 各DMについて、最新の送信日時、送信者・受信者、相手のニックネーム、商品名を取得
 $sql = $pdo->prepare("
-    SELECT DM.item_id,
-           MAX(DM.send_time) AS latest_time,
-           DM.sender_id,
-           DM.receiver_id,
-           ui.nickname AS partner_nickname,
-           i.item_name
-    FROM DM
-    LEFT JOIN user_info AS ui ON ui.user_id = CASE
-        WHEN DM.sender_id = :user_id THEN DM.receiver_id
-        ELSE DM.sender_id
-    END
-    LEFT JOIN item AS i ON i.item_id = DM.item_id
-    WHERE (DM.sender_id = :user_id OR DM.receiver_id = :user_id)
-      AND DM.is_delete = 0
-    GROUP BY DM.item_id
-    ORDER BY latest_time DESC
+(
+    SELECT
+        s.item_id,
+        i.item_name,
+        b.user_id AS partner_id,
+        u.nickname AS partner_name,
+        b.buy_time AS related_time
+    FROM sell s
+    JOIN buy b       ON b.item_id = s.item_id AND b.is_delete = 0
+    JOIN item i      ON i.item_id = s.item_id
+    JOIN user_info u ON u.user_id = b.user_id
+    WHERE s.user_id = :uid
+    AND s.is_delete = 0
+)
+
+UNION ALL
+
+(
+    SELECT
+        b.item_id,
+        i.item_name,
+        s.user_id AS partner_id,
+        u.nickname AS partner_name,
+        s.sell_time AS related_time
+    FROM buy b
+    JOIN sell s      ON s.item_id = b.item_id AND s.is_delete = 0
+    JOIN item i      ON i.item_id = b.item_id
+    JOIN user_info u ON u.user_id = s.user_id
+    WHERE b.user_id = :uid
+    AND b.is_delete = 0
+)
+
+ORDER BY related_time DESC
 ");
-// :user_id にログイン中のIDをバインドして実行
-$sql->execute(['user_id' => $user_id]);
-// 取得したDMリストを配列で取得
+
+$sql->execute(['uid' => $user_id]);
 $dm_list = $sql->fetchAll(PDO::FETCH_ASSOC);
 
 foreach ($dm_list as $row) {
   echo '<section class="section py-4">';
   echo '<div class="container">';
-  // dm-detail.phpへのリンク
-  // GETパラメータに item_id, sender_id, receiver_id を渡す
-  echo '<a href="dm-detail.php?item_id=', $row['item_id'], '&sender_id=', $row['sender_id'], '&receiver_id=', $row['receiver_id'], '" class="box notice-box">';
-
+ // DMページへ (item_id と 相手ユーザーID を渡す)
+  echo '<a href="dm-detail.php?item_id=' . $row['item_id'] . '&partner_id=' . $row['partner_id'] . '" class="box notice-box">';
   // 相手ユーザー名と商品名を横並び
   echo '<div class="is-flex is-align-items-center is-justify-content-start mb-1">';
-  echo '<p class="mr-4"><strong>相手：</strong>', htmlspecialchars($row['partner_nickname']), '</p>';
-  echo '<p><strong>商品：</strong>', htmlspecialchars($row['item_name']), '</p>';
+  echo '<p class="mr-4"><strong>相手：</strong>' . htmlspecialchars($row['partner_name']) . '</p>';
+  echo '<p><strong>商品：</strong>' . htmlspecialchars($row['item_name']) . '</p>';
   echo '</div>';
-
-  // 最新送信日時
-  echo '<p class="is-size-7 has-text-grey">最終送信：', $row['latest_time'], '</p>';
-
+ // 関係ができた日時（買った or 出品した）
+  echo '<p class="is-size-7 has-text-grey">取引開始：' . $row['related_time'] . '</p>';
   echo '<span class="icon is-medium has-text-grey" style="position:absolute; right:10px; top:50%; transform:translateY(-50%);">';
   echo '<i class="fas fa-angle-right"></i></span>';
 
