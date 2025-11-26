@@ -1,5 +1,5 @@
 new Vue({
-  el: '#app',
+  el: '#history_app',
   data() {
     return {
       history: [],

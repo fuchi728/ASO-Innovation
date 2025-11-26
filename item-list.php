@@ -27,6 +27,11 @@ switch ($order) {
     $orderBy = 'i.price ASC';
 }
 
+// 検索条件
+$keyword = $_GET['keyword'] ?? '';
+$price   = $_GET['price'] ?? '';
+$categories = $_GET['categories'] ?? [];
+
 $sql = "
   SELECT 
     i.*, 
@@ -35,14 +40,39 @@ $sql = "
   FROM item i
   LEFT JOIN good g ON i.item_id = g.item_id AND g.is_delete = 0
   LEFT JOIN item_image im ON i.item_id = im.item_id AND im.show_home = 1
-  GROUP BY i.item_id
-  ORDER BY $orderBy
+  WHERE 1=1
 ";
-$items = $pdo->query($sql)->fetchAll();
-?>
+$params = [];
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<link rel="stylesheet" href="css/item-list.css">
+// キーワード検索
+if ($keyword !== '') {
+    $sql .= " AND i.item_name LIKE :keyword";
+    $params[':keyword'] = "%$keyword%";
+}
+
+// 価格検索
+if ($price !== '') {
+    $sql .= " AND i.price >= :price";
+    $params[':price'] = $price;
+}
+
+// カテゴリ検索
+if (!empty($categories)) {
+    $in = [];
+    foreach ($categories as $index => $catId) {
+        $key = ":cat$index";
+        $in[] = $key;
+        $params[$key] = $catId;
+    }
+ $sql .= " AND i.category_id IN (" . implode(',', $in) . ")";}
+
+// GROUP BY + ORDER BY
+$sql .= " GROUP BY i.item_id ORDER BY $orderBy";
+
+$stmt = $pdo->prepare($sql);
+$stmt->execute($params);
+$items = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
 
 <section class="section has-background-warning-light">
   <div class="container">
@@ -59,33 +89,28 @@ $items = $pdo->query($sql)->fetchAll();
         <i class="fas fa-sort-amount-up"></i>
       </div>
     </div>
+<!-- 商品一覧 -->
+<div class="item-grid">
+  <?php if (empty($items)): ?>
+    <p>現在表示できる商品がありません。</p>
+  <?php else:
+    foreach ($items as $item): ?>
+      <!-- 全体をリンク化 -->
+      <a href="history-insert.php?item_id=<?= intval($item['item_id']) ?>" class="item-link">
+        <div class="item">
+          <div class="image-box">
+            <img 
+              src="item-image/<?= htmlspecialchars($item['image_path'] ?? 'no-image.png') ?>" 
+              alt="商品画像">
+          </div>
+          <p><?= htmlspecialchars($item['item_name']) ?></p>
+          <p>¥<?= number_format($item['price']) ?></p>
+        </div>
+      </a>
+  <?php endforeach; endif; ?>
+</div>
 
-  </div> <!-- container をここで閉じる -->
-
-  <!-- ★ container の外に出した「フル幅ラッパー」 -->
-  <div class="item-wrapper">
-    
-    <div class="item-grid">
-      <?php if (empty($items)): ?>
-        <p>現在表示できる商品がありません。</p>
-      <?php else:
-        foreach ($items as $item): ?>
-          <a href="item-detail.php?item_id=<?= htmlspecialchars($item['item_id']) ?>" class="item-link">
-            <div class="item">
-              <div class="image-box">
-                <img 
-                  src="item-image/<?= htmlspecialchars($item['image_path'] ?? 'no-image.png') ?>" 
-                  alt="商品画像">
-              </div>
-              <p><?= htmlspecialchars($item['item_name']) ?></p>
-              <p>¥<?= number_format($item['price']) ?></p>
-            </div>
-          </a>
-      <?php endforeach; endif; ?>
-    </div><!-- item-grid -->
-
-  </div><!-- item-wrapper -->
-
+  </div>
 </section>
 
 <?php require 'footer-menu.php'; require 'footer.php'; ?>
