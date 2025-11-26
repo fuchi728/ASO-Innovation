@@ -4,10 +4,10 @@
   margin-bottom: 10px;
 }
 
-#user_icon{
+#user_icon {
   width: 48px;
   height: 48px;
-  border-radius: 50%; 
+  border-radius: 50%;
   overflow: hidden;
 }
 
@@ -24,6 +24,9 @@
   margin-top: -0.5rem;
 }
 
+.follow a {
+  color: #4A4A4A;
+}
 
 #history {
   background-color: white;
@@ -32,6 +35,13 @@
 #history a {
   color: #B8B4B4;
   border: none;
+}
+
+#history img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  min-width: 96px;
 }
 
 #help_link {
@@ -48,7 +58,7 @@
 }
 
 .file:hover .file-label,
-.file:hover .file-cta  :hover{
+.file:hover .file-cta :hover {
   color: #E53935;
 }
 
@@ -57,4 +67,54 @@
   color: #363636;
   border: 1px solid #dbdbdb;
   pointer-events: none;
+}
+
+#follow-app .is-outlined,
+#follow-app .is-outlined:hover,
+#follow-app .is-outlined:focus,
+#follow-app .is-outlined:focus-visible {
+  background-color: #fff;
+  color: #ff3860;
+  border-color: #ff3860;
+  outline: none;
+}
+
+#follow-app button {
+  border-radius: 10px;
+  min-width: 100px;
+}
+
+.self_introduction a {
+  text-decoration: underline;
+  border: none;
+  background-color: #fffaeb;
+  color: #72A4E5;
+}
+
+#sell_app img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  min-width: 96px;
+}
+
+/* カテゴリスクロール */
+.scroll {
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+  gap: 8px;
+  padding: 4px;
+  scroll-snap-type: x mandatory;
+  -ms-overflow-style: none;
+  scrollbar-width: none; 
+}
+
+.scroll button {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  white-space: nowrap;
+  border-radius: 16px;
+  padding: 6px 12px;
+  cursor: pointer;
 }

@@ -86,8 +86,10 @@
     }
 </style>
 <div class="login-container">
-    <div class="logo">🛍️<span>Vanika</span></div>
-    <h2>ログイン</h2>
+    <div class="container">
+        <img src="logo-image/Vanikaロゴ.png">
+        <h2>ログイン</h2>
+    </div>
 
     <?php
     if (isset($_SESSION['login_error'])) {

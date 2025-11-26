@@ -8,6 +8,7 @@
       justify-content: flex-start; /* コンテンツを上部に寄せる */
       align-items: center; /* コンテンツを水平方向に中央寄せ */
       min-height: 100vh; /* ビューポートの高さに合わせて最小高さを設定 */
+      padding-bottom: 120px;
     }
 
     .container {
@@ -99,6 +100,12 @@
       box-shadow: 0 3px 6px rgba(0,0,0,0.1); /* 影を追加 */
       transition: background-color 0.2s ease; /* ホバー時の背景色変化を滑らかにする */
       box-sizing: border-box; /* パディングを幅に含める */
+      position: fixed;      /* 画面に固定 */
+      bottom: 40px;         /* 下から20px */
+      left: 50%;
+      transform: translateX(-50%); /* 横中央に */
+      width: min(90vw, 480px); /* 画面幅90% または 最大480px */
+      z-index: 999;         /* 最前面に表示 */
     }
 
     .listing-button:hover {
@@ -110,5 +117,11 @@
       margin-right: 10px; /* アイコンとテキストの間の右マージン */
       color: #fff; /* アイコンの色を白に */
     }
+
+    /* ▼ 出品ボタンを画面の一番下に固定する（スマホ対応） */
+/* ▼ 出品ボタンを画面の一番下に強制固定する */
+
+
+
 
     
