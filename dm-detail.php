@@ -26,9 +26,9 @@ $user_id = $_SESSION['user']['user_id'];
 
 // GET パラメータ取得
 // item_id、sender_id、receiver_idを受け取る
-$item_id = $_GET['item_id'] ?? 0;
-$sender_id = $_GET['sender_id'] ?? 0;
-$receiver_id = $_GET['receiver_id'] ?? 0;
+$item_id = $_GET['item_id'];
+$partner_id = $_GET['partner_id'];
+$current_user = $_SESSION['user']['user_id'];
 
 $pdo = new PDO($connect, USER, PASS);
 
@@ -48,6 +48,9 @@ $messages = $sql->fetchAll(PDO::FETCH_ASSOC);
 
 <!-- メッセージ表示 -->
 <div class="dm-area">
+    <?php if (empty($messages)): ?>
+        <p class="has-text-centered has-text-grey">まだメッセージはありません</p>
+    <?php endif; ?>
     <?php foreach ($messages as $msg): ?>
         <?php
         // 右側 = ログインユーザーの送信
@@ -62,8 +65,7 @@ $messages = $sql->fetchAll(PDO::FETCH_ASSOC);
             <div class="user-info is-flex is-align-items-center">
                 <figure class="image is-24x24 m-2" id="user_icon">
                     <img class="is-rounded"
-                        src="icon_image/<?php echo $msg['profile_image'] ?: 'default.png'; ?>"
-                        alt="ユーザー画像">
+                        src="icon_image/<?php echo $msg['profile_image'] ?: 'default.png'; ?>">
                 </figure>
 
                 <span class="nickname">
@@ -96,9 +98,7 @@ $messages = $sql->fetchAll(PDO::FETCH_ASSOC);
 
                 <!-- hiddenで必要情報を送信 -->
                 <input type="hidden" name="item_id" value="<?= $item_id ?>">
-                <input type="hidden" name="sender_id" value="<?= $sender_id ?>">
-                <input type="hidden" name="receiver_id" value="<?= $receiver_id ?>">
-
+                <input type="hidden" name="partner_id" value="<?= $partner_id ?>">
             </div>
 
             <div class="control">
@@ -118,7 +118,6 @@ $messages = $sql->fetchAll(PDO::FETCH_ASSOC);
         }
     };
 </script>
-
 
 <?php require 'footer-menu.php'; ?>
 <?php require 'footer.php'; ?>
