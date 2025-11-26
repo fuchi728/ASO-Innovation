@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <?php
 // ログイン確認
 if (!isset($_SESSION['user']['user_id'])) {
@@ -18,26 +19,29 @@ require 'header-menu.php';
 
 $pdo = new PDO($connect, USER, PASS);
 
+$user_id = $_SESSION['user']['user_id'];
+
 $sql = "
-  SELECT 
-    i.item_id, 
-    i.item_name, 
-    i.price, 
+  SELECT
+    i.item_id,
+    i.item_name,
+    i.price,
     im.image_path
   FROM good g
   JOIN item i ON g.item_id = i.item_id
   LEFT JOIN item_image im ON i.item_id = im.item_id AND im.show_home = 1
-  WHERE g.is_delete = 0
+  WHERE g.user_id = ? and g.is_delete = 0
 ";
-$items = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+  $sql = $pdo->prepare($sql);
+  $sql->execute([$user_id]);
+  $items = $sql->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <section class="section has-background-warning-light">
   <div class="container">
     <!-- タイトル -->
     <div class="title-area">
-      <a href="#" onclick="history.back()" class="back-arrow">&lt;</a>
-      <h3 class="title">いいね一覧</h3>
+      <h1 class="title is-4">いいね一覧</h1>
     </div>
 
     <!-- 商品カード一覧 -->
