@@ -10,11 +10,14 @@ require 'header.php';
 // 遷移元取得
 $from = $_GET['from'] ?? null;
 $item_id = $_GET['item_id'] ?? null;
+$other_user_id = $_GET['user'] ?? null;
 
 if ($from === 'mypage') {
     $back_link = 'mypage.php';
-} else if ($from === 'other_user') {
-    $back_link = 'mypage.php';
+} else if ($from === 'other-user') {
+    $back_link = 'other-user.php?user=' . urlencode($other_user_id)
+        . '&item_id=' . urlencode($item_id)
+        . '&from=' . urlencode($from);
 } else {
     $back_link = 'item-list.php';
 }
@@ -106,7 +109,7 @@ if ($user_id) {
                 <div class="is-flex is-align-items-center">
                     <?php
                     if ($user_id != $item['other_user']) {
-                        echo '<a href="other-user.php?other_user=' . urlencode($item['other_user']) . '&from=' . urlencode($from) . '&item_id=' . urlencode($item_id) . '" class="is-flex is-align-items-center">';
+                        echo '<a href="other-user.php?user=' . urlencode($item['other_user']) . '&from=item-detail&item_id=' . urlencode($item_id). '" class="is-flex is-align-items-center">';
                     }
                     ?>
                     <figure class="user_icon image is-32x32 m-2">
@@ -149,7 +152,7 @@ if ($user_id) {
                 <div class="is-flex is-align-items-center">
                     <?php
                     if ($user_id != $comment['user_id']) {
-                        echo '<a href="other-user.php?other_user=' . urlencode($comment['user_id']) . '&from=' . urlencode($from) . '&item_id=' . urlencode($item_id) . '" class="is-flex is-align-items-center">';
+                        echo '<a href="other-user.php?user=' . urlencode($comment['user_id']) . '&from='. urlencode($from) . '&item_id=' . urlencode($item_id) .'" class="is-flex is-align-items-center">';
                     }
                     ?>
                     <figure class="user_icon image is-24x24 m-2">

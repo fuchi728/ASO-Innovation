@@ -27,7 +27,6 @@ switch ($order) {
     $orderBy = 'i.price ASC';
 }
 
-
 // 検索条件
 $keyword = $_GET['keyword'] ?? '';
 $price   = $_GET['price'] ?? '';
@@ -74,6 +73,7 @@ $stmt = $pdo->prepare($sql);
 $stmt->execute($params);
 $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
+
 <section class="section has-background-warning-light">
   <div class="container">
 
@@ -89,33 +89,28 @@ $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <i class="fas fa-sort-amount-up"></i>
       </div>
     </div>
+<!-- 商品一覧 -->
+<div class="item-grid">
+  <?php if (empty($items)): ?>
+    <p>現在表示できる商品がありません。</p>
+  <?php else:
+    foreach ($items as $item): ?>
+      <!-- 全体をリンク化 -->
+      <a href="history-insert.php?item_id=<?= intval($item['item_id']) ?>" class="item-link">
+        <div class="item">
+          <div class="image-box">
+            <img 
+              src="item-image/<?= htmlspecialchars($item['image_path'] ?? 'no-image.png') ?>" 
+              alt="商品画像">
+          </div>
+          <p><?= htmlspecialchars($item['item_name']) ?></p>
+          <p>¥<?= number_format($item['price']) ?></p>
+        </div>
+      </a>
+  <?php endforeach; endif; ?>
+</div>
 
-  </div> <!-- container をここで閉じる -->
-
-  <!-- ★ container の外に出した「フル幅ラッパー」 -->
-  <div class="item-wrapper">
-    
-    <div class="item-grid">
-      <?php if (empty($items)): ?>
-        <p>現在表示できる商品がありません。</p>
-      <?php else:
-        foreach ($items as $item): ?>
-          <a href="item-detail.php?item_id=<?= htmlspecialchars($item['item_id']) ?>" class="item-link">
-            <div class="item">
-              <div class="image-box">
-                <img 
-                  src="item-image/<?= htmlspecialchars($item['image_path'] ?? 'no-image.png') ?>" 
-                  alt="商品画像">
-              </div>
-              <p><?= htmlspecialchars($item['item_name']) ?></p>
-              <p>¥<?= number_format($item['price']) ?></p>
-            </div>
-          </a>
-      <?php endforeach; endif; ?>
-    </div><!-- item-grid -->
-
-  </div><!-- item-wrapper -->
-
+  </div>
 </section>
 
 <?php require 'footer-menu.php'; require 'footer.php'; ?>

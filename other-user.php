@@ -10,14 +10,23 @@ $user_id = $_SESSION['user']['user_id'];
 // ユーザー情報取得
 $pdo = new PDO($connect, USER, PASS);
 $sql1 = $pdo->prepare('select * from user_info where user_id=?');
-$sql1->execute([$_GET['other_user']]);
+$sql1->execute([$_GET['user']]);
 $other_user = $sql1->fetch(PDO::FETCH_ASSOC);
 
 // 遷移元取得
 $from = $_GET['from'] ?? null;
 $item_id = $_GET['item_id'] ?? null;
+$other_user_id = $_GET['user'] ?? null;
 
-$back_link = 'item-detail.php?item_id=' . $item_id . '&from=' . $from;
+if ($from === 'mypage') {
+  $back_link = 'mypage.php';
+} else if ($from === 'item-detail') {
+  $back_link = 'item-detail.php?user=' . urlencode($other_user_id)
+    . '&item_id=' . urlencode($item_id)
+    . '&from=' . urlencode($from);
+} else {
+  $back_link = 'item-list.php';
+}
 
 // フォロー済みチェック
 $sql2 = $pdo->prepare("SELECT 1 FROM follow WHERE follower_id=? AND followed_id=?");
@@ -120,7 +129,8 @@ $isFollowing = $sql2->fetch() ? true : false;
             i.price,
             i.is_delete as item_is_delete,
             i.category_id,
-            img.image_path
+            img.image_path,
+            s.user_id
      from sell s
      join item i on s.item_id = i.item_id
      left join item_image img on i.item_id = img.item_id and img.show_home = 1
@@ -165,7 +175,7 @@ $isFollowing = $sql2->fetch() ? true : false;
     <div v-if="sell_list.length > 0">
       <div class="columns is-mobile is-multiline">
         <div class="column is-half-mobile is-one-quarter-desktop" v-for="item in sell" :key="item.item_id">
-          <a :href="'item-detail.php?item_id=' + item.item_id + '&from=other-user'" class="item-link">
+          <a :href="'item-detail.php?item_id=' + item.item_id + '&from=other-user' + '&user=' + item.user_id " class="item-link">
             <div class="card has-text-centered m-0">
               <div class="card-image is-flex is-justify-content-center p-3">
                 <figure class="image is-96x96">
