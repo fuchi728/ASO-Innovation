@@ -9,7 +9,8 @@ require 'db-connect.php';
 
 $css_files = ['main-style.css', 'follow-list.css'];
 require 'header.php';
-require 'header-menu.php';
+?>
+<?php require 'db-connect.php'; ?>
 
 $pdo = new PDO($connect, USER, PASS);
 
