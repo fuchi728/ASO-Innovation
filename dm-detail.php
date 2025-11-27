@@ -2,11 +2,6 @@
 <?php require_once 'db-connect.php'; ?>
 
 <?php
-// ログイン確認
-if (!isset($_SESSION['user']['user_id'])) {
-    header("Location: login.php");
-    exit;
-}
 $css_files = ['main-style.css', 'dm-detail-style.css'];
 require 'header.php';
 ?>
@@ -68,7 +63,7 @@ $messages = $sql->fetchAll(PDO::FETCH_ASSOC);
         <div class="message-block <?php echo $isMyMessage ? 'my-message' : 'partner-message'; ?>">
 
             <div class="user-info is-flex is-align-items-center">
-                <figure class="image is-24x24 m-2" id="user_icon">
+                <figure class="user_icon image is-24x24 m-2" id="user_icon">
                     <img class="is-rounded"
                         src="icon_image/<?php echo $msg['profile_image'] ?: 'default.png'; ?>">
                 </figure>
