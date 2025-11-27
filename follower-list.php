@@ -12,17 +12,16 @@ require 'header-menu.php';
 
 $pdo = new PDO($connect, USER, PASS);
 
-// 仮ログイン中ユーザー（例：3番）
+// ★ 仮ログイン（あとでセッションに変えてOK）
 $login_user = 3;
 
 // -----------------------------
-// フォロワー一覧を取得（nickname 表示）
+// フォロワー一覧（nickname 表示）
 // -----------------------------
 $sql = $pdo->prepare("
   SELECT 
     u.user_id,
-    u.nickname,
-    u.email
+    u.nickname
   FROM follow f
   JOIN user_info u ON f.follower_id = u.user_id
   WHERE f.followed_id = ?
@@ -47,13 +46,24 @@ $followers = $sql->fetchAll(PDO::FETCH_ASSOC);
       <p class="has-text-centered">フォロワーはいません。</p>
     <?php else: ?>
       <div class="follow-list">
-        <?php foreach ($followers as $follower): ?>
+
+        <?php foreach ($followers as $f): ?>
           <div class="follow-card">
-            <span class="user-name"><?= htmlspecialchars($follower['nickname'] ?: '名無しユーザー') ?></span>
-            <a href="user-page.php?user_id=<?= htmlspecialchars($follower['user_id']) ?>" 
-               class="button is-warning is-small">プロフィール</a>
+
+            <!-- ★ 左寄せで名前だけ -->
+            <span class="user-name">
+              <?= htmlspecialchars($f['nickname'] ?: '名無しユーザー') ?>
+            </span>
+
+            <!-- ★ プロフィールへ (other-user.php?user=◯◯) -->
+            <a href="other-user.php?user=<?= $f['user_id'] ?>&from=follower-list"
+               class="button is-warning is-small">
+              プロフィール
+            </a>
+
           </div>
         <?php endforeach; ?>
+
       </div>
     <?php endif; ?>
 

@@ -10,19 +10,17 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
 
     <!-- 個別CSS -->
-    <?php
-        foreach ($css_files as $css) {
-            echo '<link rel="stylesheet" href="css/' . $css . '">' . "\n";
-        }
-    ?>
+    <?php foreach ($css_files as $css): ?>
+        <link rel="stylesheet" href="css/<?= $css ?>">
+    <?php endforeach; ?>
 </head>
 
 <body>
 
-<!-- ===== 管理者ヘッダー全体 ===== -->
+<!-- ===== 管理者ヘッダー ===== -->
 <header class="admin-header">
 
-    <!-- 上段：ロゴ＋タイトル＋検索ボタン -->
+    <!-- 上段：ロゴ＋タイトル＋検索 -->
     <div class="admin-header-top">
         <div class="admin-title-area">
             <img src="logo-image/Vanikaロゴ.png" class="admin-logo">
@@ -34,7 +32,7 @@
         </div>
     </div>
 
-    <!-- 下段：メニュー（4つ） -->
+    <!-- 下段メニュー -->
     <nav class="admin-menu">
         <a class="admin-tab" href="admin-home.php">ホーム</a>
         <a class="admin-tab" href="admin-news.php">NEWS</a>
@@ -44,5 +42,5 @@
 
 </header>
 
-<!-- ヘッダーの高さ分だけ余白確保 -->
+<!-- 固定ヘッダーのぶん余白 -->
 <div class="admin-header-space"></div>

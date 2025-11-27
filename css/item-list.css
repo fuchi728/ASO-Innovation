@@ -111,3 +111,49 @@ section {
     box-sizing: border-box;
   }
 }
+
+/* SOLD 表示（赤色） */
+.sold-tag {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: #e60033;        /* ← 和の赤・はっきり見える */
+    color: #fff;
+    padding: 5px 12px;
+    font-weight: bold;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    z-index: 5;
+}
+
+
+.item {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  text-align: center;
+  padding: 10px;
+  border: 1px solid #ddd;
+  position: relative;   /* ← SOLDを載せるために必要 */
+}
+
+/* SOLD ラベル（斜めデザイン） */
+.sold-tag {
+    position: absolute;
+    top: 10px;
+    left: -30px;
+    background: #ff2b2b;
+    color: white;
+    padding: 5px 40px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    transform: rotate(-25deg);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    pointer-events: none; /* ラベルはクリックを邪魔しない */
+    z-index: 5;
+}
+
+/* カードの位置調整（重なるので relative 必須） */
+.item {
+    position: relative;
+}
