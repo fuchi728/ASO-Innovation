@@ -2,6 +2,11 @@
 <?php require_once 'db-connect.php'; ?>
 
 <?php
+// ログイン確認
+if (!isset($_SESSION['user']['user_id'])) {
+    header("Location: login.php");
+    exit;
+}
 $css_files = ['main-style.css', 'dm-list-style.css'];
 require 'header.php';
 ?>
