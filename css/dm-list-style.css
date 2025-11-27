@@ -7,3 +7,19 @@
   text-decoration-color: black;
   text-decoration-thickness: 1px;
 }
+
+/* ユーザーアイコン */
+.user_icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.user_icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border: 1px solid black;
+}

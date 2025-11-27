@@ -1,6 +1,8 @@
+/* webからのコピペ */
+
 #page_title {
   position: relative;
-  margin: 0 0 20px 20px;
+  margin:0 0 20px 20px;
   background-color: #fffaeb;
 }
 
@@ -14,46 +16,56 @@
   pointer-events: none;
 }
 
-#back_button {
-  border: none;
+#back_button{
+  border:none;
   background-color: #fffaeb;
 }
 
 .message-block {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
 }
 
 /* 相手のメッセージ（左） */
 .partner-message {
-  align-items: flex-start !important;
+    align-items: flex-start !important;
 }
 
 /* 自分のメッセージ（右） */
 .my-message {
-  align-items: flex-end !important;
+    align-items: flex-end !important;
 }
 
 /* 吹き出し位置 */
 .balloon {
-  max-width: 70%;
-  padding: 12px 16px;
-  border-radius: 8px;
-  position: relative;
-  font-size: 14px;
-  line-height: 1.5;
+    max-width: 70%;
+    padding: 12px 16px;
+    border-radius: 8px;
+    position: relative;
+    font-size: 14px;
+    line-height: 1.5;
 }
 
 .balloon.left {
-  background: #fff;
-  border: solid 3px #333;
+    background: #fff;
+    border: solid 3px #333;
 }
 
 .balloon.right {
-  background: #fff6e0;
-  border: solid 3px #e4b858;
+    background: #fff6e0;
+    border: solid 3px #e4b858;
 }
+
+/* .balloon {
+  display: inline-block;
+  font-weight: bold;
+  color: #333;
+  background: #fff;
+  border: solid 3px #333;
+  padding: 20px 22px;
+  position: relative;
+} */
 
 .balloon.left::before {
   content: "";
@@ -65,83 +77,56 @@
   left: 10%;
   border-right: 3px solid #333;
   transform: skew(-30deg);
+  /* z-index: 1; */
 }
 
 /* 吹き出しのしっぽ（右用） */
 .balloon.right::before {
-  content: "";
-  position: absolute;
-  width: 15px;
-  height: 18px;
-  background: #fff6e0;
-  bottom: -18px;
-  right: 10%;
-  border-left: 3px solid #e4b858;
-  transform: skew(30deg);
+    content: "";
+    position: absolute;
+    width: 15px;
+    height: 18px;
+    background: #fff6e0;
+    bottom: -18px;
+    right: 10%;
+    border-left: 3px solid #e4b858;
+    transform: skew(30deg);
 }
 
 /* 入力欄を画面下に固定 */
 .message-input-area {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background-color: #fffaeb;
-  border-top: 1px solid #fffaeb;
-  z-index: 100;
-  padding: 0.5rem;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #fffaeb;
+    border-top: 1px solid #fffaeb;
+    z-index: 100;
+    padding: 0.5rem;
 }
 
 /* 入力欄のボックスとアイコンの余白を調整 */
 .message-input-area .input {
-  height: 2.2rem;
-  /* アイコンと高さを揃える */
+    height: 2.2rem; /* アイコンと高さを揃える */
 }
 
 .message-input-area .button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 2.2rem;
-  padding: 0 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.2rem;
+    padding: 0 0.7rem;
 }
 
-/* メッセージ一覧の下に余白を作る（固定入力欄とフッターの分） */
-.dm-area {
-  padding-top: 4rem;
-  /* ナビバー分 */
-  padding-bottom: 6rem;
-  /* 入力欄＋フッター分 */
-  height: calc(100vh - 200px);
-  /* 画面に合わせて調整 */
-  overflow-y: scroll;
-}
-
-/* 入力欄を画面下に固定 */
-.message-input-area {
-  position: fixed;
-  bottom: 3.5rem;
-  /* フッターの上に配置 */
-  left: 0;
-  width: 100%;
-  padding: 0.5rem 1rem;
-  z-index: 20;
-}
-
-/* 送信アイコンを大きく表示 */
-.message-input-area .button i {
-  font-size: 1.5rem;
-  /* Bulma の is-size-4 相当 */
-}
-
-#user_icon {
-  width: 24px;
-  height: 24px;
+/* ユーザーアイコン */
+.user_icon {
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   overflow: hidden;
 }
 
-#user_icon img {
+.user_icon img {
   width: 100%;
   height: 100%;
   object-fit: cover;
