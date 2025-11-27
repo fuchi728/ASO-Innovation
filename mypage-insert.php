@@ -1,6 +1,11 @@
 <?php session_start(); ?>
 <?php require_once 'db-connect.php'; ?>
 <?php
+// ログイン確認
+if (!isset($_SESSION['user']['user_id'])) {
+    header("Location: login.php");
+    exit;
+}
 $pdo = new PDO($connect, USER, PASS);
 
 $nickname = htmlspecialchars(trim($_POST['nickname']));
