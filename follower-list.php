@@ -1,10 +1,15 @@
 <?php
+// ログイン確認
+if (!isset($_SESSION['user']['user_id'])) {
+    header("Location: login.php");
+    exit;
+}
 // ========================================
 // フォロワー一覧（自分をフォローしている人）
 // ========================================
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-require 'db-connect.php';
+require_once 'db-connect.php';
 
 $css_files = ['main-style.css', 'follower-list.css'];
 require 'header.php';

@@ -1,7 +1,13 @@
 <?php session_start(); ?>
-<?php require 'db-connect.php'; ?>
+<?php require_once 'db-connect.php'; ?>
 
 <?php
+// ログイン確認
+if (!isset($_SESSION['user']['user_id'])) {
+    header("Location: login.php");
+    exit;
+}
+
 $limit = $_GET['limit'] ?? 4;
 $user_id = $_SESSION['user']['user_id'];
 

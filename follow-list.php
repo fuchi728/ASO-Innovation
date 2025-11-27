@@ -1,10 +1,15 @@
 <?php
+// ログイン確認
+if (!isset($_SESSION['user']['user_id'])) {
+    header("Location: login.php");
+    exit;
+}
 // ========================================
 // フォロー中一覧（フォロー解除機能付き）
 // ========================================
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-require 'db-connect.php';
+require_once 'db-connect.php';
 
 $css_files = ['main-style.css', 'follow-list.css'];
 require 'header.php';

@@ -1,6 +1,12 @@
 <?php
 session_start();
-require 'db-connect.php';
+require_once 'db-connect.php';
+
+// ログイン確認
+if (!isset($_SESSION['user']['user_id'])) {
+    header("Location: login.php");
+    exit;
+}
 
 $item_id = $_GET['item_id'] ?? null;
 $from = $_GET['from'] ?? null;

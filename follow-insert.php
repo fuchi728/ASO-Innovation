@@ -1,7 +1,12 @@
 <?php
 session_start();
+// ログイン確認
+if (!isset($_SESSION['user']['user_id'])) {
+    header("Location: login.php");
+    exit;
+}
 header('Content-Type: application/json; charset=utf-8');
-require 'db-connect.php';
+require_once 'db-connect.php';
 
 if (!isset($_SESSION['user']['user_id'])) {
     echo json_encode([
