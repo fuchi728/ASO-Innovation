@@ -34,6 +34,30 @@
 
       <div class="field">
         <label class="label">価格</label>
+        <div class="field is-grouped">
+          <div class="control is-expanded">
+            <input
+              class="input is-rounded"
+              type="number"
+              name="price_min"
+              placeholder="最小価格"
+              value="<?= htmlspecialchars($_GET['price_min'] ?? '') ?>">
+          </div>
+          <div class="control">
+            <span>〜</span>
+          </div>
+          <div class="control is-expanded">
+            <input
+              class="input is-rounded"
+              type="number"
+              name="price_max"
+              placeholder="最大価格"
+              value="<?= htmlspecialchars($_GET['price_max'] ?? '') ?>">
+          </div>
+        </div>
+      </div>
+      <!-- <div class="field">
+        <label class="label">価格</label>
         <div class="control">
           <div class="select is-fullwidth">
             <select name="price">
@@ -44,7 +68,7 @@
             </select>
           </div>
         </div>
-      </div>
+      </div> -->
       <?php
       require_once 'db-connect.php';
       $pdo = new PDO($connect, USER, PASS);
@@ -62,7 +86,7 @@
               $checked = 'checked';
             }
             echo '<label class="checkbox is-block mb-3">';
-            echo '<input type="checkbox" name="categories[]" value="' . $c['category_id'] . '"'. $checked. '>' . $c['category'];
+            echo '<input type="checkbox" name="categories[]" value="' . $c['category_id'] . '"' . $checked . '>' . $c['category'];
             echo '</label>';
           }
           ?>

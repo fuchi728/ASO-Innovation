@@ -4,7 +4,7 @@
 // ========================================
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-require_once 'db-connect.php';
+require 'db-connect.php';
 
 $css_files = ['main-style.css', 'item-list.css'];
 require 'header.php';
@@ -27,9 +27,10 @@ switch ($order) {
     $orderBy = 'i.price ASC';
 }
 
-// ⭐検索条件
+// 検索条件
 $keyword = $_GET['keyword'] ?? '';
-$price   = $_GET['price'] ?? '';
+$price_min = $_GET['price_min'] ?? null;
+$price_max = $_GET['price_max'] ?? null;
 $categories = $_GET['categories'] ?? [];
 
 $sql = "
@@ -42,7 +43,6 @@ $sql = "
   LEFT JOIN item_image im ON i.item_id = im.item_id AND im.show_home = 1
   WHERE 1=1
 ";
-
 $params = [];
 
 // キーワード検索
@@ -51,10 +51,16 @@ if ($keyword !== '') {
     $params[':keyword'] = "%$keyword%";
 }
 
-// 価格検索
-if ($price !== '') {
-    $sql .= " AND i.price >= :price";
-    $params[':price'] = $price;
+// ★ 最小価格検索
+if ($price_min !== null && $price_min !== '') {
+    $sql .= " AND i.price >= :price_min";
+    $params[':price_min'] = $price_min;
+}
+
+// ★ 最大価格検索
+if ($price_max !== null && $price_max !== '') {
+    $sql .= " AND i.price <= :price_max";
+    $params[':price_max'] = $price_max;
 }
 
 // カテゴリ検索
@@ -68,6 +74,7 @@ if (!empty($categories)) {
     $sql .= " AND i.category_id IN (" . implode(',', $in) . ")";
 }
 
+// GROUP BY + ORDER BY
 $sql .= " GROUP BY i.item_id ORDER BY $orderBy";
 
 $stmt = $pdo->prepare($sql);
@@ -90,44 +97,26 @@ $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <i class="fas fa-sort-amount-up"></i>
       </div>
     </div>
-
-    <!-- 商品一覧 -->
-    <div class="item-grid">
-
-      <?php if (empty($items)): ?>
-        <p>現在表示できる商品がありません。</p>
-
-      <?php else:
-        foreach ($items as $item):
-          $isSold = ($item['is_delete'] == 1);
-      ?>
-
-      <!-- ⭐ SOLD でも item-detail.php に飛べる -->
-      <a 
-        href="item-detail.php?item_id=<?= intval($item['item_id']) ?>"
-        class="item-link"
-      >
+<!-- 商品一覧 -->
+<div class="item-grid">
+  <?php if (empty($items)): ?>
+    <p>現在表示できる商品がありません。</p>
+  <?php else:
+    foreach ($items as $item): ?>
+      <!-- 全体をリンク化 -->
+      <a href="history-insert.php?item_id=<?= intval($item['item_id']) ?>" class="item-link">
         <div class="item">
-
-          <?php if ($isSold): ?>
-            <span class="sold-tag">SOLD</span>
-          <?php endif; ?>
-
           <div class="image-box">
             <img 
               src="item-image/<?= htmlspecialchars($item['image_path'] ?? 'no-image.png') ?>" 
               alt="商品画像">
           </div>
-
           <p><?= htmlspecialchars($item['item_name']) ?></p>
           <p>¥<?= number_format($item['price']) ?></p>
-
         </div>
       </a>
-
-      <?php endforeach; endif; ?>
-
-    </div>
+  <?php endforeach; endif; ?>
+</div>
 
   </div>
 </section>
