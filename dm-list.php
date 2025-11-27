@@ -2,11 +2,6 @@
 <?php require_once 'db-connect.php'; ?>
 
 <?php
-// ログイン確認
-if (!isset($_SESSION['user']['user_id'])) {
-    header("Location: login.php");
-    exit;
-}
 $css_files = ['main-style.css', 'dm-list-style.css'];
 require 'header.php';
 ?>
@@ -29,7 +24,8 @@ $sql = $pdo->prepare("
         i.item_name,
         b.user_id AS partner_id,
         u.nickname AS partner_name,
-        b.buy_time AS related_time
+        b.buy_time AS related_time,
+        '購入者' AS role
     FROM sell s
     JOIN buy b       ON b.item_id = s.item_id AND b.is_delete = 0
     JOIN item i      ON i.item_id = s.item_id
@@ -46,7 +42,8 @@ UNION ALL
         i.item_name,
         s.user_id AS partner_id,
         u.nickname AS partner_name,
-        s.sell_time AS related_time
+        s.sell_time AS related_time,
+        '出品者' AS role
     FROM buy b
     JOIN sell s      ON s.item_id = b.item_id AND s.is_delete = 0
     JOIN item i      ON i.item_id = b.item_id
@@ -68,7 +65,7 @@ foreach ($dm_list as $row) {
   echo '<a href="dm-detail.php?item_id=' . $row['item_id'] . '&partner_id=' . $row['partner_id'] . '" class="box notice-box">';
   // 相手ユーザー名と商品名を横並び
   echo '<div class="is-flex is-align-items-center is-justify-content-start mb-1">';
-  echo '<p class="mr-4"><strong>相手：</strong>' . htmlspecialchars($row['partner_name']) . '</p>';
+  echo '<p class="mr-4"><strong>'.$row['role'].'：</strong>' . htmlspecialchars($row['partner_name']) . '</p>';
   echo '<p><strong>商品：</strong>' . htmlspecialchars($row['item_name']) . '</p>';
   echo '</div>';
  // 関係ができた日時（買った or 出品した）
