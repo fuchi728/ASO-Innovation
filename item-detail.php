@@ -3,7 +3,7 @@
 $css_files = ['main-style.css', 'title.css', 'item-detail.css'];
 require 'header.php';
 ?>
-<?php require_once 'db-connect.php'; ?>
+<?php require 'db-connect.php'; ?>
 
 <!--ページタイトル-->
 <?php
@@ -109,7 +109,7 @@ if ($user_id) {
                 <div class="is-flex is-align-items-center">
                     <?php
                     if ($user_id != $item['other_user']) {
-                        echo '<a href="other-user.php?user=' . urlencode($item['other_user']) . '&from=item-detail&item_id=' . urlencode($item_id). '" class="is-flex is-align-items-center">';
+                        echo '<a href="other-user.php?user=' . urlencode($item['other_user']) . '&from=item-detail&item_id=' . urlencode($item_id) . '" class="is-flex is-align-items-center">';
                     }
                     ?>
                     <figure class="user_icon image is-32x32 m-2">
@@ -152,7 +152,7 @@ if ($user_id) {
                 <div class="is-flex is-align-items-center">
                     <?php
                     if ($user_id != $comment['user_id']) {
-                        echo '<a href="other-user.php?user=' . urlencode($comment['user_id']) . '&from='. urlencode($from) . '&item_id=' . urlencode($item_id) .'" class="is-flex is-align-items-center">';
+                        echo '<a href="other-user.php?user=' . urlencode($comment['user_id']) . '&from=item-detail' . '&item_id=' . urlencode($item_id) . '" class="is-flex is-align-items-center">';
                     }
                     ?>
                     <figure class="user_icon image is-24x24 m-2">
@@ -190,10 +190,29 @@ if ($user_id) {
         </form>
     </div>
     <!-- 購入ボタン -->
-    <form action="purchase.php" method="post">
-        <input type="hidden" name="item_id" value="<?= $item_id ?>">
-        <input type="hidden" name="from" value="<?= $from ?>">
-        <button id="button" type="submit" class="purchase button is-medium">購入</button>
+    <?php
+    if ($_SESSION['user']['role'] == 1) {
+        $action = "item-delete.php";
+        $isAdmin = true;
+    } else {
+        $action = "purchase.php";
+        $isAdmin = false;
+    }
+    ?>
+    <form action="<?= $action ?>" method="post">
+        <?php
+        if ($item['is_delete'] == 1 && !$isAdmin) {
+            // 一般ユーザーで売り切れの場合
+            echo '<button disabled id="button" type="submit" class="purchase button is-medium">SOLD OUT</button>';
+        } else {
+            // ボタンの表示を切り替え
+            if ($isAdmin) {
+                echo '<button type="submit" class="item_delete button is-medium">商品削除</button>';
+            } else {
+                echo '<button id="button" type="submit" class="button is-medium">購入</button>';
+            }
+        }
+        ?>
     </form>
 </div>
 
