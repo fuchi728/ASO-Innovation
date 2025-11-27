@@ -200,6 +200,8 @@ if ($user_id) {
     }
     ?>
     <form action="<?= $action ?>" method="post">
+        <input type="hidden" name="item_id" value="<?= $item_id ?>">
+        <input type="hidden" name="from" value=" <?= $from ?>">
         <?php
         if ($item['is_delete'] == 1 && !$isAdmin) {
             // 一般ユーザーで売り切れの場合
@@ -209,7 +211,7 @@ if ($user_id) {
             if ($isAdmin) {
                 echo '<button type="submit" class="item_delete button is-medium">商品削除</button>';
             } else {
-                echo '<button id="button" type="submit" class="button is-medium">購入</button>';
+                echo '<button id="button" type="submit" class="purchase button is-medium">購入</button>';
             }
         }
         ?>
