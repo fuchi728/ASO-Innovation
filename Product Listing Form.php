@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <?php
 // ログイン確認
 if (!isset($_SESSION['user']['user_id'])) {
