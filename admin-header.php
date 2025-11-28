@@ -42,13 +42,6 @@
                 <a class="admin-tab" href="admin-contact.php">お問い合わせ</a>
             </nav>
 
-    <!-- 下段メニュー -->
-    <nav class="admin-menu">
-        <a class="admin-tab" href="admin-home.php">ホーム</a>
-        <a class="admin-tab" href="#">NEWS</a>
-        <a class="admin-tab" href="admin-account-del1.php">アカウント削除申請</a>
-        <a class="admin-tab" href="admin-contact1.php">お問い合わせ</a>
-    </nav>
         </header>
 
         <!-- 固定ヘッダーのぶん余白 -->
