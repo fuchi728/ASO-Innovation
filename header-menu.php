@@ -56,19 +56,6 @@
           </div>
         </div>
       </div>
-      <!-- <div class="field">
-        <label class="label">価格</label>
-        <div class="control">
-          <div class="select is-fullwidth">
-            <select name="price">
-              <option value="" disabled>価格帯を選ぶ</option>
-              <option value="0" <?= (isset($_GET['price']) && $_GET['price'] === "0") ? 'selected' : '' ?>>0~</option>
-              <option value="1000" <?= (isset($_GET['price']) && $_GET['price'] === "1000") ? 'selected' : '' ?>>1000~</option>
-              <option value="5000" <?= (isset($_GET['price']) && $_GET['price'] === "5000") ? 'selected' : '' ?>>5000~</option>
-            </select>
-          </div>
-        </div>
-      </div> -->
       <?php
       require_once 'db-connect.php';
       $pdo = new PDO($connect, USER, PASS);
