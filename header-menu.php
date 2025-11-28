@@ -11,7 +11,7 @@
           <i class="fas fa-search"></i>
         </span>
       </a>
-      <a class="navbar-item" href="#">
+      <a class="navbar-item" href="notice-1.php">
         <span class="icon">
           <i class="fas fa-bell"></i>
         </span>
