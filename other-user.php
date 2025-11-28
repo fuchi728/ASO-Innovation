@@ -97,8 +97,8 @@ $isFollowing = $sql2->fetch() ? true : false;
     $follower = $sql5->fetchColumn();
     ?>
     <span class="mr-3"><?= $sell_count ?> 出品</span>
-    <a href="follower-list" class="mr-3"><?= $followed ?> フォロワー</a>
-    <a href="follow-list"><?= $follower ?> フォロー中</a>
+    <a href="follower-list?user=<?= htmlspecialchars($other_user_id) ?>&from=other-user" class="mr-3"><?= $followed ?> フォロワー</a>
+    <a href="follow-list?user=<?= htmlspecialchars($other_user_id) ?>&from=other-user"><?= $follower ?> フォロー中</a>
   </div>
 
   <!-- 自己紹介文 -->
