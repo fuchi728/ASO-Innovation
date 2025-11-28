@@ -29,7 +29,7 @@
     input[type="email"], input[type="password"] {
         width: 90%;
         padding: 10px;
-        border: 2px solid #ccc;
+        border: 2px solid #fff4e0;
         border-radius: 8px;
         margin: 8px 0;
         font-size: 14px;
@@ -51,9 +51,12 @@
 </style>
 
 <div class="signup-container">
-    <img src="logo-image/Vanikaロゴ.jpg" class="logo-img">
+    <div class="container">
+        <img src="logo-image/Vanikaロゴ.png">
+         <h2>新規会員登録</h2>
+    </div>
 
-    <h2>新規会員登録</h2>
+   
 
     <form action="" method="post">
         <input type="email" name="email" placeholder="メールアドレス" required>
