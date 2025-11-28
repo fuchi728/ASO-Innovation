@@ -48,7 +48,7 @@
 
     <!-- 検索欄 -->
     <div v-if="showSearch" class="search-bar box">
-        <form action="item-list.php" method="GET">
+        <form action="admin-home.php" method="GET">
             <p class="title is-6 has-text-centered">条件を入力して下さい</p>
             <button class="close-btn" @click="showSearch = false">
                 <i class="fas fa-times"></i>
