@@ -35,9 +35,9 @@
     <!-- 下段メニュー -->
     <nav class="admin-menu">
         <a class="admin-tab" href="admin-home.php">ホーム</a>
-        <a class="admin-tab" href="admin-news.php">NEWS</a>
-        <a class="admin-tab" href="admin-delete-request.php">アカウント削除申請</a>
-        <a class="admin-tab" href="admin-contact.php">お問い合わせ</a>
+        <a class="admin-tab" href="#">NEWS</a>
+        <a class="admin-tab" href="#">アカウント削除申請</a>
+        <a class="admin-tab" href="#">お問い合わせ</a>
     </nav>
 
 </header>

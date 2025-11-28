@@ -10,22 +10,16 @@ require 'db-connect.php';
 $css_files = ['main-style.css', 'item-list.css','admin-header.css'];
 require 'admin-header.php';
 
-// ★ 管理者メニューもここで読み込み
-require 'admin-menu.php';
-
 $pdo = new PDO($connect, USER, PASS);
 $order = $_GET['sort'] ?? 'price_asc';
 
 switch ($order) {
   case 'price_desc':
-    $orderBy = 'i.price DESC';
-    break;
+    $orderBy = 'i.price DESC'; break;
   case 'id_desc':
-    $orderBy = 'i.item_id DESC';
-    break;
+    $orderBy = 'i.item_id DESC'; break;
   case 'like_desc':
-    $orderBy = 'good_count DESC';
-    break;
+    $orderBy = 'good_count DESC'; break;
   default:
     $orderBy = 'i.price ASC';
 }
@@ -51,9 +45,9 @@ $items = $pdo->query($sql)->fetchAll();
 <section class="section has-background-warning-light">
 
   <div class="container">
-    <!-- ソートメニュー -->
-    <div class="sort-bar">
-      <div class="sort-center">
+    <!-- ▼ ソートメニュー（中央寄せ） -->
+    <div class="sort-bar" style="text-align:center; margin-bottom: 15px;">
+      <div class="sort-center" style="display:inline-block;">
         <select id="sortSelect" onchange="location.href='?sort='+this.value;">
           <option value="price_asc" <?= $order=='price_asc'?'selected':'' ?>>価格順（安い順）</option>
           <option value="price_desc" <?= $order=='price_desc'?'selected':'' ?>>価格順（高い順）</option>
@@ -65,22 +59,33 @@ $items = $pdo->query($sql)->fetchAll();
     </div>
   </div>
 
-  <!-- フル幅グリッド -->
+  <!-- ▼ フル幅グリッド -->
   <div class="item-wrapper">
     <div class="item-grid">
+
       <?php if (empty($items)): ?>
         <p>現在表示できる商品がありません。</p>
+
       <?php else: foreach ($items as $item): ?>
         <a href="item-detail.php?item_id=<?= htmlspecialchars($item['item_id']) ?>" class="item-link">
           <div class="item">
+
+            <!-- ▼ SOLD タグ -->
+            <?php if ($item['is_delete'] == 1): ?>
+              <span class="sold-tag">SOLD</span>
+            <?php endif; ?>
+
             <div class="image-box">
               <img src="item-image/<?= htmlspecialchars($item['image_path'] ?? 'no-image.png') ?>">
             </div>
+
             <p><?= htmlspecialchars($item['item_name']) ?></p>
             <p>¥<?= number_format($item['price']) ?></p>
+
           </div>
         </a>
       <?php endforeach; endif; ?>
+
     </div>
   </div>
 
