@@ -51,9 +51,11 @@
         <div v-if="showSearch" class="search-bar box">
             <form action="admin-home.php" method="GET">
                 <p class="title is-6 has-text-centered">条件を入力して下さい</p>
-                <button class="close-btn" @click="showSearch = false">
-                    <i class="fas fa-times"></i>
-                </button>
+                <div class="field">
+                    <p class="control has-icons-right">
+                        <input class="input is-rounded is-fullwidth" type="text" placeholder="商品を検索する" name="keyword" value="<?= htmlspecialchars($_GET['keyword'] ?? '') ?>">
+                    </p>
+                </div>
                 <div class="field">
                     <p class="control has-icons-right">
                         <input class="input is-rounded is-fullwidth" type="text" placeholder="商品を検索する" name="keyword" value="<?= htmlspecialchars($_GET['keyword'] ?? '') ?>">
