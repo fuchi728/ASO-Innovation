@@ -18,8 +18,7 @@ require 'header-menu.php';
 
 $pdo = new PDO($connect, USER, PASS);
 
-// ★ 仮ログイン（あとでセッションに変えてOK）
-$login_user = 3;
+$login_user = $_SESSION['user']['user_id'];
 
 // -----------------------------
 // フォロワー一覧（nickname 表示）
@@ -36,8 +35,6 @@ $sql = $pdo->prepare("
 $sql->execute([$login_user]);
 $followers = $sql->fetchAll(PDO::FETCH_ASSOC);
 ?>
-
-<link rel="stylesheet" href="css/follow-list.css">
 
 <section class="section has-background-warning-light">
   <div class="container">
