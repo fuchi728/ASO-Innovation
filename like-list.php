@@ -1,131 +1,79 @@
+<?php session_start(); ?>
 <?php
+// ログイン確認
+if (!isset($_SESSION['user']['user_id'])) {
+    header("Location: login.php");
+    exit;
+}
+
 // ========================================
-// 商品一覧画面（価格順・新着順・いいね順対応）
+// いいね一覧
 // ========================================
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-require_once 'db-connect.php';
 
-$css_files = ['main-style.css', 'item-list.css'];
+require 'db-connect.php';
+$css_files = ['main-style.css', 'item-list.css']; // ← SOLD デザインは item-list.css を共通利用
 require 'header.php';
 require 'header-menu.php';
 
 $pdo = new PDO($connect, USER, PASS);
-$order = $_GET['sort'] ?? 'price_asc';
 
-switch ($order) {
-  case 'price_desc':
-    $orderBy = 'i.price DESC'; break;
-  case 'id_desc':
-    $orderBy = 'i.item_id DESC'; break;
-  case 'like_desc':
-    $orderBy = 'good_count DESC'; break;
-  default:
-    $orderBy = 'i.price ASC'; break;
-}
+$user_id = $_SESSION['user']['user_id'];
 
-
-// -----------------------------
-// ⭐ 検索パラメータ取得
-// -----------------------------
-$keyword = $_GET['keyword'] ?? '';
-$price   = ($_GET['price'] ?? '') === '' ? null : $_GET['price']; // ← ここが重要!!
-$categories = $_GET['categories'] ?? [];
-
-
-// -----------------------------
-// ⭐ SQL作成
-// -----------------------------
+// いいねした商品取得（is_delete＝SOLD判定も取る）
 $sql = "
-  SELECT 
-    i.*, 
-    im.image_path,
-    COUNT(g.item_id) AS good_count
-  FROM item i
-  LEFT JOIN good g ON i.item_id = g.item_id AND g.is_delete = 0
+  SELECT
+    i.item_id,
+    i.item_name,
+    i.price,
+    i.is_delete,
+    im.image_path
+  FROM good g
+  JOIN item i ON g.item_id = i.item_id
   LEFT JOIN item_image im ON i.item_id = im.item_id AND im.show_home = 1
-  WHERE 1=1
+  WHERE g.user_id = ? AND g.is_delete = 0
 ";
-
-$params = [];
-
-// キーワード検索
-if ($keyword !== '') {
-    $sql .= " AND i.item_name LIKE :keyword";
-    $params[':keyword'] = "%$keyword%";
-}
-
-// 価格検索（※ price が null なら検索しない）
-if ($price !== null) {
-    $sql .= " AND i.price >= :price";
-    $params[':price'] = $price;
-}
-
-// カテゴリ検索
-if (!empty($categories)) {
-    $in = [];
-    foreach ($categories as $index => $catId) {
-        $key = ":cat$index";
-        $in[] = $key;
-        $params[$key] = $catId;
-    }
-    $sql .= " AND i.category_id IN (" . implode(',', $in) . ")";
-}
-
-$sql .= " GROUP BY i.item_id ORDER BY $orderBy";
-
 $stmt = $pdo->prepare($sql);
-$stmt->execute($params);
+$stmt->execute([$user_id]);
 $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
 ?>
 
 <section class="section has-background-warning-light">
   <div class="container">
 
-    <!-- ソートメニュー -->
-    <div class="sort-bar">
-      <div class="sort-center">
-        <select id="sortSelect" onchange="location.href='?sort='+this.value;">
-          <option value="price_asc" <?= $order=='price_asc'?'selected':'' ?>>価格順（安い順）</option>
-          <option value="price_desc" <?= $order=='price_desc'?'selected':'' ?>>価格順（高い順）</option>
-          <option value="id_desc" <?= $order=='id_desc'?'selected':'' ?>>新着順</option>
-          <option value="like_desc" <?= $order=='like_desc'?'selected':'' ?>>いいね順</option>
-        </select>
-        <i class="fas fa-sort-amount-up"></i>
-      </div>
+    <!-- タイトル -->
+    <div class="title-area">
+      <h1 class="title is-4">いいね一覧</h1>
     </div>
 
-    <!-- 商品一覧 -->
+    <!-- 商品リスト -->
     <div class="item-grid">
 
       <?php if (empty($items)): ?>
-        <p>現在表示できる商品がありません。</p>
-      <?php else:
-        foreach ($items as $item):
-          $isSold = ($item['is_delete'] == 1);
-      ?>
+        <p>現在「いいね」された商品はありません。</p>
 
-      <a href="item-detail.php?item_id=<?= intval($item['item_id']) ?>" class="item-link">
-        <div class="item">
+      <?php else: ?>
+        <?php foreach ($items as $item): ?>
+          <a href="item-detail.php?item_id=<?= htmlspecialchars($item['item_id']) ?>" class="item-link">
+            <div class="item">
 
-          <?php if ($isSold): ?>
-            <span class="sold-tag">SOLD</span>
-          <?php endif; ?>
+              <!-- ★ SOLD タグ（item-list.php と同じ）-->
+              <?php if ($item['is_delete'] == 1): ?>
+                <span class="sold-tag">SOLD</span>
+              <?php endif; ?>
 
-          <div class="image-box">
-            <img 
-              src="item-image/<?= htmlspecialchars($item['image_path'] ?? 'no-image.png') ?>" 
-              alt="商品画像">
-          </div>
+              <div class="image-box">
+                <img src="item-image/<?= htmlspecialchars($item['image_path'] ?? 'no-image.png') ?>" alt="商品画像">
+              </div>
 
-          <p><?= htmlspecialchars($item['item_name']) ?></p>
-          <p>¥<?= number_format($item['price']) ?></p>
+              <p><?= htmlspecialchars($item['item_name']) ?></p>
+              <p>¥<?= number_format($item['price']) ?></p>
 
-        </div>
-      </a>
-
-      <?php endforeach; endif; ?>
+            </div>
+          </a>
+        <?php endforeach; ?>
+      <?php endif; ?>
 
     </div>
 

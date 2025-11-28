@@ -47,26 +47,7 @@
   object-fit: contain;
 }
 
-/* ===== SOLD ==== */
-.sold-tag {
-  position: absolute;
-  top: 12px;
-  left: -8px;
 
-  background: #ff2b2b;
-  color: #fff;
-  padding: 6px 30px;
-  font-size: 0.9rem;
-  font-weight: bold;
-
-  transform: rotate(-20deg);
-  z-index: 10;
-
-  /* カード内に収めるための制御 */
-  max-width: 120px;
-  overflow: hidden;
-  text-align: center;
-}
 
 /* ===== 商品名・価格 ===== */
 .item p {
