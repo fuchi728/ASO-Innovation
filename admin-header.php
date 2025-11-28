@@ -29,7 +29,7 @@
                     <span class="admin-title">管理者画面 - トップページ -</span>
                 </div>
 
-                <div class="admin-search-icon">
+                <div class="admin-search-icon" @click.prevent="toggleSearch">
                     <i class="fas fa-search"></i>
                 </div>
             </div>
