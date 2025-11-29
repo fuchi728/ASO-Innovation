@@ -43,7 +43,7 @@ require 'header.php';
         </div>
       </div>
       <div class="column">
-        <a href="sell-list.php" class="title is-5 m-0">
+        <a href="sell-list.php?from=mypage" class="title is-5 m-0">
           <?= $user['nickname'] ?>
         </a>
       </div>
