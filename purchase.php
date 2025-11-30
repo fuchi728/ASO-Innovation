@@ -42,8 +42,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ');
     $sql->execute([$item_id, $user_id, $address]);
 
-    // 2️⃣ itemテーブルのis_deleteを1（購入済み）に更新
-    $pdo->prepare('UPDATE item SET is_delete = 1 WHERE item_id = ?')
+    // 2️⃣ itemテーブルのis_soldを1（購入済み）に更新
+    $pdo->prepare('UPDATE item SET is_sold = 1 WHERE item_id = ?')
       ->execute([$item_id]);
 
     echo '
@@ -70,7 +70,7 @@ $sql = $pdo->prepare('
   SELECT i.item_id, i.item_name, i.price, im.image_path
   FROM item i
   LEFT JOIN item_image im ON i.item_id = im.item_id AND im.show_home = 1
-  WHERE i.item_id = ? AND i.is_delete = 0
+  WHERE i.item_id = ? AND i.is_sold = 0
 ');
 $sql->execute([$item_id]);
 $item = $sql->fetch(PDO::FETCH_ASSOC);

@@ -21,13 +21,13 @@ $pdo = new PDO($connect, USER, PASS);
 
 $user_id = $_SESSION['user']['user_id'];
 
-// いいねした商品取得（is_delete＝SOLD判定も取る）
+// いいねした商品取得（is_sold＝SOLD判定も取る）
 $sql = "
   SELECT
     i.item_id,
     i.item_name,
     i.price,
-    i.is_delete,
+    i.is_sold,
     im.image_path
   FROM good g
   JOIN item i ON g.item_id = i.item_id
@@ -59,7 +59,7 @@ $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="item">
 
               <!-- ★ SOLD タグ（item-list.php と同じ）-->
-              <?php if ($item['is_delete'] == 1): ?>
+              <?php if ($item['is_sold'] == 1): ?>
                 <span class="sold-tag">SOLD</span>
               <?php endif; ?>
 
