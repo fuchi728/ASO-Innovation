@@ -2,6 +2,7 @@
 session_start();
 require 'db-connect.php';
 
+$page_title = 'アカウント削除申請詳細';
 $css_files = ['main-style.css', 'admin-header.css', 'admin-account-del-style.css'];
 require 'admin-header.php';
 
