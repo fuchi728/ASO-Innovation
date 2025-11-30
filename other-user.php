@@ -127,7 +127,7 @@ $isFollowing = $sql2->fetch() ? true : false;
     "select i.item_id, 
             i.item_name, 
             i.price,
-            i.is_delete as item_is_delete,
+            i.is_sold as item_is_sold,
             i.category_id,
             img.image_path,
             s.user_id

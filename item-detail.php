@@ -203,7 +203,7 @@ if ($user_id) {
         <input type="hidden" name="item_id" value="<?= $item_id ?>">
         <input type="hidden" name="from" value=" <?= $from ?>">
         <?php
-        if ($item['is_delete'] == 1 && !$isAdmin) {
+        if ($item['is_sold'] == 1 && !$isAdmin) {
             // 一般ユーザーで売り切れの場合
             echo '<button disabled id="button" type="submit" class="purchase button is-medium">SOLD OUT</button>';
         } else {

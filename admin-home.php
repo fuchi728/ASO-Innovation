@@ -71,7 +71,7 @@ $items = $pdo->query($sql)->fetchAll();
           <div class="item">
 
             <!-- ▼ SOLD タグ -->
-            <?php if ($item['is_delete'] == 1): ?>
+            <?php if ($item['is_sold'] == 1): ?>
               <span class="sold-tag">SOLD</span>
             <?php endif; ?>
 
