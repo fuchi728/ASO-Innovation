@@ -7,7 +7,7 @@ require 'db-connect.php';
 //     header("Location: admin-login.php");
 //     exit;
 // }
-
+$page_title = 'アカウント削除申請一覧';
 $css_files = ['main-style.css', 'admin-header.css', 'admin-account-del-style.css'];
 require 'admin-header.php';
 
