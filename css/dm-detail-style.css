@@ -1,8 +1,11 @@
 /* webからのコピペ */
 
 #page_title {
-  position: relative;
-  margin:0 0 20px 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
   background-color: #fffaeb;
 }
 
@@ -16,45 +19,45 @@
   pointer-events: none;
 }
 
-#back_button{
-  border:none;
+#back_button {
+  border: none;
   background-color: #fffaeb;
 }
 
 .message-block {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
 }
 
 /* 相手のメッセージ（左） */
 .partner-message {
-    align-items: flex-start !important;
+  align-items: flex-start !important;
 }
 
 /* 自分のメッセージ（右） */
 .my-message {
-    align-items: flex-end !important;
+  align-items: flex-end !important;
 }
 
 /* 吹き出し位置 */
 .balloon {
-    max-width: 70%;
-    padding: 12px 16px;
-    border-radius: 8px;
-    position: relative;
-    font-size: 14px;
-    line-height: 1.5;
+  max-width: 70%;
+  padding: 12px 16px;
+  border-radius: 8px;
+  position: relative;
+  font-size: 14px;
+  line-height: 1.5;
 }
 
 .balloon.left {
-    background: #fff;
-    border: solid 3px #333;
+  background: #fff;
+  border: solid 3px #333;
 }
 
 .balloon.right {
-    background: #fff6e0;
-    border: solid 3px #e4b858;
+  background: #fff6e0;
+  border: solid 3px #e4b858;
 }
 
 /* .balloon {
@@ -82,40 +85,41 @@
 
 /* 吹き出しのしっぽ（右用） */
 .balloon.right::before {
-    content: "";
-    position: absolute;
-    width: 15px;
-    height: 18px;
-    background: #fff6e0;
-    bottom: -18px;
-    right: 10%;
-    border-left: 3px solid #e4b858;
-    transform: skew(30deg);
+  content: "";
+  position: absolute;
+  width: 15px;
+  height: 18px;
+  background: #fff6e0;
+  bottom: -18px;
+  right: 10%;
+  border-left: 3px solid #e4b858;
+  transform: skew(30deg);
 }
 
 /* 入力欄を画面下に固定 */
 .message-input-area {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: #fffaeb;
-    border-top: 1px solid #fffaeb;
-    z-index: 100;
-    padding: 0.5rem;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #fffaeb;
+  border-top: 1px solid #fffaeb;
+  z-index: 100;
+  padding: 0.5rem;
 }
 
 /* 入力欄のボックスとアイコンの余白を調整 */
 .message-input-area .input {
-    height: 2.2rem; /* アイコンと高さを揃える */
+  height: 2.2rem;
+  /* アイコンと高さを揃える */
 }
 
 .message-input-area .button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 2.2rem;
-    padding: 0 0.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.2rem;
+  padding: 0 0.7rem;
 }
 
 /* ユーザーアイコン */
