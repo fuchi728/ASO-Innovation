@@ -32,6 +32,7 @@ $sql = "
   FROM item i
   LEFT JOIN good g ON i.item_id = g.item_id AND g.is_delete = 0
   LEFT JOIN item_image im ON i.item_id = im.item_id AND im.show_home = 1
+  WHERE i.is_deleted = 0
   GROUP BY i.item_id
   ORDER BY $orderBy
 ";
