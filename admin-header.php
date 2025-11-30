@@ -26,7 +26,8 @@
             <div class="admin-header-top">
                 <div class="admin-title-area">
                     <img src="logo-image/Vanikaロゴ.png" class="admin-logo">
-                    <span class="admin-title">管理者画面 - <?= $page_title ?? 'トップページ' ?> -</span>
+                    <span class="admin-title is-size-6-mobile">管理者画面 </span>
+                    <span class="admin-title is-hidden-mobile">- <?= $page_title ?? 'トップページ' ?> -</span>
                 </div>
                 <form action="logout.php" class="ml-auto mr-5">
                     <button id="button" class="button is-fullwidth">ログアウト</button>
