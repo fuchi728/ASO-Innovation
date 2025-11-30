@@ -20,34 +20,15 @@ try {
     $pdo = new PDO($connect, USER, PASS);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // --- トランザクション開始 ---
-    $pdo->beginTransaction();
-
-    // 子テーブル削除
-    $pdo->prepare("DELETE FROM good WHERE item_id=?")->execute([$item_id]);
-    $pdo->prepare("DELETE FROM comment WHERE item_id=?")->execute([$item_id]);
-    $pdo->prepare("DELETE FROM buy WHERE item_id=?")->execute([$item_id]);
-    $pdo->prepare("DELETE FROM sell WHERE item_id=?")->execute([$item_id]);
-    $pdo->prepare("DELETE FROM view_history WHERE item_id=?")->execute([$item_id]);
-    $pdo->prepare("DELETE FROM DM WHERE item_id=?")->execute([$item_id]);
-    $pdo->prepare("DELETE FROM item_image WHERE item_id=?")->execute([$item_id]);
-
-    // 親テーブル削除
-    $pdo->prepare("DELETE FROM item WHERE item_id=?")->execute([$item_id]);
-
-    // --- 成功したらコミット ---
-    $pdo->commit();
+    $stmt = $pdo->prepare("UPDATE item SET is_deleted = 1 WHERE item_id = ?");
+    $stmt->execute([$item_id]);
 
     echo "<script>
             alert('商品を削除しました');
             window.location.href='item-list.php';
           </script>";
     exit();
+
 } catch (PDOException $e) {
-
-    if ($pdo->inTransaction()) {
-        $pdo->rollBack(); // 元に戻す
-    }
-
     echo "削除に失敗しました: " . htmlspecialchars($e->getMessage());
 }
