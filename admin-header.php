@@ -28,14 +28,13 @@
                     <img src="logo-image/Vanikaロゴ.png" class="admin-logo">
                     <span class="admin-title">管理者画面 - トップページ -</span>
                 </div>
-                
-                <form action="logout.php">
+                <form action="logout.php" class="ml-auto mr-5">
                     <button id="button" class="button is-fullwidth">ログアウト</button>
                 </form>
-
-                <div class="admin-search-icon" @click.prevent="toggleSearch">
+                <div class="admin-search-icon ml-5" @click.prevent="toggleSearch">
                     <i class="fas fa-search"></i>
                 </div>
+                
             </div>
 
             <!-- 下段メニュー -->
