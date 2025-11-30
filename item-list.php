@@ -36,7 +36,7 @@ $sql = "
   FROM item i
   LEFT JOIN good g ON i.item_id = g.item_id AND g.is_delete = 0
   LEFT JOIN item_image im ON i.item_id = im.item_id AND im.show_home = 1
-  WHERE 1=1
+  WHERE 1=1 AND i.is_deleted = 0
 ";
  
 $params = [];
@@ -102,7 +102,7 @@ $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <?php else: ?>
         <?php foreach ($items as $item): ?>
           <!-- like-list.php と同じ構造 -->
-          <a href="item-detail.php?item_id=<?= intval($item['item_id']) ?>" class="item-link">
+          <a href="history-insert.php?item_id=<?= intval($item['item_id'])?>" class="item-link">
             <div class="item">
  
               <!-- SOLD タグ -->

@@ -84,7 +84,12 @@ $isFollowing = $sql2->fetch() ? true : false;
   <div class="follow block">
     <?php
     // 出品数
-    $sql3 = $pdo->prepare('select count(*) from sell where user_id=? and is_delete=0');
+    $sql3 = $pdo->prepare('
+      select count(*) 
+      from sell s
+      join item i on s.item_id = i.item_id
+      where s.user_id=? and i.is_deleted = 0
+    ');
     $sql3->execute([$other_user['user_id']]);
     $sell_count = $sql3->fetchColumn();
     // フォロワー数
@@ -132,7 +137,7 @@ $isFollowing = $sql2->fetch() ? true : false;
             img.image_path,
             s.user_id
      from sell s
-     join item i on s.item_id = i.item_id
+     join item i on s.item_id = i.item_id and i.is_deleted = 0
      left join item_image img on i.item_id = img.item_id and img.show_home = 1
      where s.user_id = ?"
   );
@@ -142,7 +147,7 @@ $isFollowing = $sql2->fetch() ? true : false;
   $sql7 = $pdo->prepare("
     select distinct c.category_id, c.category
     from sell s
-    join item i on s.item_id = i.item_id
+    join item i on s.item_id = i.item_id and i.is_deleted = 0
     join category c on i.category_id = c.category_id
     where s.user_id = ?
   ");

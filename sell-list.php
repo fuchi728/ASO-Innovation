@@ -20,11 +20,14 @@ $pdo = new PDO($connect, USER, PASS);
 $sql = $pdo->prepare('
   SELECT s.sell_id, s.item_id, i.image_path
   FROM sell s
+  JOIN item it ON s.item_id = it.item_id
   JOIN item_image i ON s.item_id = i.item_id
   WHERE s.is_delete = 0
-  AND s.user_id = ?
-  AND i.show_home = 1
+    AND s.user_id = ?
+    AND it.is_deleted = 0
+    AND i.show_home = 1
 ');
+
 $sql->execute([$user_id]);
 $sells = $sql->fetchAll(); // ← これ1回だけ
 ?>
