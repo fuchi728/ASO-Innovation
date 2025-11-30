@@ -28,6 +28,10 @@
                     <img src="logo-image/Vanikaロゴ.png" class="admin-logo">
                     <span class="admin-title">管理者画面 - トップページ -</span>
                 </div>
+                
+                <form action="logout.php">
+                    <button id="button" class="button is-fullwidth">ログアウト</button>
+                </form>
 
                 <div class="admin-search-icon" @click.prevent="toggleSearch">
                     <i class="fas fa-search"></i>
@@ -39,7 +43,7 @@
                 <a class="admin-tab" href="admin-home.php">ホーム</a>
                 <a class="admin-tab" href="admin-news.php">NEWS</a>
                 <a class="admin-tab" href="admin-account-del1.php">アカウント削除申請</a>
-                <a class="admin-tab" href="admin-contact.php">お問い合わせ</a>
+                <a class="admin-tab" href="admin-contact1.php">お問い合わせ</a>
             </nav>
 
         </header>
