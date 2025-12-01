@@ -7,9 +7,14 @@ require 'header.php';
 ?>
 <?php require 'header-menu.php'; ?>
 
-<div class="mt-6">
-    <h1 class="dm_list title is-5 has-text-centered">取引一覧</h1>
-</div>
+<nav id="page_title" class="navbar is-flex is-fixed-top is-justify-content-space-between is-align-items-center">
+    <a href="Listing Status Screen.php" id="back_button" class="button is-medium is-outlined">
+        <span class="icon is-small"><i class="fas fa-angle-left"></i></span>
+    </a>
+    <div class="navbar-center">
+        <span class="title is-6">取引一覧</span>
+    </div>
+</nav>
 
 <?php
 // ログイン中ユーザーIDを取得
