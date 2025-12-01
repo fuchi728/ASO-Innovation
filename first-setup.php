@@ -12,12 +12,8 @@ require 'header.php';
 
 <!--ページタイトル-->
 <nav id="page_title" class="navbar is-flex is-fixed-top is-justify-content-space-between is-align-items-center" role="navigation" aria-label="main navigation">
-    <a href="mypage.php" id="back_button" class="button is-medium is-outlined">
-        <span class="icon is-small">
-            <i class="fas fa-angle-left"></i></a>
-    </span>
     <div class="navbar-center">
-        <span class="title is-6">マイページ編集</span>
+        <span class="title is-6">プロフィール設定</span>
     </div>
 </nav>
 
@@ -31,19 +27,13 @@ $user = $sql->fetch(PDO::FETCH_ASSOC);
 
 <div class="content">
     <form action="mypage-insert.php" method="post" enctype="multipart/form-data">
-
         <div class="box card p-0">
             <div class="card-content">
                 <div class="media">
                     <div class="media-left">
                         <figure id="user_icon" class="image is-64x64 m-3">
-                            <?php
-                            if (empty($user['profile_image'])) {
-                                echo '<img src="user-icon/default.png" alt="ユーザー画像">';
-                            } else {
-                                echo '<img src="user-icon/' . htmlspecialchars($user['profile_image']) . '" alt="ユーザー画像">';
-                            }
-                            ?> </figure>
+                            <img src="user-icon/default.png" alt="ユーザー画像">
+                        </figure>
                     </div>
                     <div class="media-content">
                         <p class="title is-5">プロフィール画像</p>
@@ -71,42 +61,35 @@ $user = $sql->fetch(PDO::FETCH_ASSOC);
         <div class="block">
 
             <div class="field">
-                <label class="label">ニックネーム</label>
+                <label class="label">ニックネーム<span class="has-text-danger">*必須</span></label>
                 <div class="control">
-                    <input name="nickname" class="input" type="text" placeholder="ニックネームを入力してください" value="<?= $user['nickname'] ?>">
+                    <input name="nickname" class="input" type="text" placeholder="ニックネームを入力してください" required>
                 </div>
             </div>
 
             <div class="field">
                 <label class="label">自己紹介文</label>
-                <textarea name="textarea" class="textarea is-normal" placeholder="例）ご覧いただきありがとうございます。"><?= $user['self_introduction'] ?></textarea>
+                <textarea name="textarea" class="textarea is-normal" placeholder="例）ご覧いただきありがとうございます。"></textarea>
             </div>
 
             <div class="field">
-                <label class="label">お名前（他ユーザーには表示されません）</label>
+                <label class="label">お名前（他ユーザーには表示されません）<span class="has-text-danger">*必須</span></label>
                 <div class="control">
-                    <input name="name" class="input" type="text" placeholder="氏名を入力してください" value="<?= $user['name'] ?>">
+                    <input name="name" class="input" type="text" placeholder="氏名を入力してください" required>
                 </div>
             </div>
 
             <div class="field">
-                <label class="label">住所（他ユーザーには表示されません）</label>
+                <label class="label">住所（他ユーザーには表示されません）<span class="has-text-danger">*必須</span></label>
                 <div class="control">
-                    <input name="address" class="input" type="text" placeholder="住所を入力してください" value="<?= $user['address'] ?>">
+                    <input name="address" class="input" type="text" placeholder="住所を入力してください" required>
                 </div>
             </div>
         </div>
-        <button id="button" type="submit" class="button is-fullwidth">更新する</button>
+        <button id="button" type="submit" class="button is-fullwidth">完了</button>
     </form>
 
 </div>
-
-<script>
-    document.getElementById('file-input').addEventListener('change', function() {
-        const fileName = this.files.length > 0 ? this.files[0].name : "";
-        document.getElementById('file-name').textContent = fileName;
-    });
-</script>
 
 <?php require 'footer-menu.php'; ?>
 <?php require 'footer.php'; ?>
