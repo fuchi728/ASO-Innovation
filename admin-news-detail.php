@@ -1,5 +1,6 @@
 <?php require 'db-connect.php'; ?>
 <?php
+$page_title = '問い合わせ';
 $css_files = ['main-style.css', 'admin-header.css', 'admin-news-detail-style.css'];
 require 'admin-header.php';
 ?>
