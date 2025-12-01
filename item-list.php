@@ -69,6 +69,11 @@ if (!empty($categories)) {
     }
     $sql .= " AND i.category_id IN (" . implode(',', $in) . ")";
 }
+
+// 販売中のみ
+if (!empty($_GET['onsale']) && $_GET['onsale'] == 1) {
+    $sql .= " AND i.is_sold = 0";
+}
  
 $sql .= " GROUP BY i.item_id ORDER BY $orderBy";
  
