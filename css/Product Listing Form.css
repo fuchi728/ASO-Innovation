@@ -30,19 +30,19 @@
 }
 
 .image-upload-box {
-  background-color: #fcf4e3; /* 画像アップロード部分の薄いベージュ */
-  border: 1px solid #e0d0b0; /* 枠線 */
+  width: 160px;
+  height: 160px;
+  border: 2px dashed #d0d0d0;
   border-radius: 12px;
-  padding: 20px;
-  width: 120px;
-  height: 120px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  font-size: 14px;
+  background: #fafafa;
   position: relative;
+  margin: 0 auto;
 }
 
 .image-upload-box input[type="file"] {
@@ -199,4 +199,25 @@ textarea,
 
 .Listing-button:hover {
   background-color: #f2cc3a;
+}
+
+.main-preview {
+  width: 160px;
+  height: 160px;
+  object-fit: contain;
+  border-radius: 12px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+/* スライダー内の画像（2枚目以降） */
+.preview-image {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  border-radius: 10px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  cursor: pointer;
 }
