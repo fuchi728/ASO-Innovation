@@ -80,6 +80,8 @@ $sql .= " GROUP BY i.item_id ORDER BY $orderBy";
 $stmt = $pdo->prepare($sql);
 $stmt->execute($params);
 $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$from = 'item-list';
 ?>
  
 <section class="section has-background-warning-light">
@@ -107,7 +109,7 @@ $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <?php else: ?>
         <?php foreach ($items as $item): ?>
           <!-- like-list.php と同じ構造 -->
-          <a href="history-insert.php?item_id=<?= intval($item['item_id'])?>&from=item-list" class="item-link">
+          <a href="history-insert.php?item_id=<?= intval($item['item_id'])?>&from=<?= $from ?>" class="item-link">
             <div class="item">
  
               <!-- SOLD タグ -->
