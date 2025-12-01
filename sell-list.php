@@ -18,7 +18,7 @@ $user_id = $_SESSION['user']['user_id'];
 $pdo = new PDO($connect, USER, PASS);
 
 $sql = $pdo->prepare('
-  SELECT s.sell_id, s.item_id, i.image_path
+  SELECT s.sell_id, s.item_id, i.image_path, it.*
   FROM sell s
   JOIN item it ON s.item_id = it.item_id
   JOIN item_image i ON s.item_id = i.item_id
@@ -65,11 +65,17 @@ $sells = $sql->fetchAll(); // ← これ1回だけ
       <?php if (empty($sells)): ?>
         <p>現在出品されている商品はありません。</p>
         <?php else: foreach ($sells as $sell): ?>
+
           <a href="Product Listing Form.php?item_id=<?= htmlspecialchars($sell['item_id']) ?>" class="item-link">
             <div class="item">
+              <?php if ($sell['is_sold'] == 1): ?>
+                <span class="sold-tag">SOLD</span>
+              <?php endif; ?>
               <div class="image-box">
                 <img src="item-image/<?= htmlspecialchars($sell['image_path']) ?>" alt="商品画像">
               </div>
+              <p><?= htmlspecialchars($sell['item_name']) ?></p>
+              <p>¥<?= number_format($sell['price']) ?></p>
             </div>
           </a>
       <?php endforeach;

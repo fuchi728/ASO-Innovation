@@ -2,8 +2,8 @@
 <?php
 // ログイン確認
 if (!isset($_SESSION['user']['user_id'])) {
-    header("Location: login.php");
-    exit;
+  header("Location: login.php");
+  exit;
 }
 
 $css_files = ['main-style.css', 'title.css', 'mypage.css'];
@@ -96,14 +96,19 @@ require 'header.php';
           <div class="column is-half-mobile is-one-quarter-desktop" v-for="item in history" :key="item.item_id">
             <a :href="'item-detail.php?item_id=' + item.item_id + '&from=mypage'" class="item-link">
               <div class="card has-text-centered m-0">
-                <div class="card-image is-flex is-justify-content-center p-3">
-                  <figure class="image is-96x96">
-                    <img :src="'item-image/' + item.image_path">
-                  </figure>
-                </div>
-                <div class="card-content pt-2">
-                  <p class="title is-6  mb-5">{{item.item_name}}</p>
-                  <p class="subtitle is-6">¥{{item.price.toLocaleString()}}</p>
+                <div class="item">
+                  <span v-if="item.is_sold == 1" class="sold-tag">SOLD</span>
+                  <div class="image-box">
+                    <div class="card-image is-flex is-justify-content-center p-3">
+                      <figure class="image is-96x96">
+                        <img :src="'item-image/' + item.image_path">
+                      </figure>
+                    </div>
+                    <div class="card-content pt-2">
+                      <p class="title is-6  mb-5">{{item.item_name}}</p>
+                      <p class="subtitle is-6">¥{{item.price.toLocaleString()}}</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </a>
