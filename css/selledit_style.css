@@ -1,29 +1,44 @@
-.back-arrow {
-  font-size: 24px;
-  color: #333;
-  margin-right: 20px;
-}
-
-.image-upload-wrapper {
-  flex-grow: 1;
+/* 全体レイアウト */
+.miya {
   display: flex;
   justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* 画面中央に配置 */
 }
 
-.image-upload-box {
-  background-color: #fcf4e3; /* 画像アップロード部分の薄いベージュ */
-  border: 1px solid #e0d0b0; /* 枠線 */
-  border-radius: 12px;
+.container {
+  width: 100%;
+  max-width: 600px;
   padding: 20px;
-  width: 120px;
-  height: 120px;
+  box-sizing: border-box;
+}
+
+/* 戻るボタン */
+.header a.button {
+  margin-bottom: 10px;
+}
+
+/* ---- 画像アップロード ---- */
+.image-upload-wrapper {
+  margin-top: 10px;
+  text-align: center;
+}
+
+/* アップロードボックス（正方形・中央） */
+.image-upload-box {
+  width: 160px;
+  height: 160px;
+  border: 2px dashed #d0d0d0;
+  border-radius: 12px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  font-size: 14px;
+  background: #fafafa;
   position: relative;
+  margin: 0 auto;
 }
 
 .image-upload-box input[type="file"] {
@@ -35,204 +50,154 @@
 }
 
 .camera-icon {
-  font-size: 40px;
-  color: #c9b498; /* カメラアイコンの色 */
-  margin-bottom: 5px;
+  font-size: 36px;
+  margin-bottom: 6px;
 }
 
 .image-count {
-  font-size: 14px;
-  color: #8c7e6c; /* 数字の色 */
+  color: #555;
+  font-size: 13px;
 }
 
-/* form-section と price-display-box の背景色を削除し、containerの背景色を引き継ぐ */
+/* ---- スライダー（画像プレビュー） ---- */
+.slider-container {
+  width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
+  margin: 20px 0;
+  padding-bottom: 10px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.slider-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.slider-track {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  max-width: 80%;
+}
+
+.slider-track img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  border-radius: 10px;
+  margin-right: 8px;
+  border: 1px solid #ddd;
+  background-color: #f0f0f0;
+}
+
+/* スライドボタン */
+.slide-btn {
+  background-color: #eee;
+  border: none;
+  font-size: 20px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.slide-btn:hover {
+  background-color: #ccc;
+}
+
+/* ---- フォーム ---- */
 .form-section {
-  /* background-color: #fcefdc; */ /* 削除 */
-  margin: 0 20px 20px; /* 左右マージンと下マージン */
-  padding: 0; /* パディングを削除 */
-  border-radius: 0; /* 角丸を削除 */
-  box-shadow: none; /* 影を削除 */
+  margin-top: 20px;
 }
 
 .form-group {
   margin-bottom: 20px;
 }
 
-.form-group:last-of-type {
-  margin-bottom: 0;
-}
-
-.label {
-  display: block;
-  font-size: 14px;
-  color: #555;
-  margin-bottom: 8px;
+.form-group label {
   font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
 }
 
-input[type="text"],
-input[type="number"],
-textarea,
-.select {
-  width: calc(100% - 20px); /* 左右のパディングを考慮 */
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
   padding: 10px;
   font-size: 16px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-sizing: border-box;
-  background-color: #ffffff; /* 入力フィールドの背景を白に */
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #fff;
 }
 
-.textarea {
-  resize: vertical;
-  min-height: 80px;
-}
-
-.select {
-  appearance: none; /* デフォルトのスタイルを無効化 */
-  -webkit-appearance: none;
-  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23000000%22%20d%3D%22M287%2C146.24L146.2%2C287L5.4%2C146.24h281.6z%22%2F%3E%3C%2Fsvg%3E'); /* 下向き矢印アイコン */
-  background-repeat: no-repeat;
-  background-position: right 10px center;
-  background-size: 12px;
-  padding-right: 30px; /* 矢印のスペース */
-}
-
+/* ---- 価格 ---- */
 .price-display-box {
-  /* background-color: #fcefdc; */ /* 削除 */
-  border-radius: 0; /* 角丸を削除 */
-  margin: 0 20px; /* 左右マージン */
-  padding: 15px 0; /* 左右のパディングを削除 */
-  box-shadow: none; /* 影を削除 */
+  margin-top: 20px;
 }
 
-/* 販売価格入力欄の追加スタイル */
 .price-input-group {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  margin-bottom: 20px; /* 必要に応じて調整 */
+  align-items: center;
 }
 
-.price-input-group label {
-  margin-bottom: 0; /* ラベルの下マージンをリセット */
-  flex-shrink: 0; /* ラベルが縮まないように */
-}
-
-.price-input-group .price-range {
-  font-size: 16px;
-  color: #333;
-  font-weight: bold;
-}
-
-/* 手数料・利益の表示部分のスタイル */
+/* 手数料・利益 */
 .price-details-section {
-  background-color: #fcf4e3; /* 画像でいう「販売手数料」部分の背景色 */
-  border-radius: 12px;
-  padding: 15px 20px;
-  margin: 0 20px 20px; /* 左右マージンと下マージン */
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
+  margin-top: 10px;
 }
-
 
 .price-row {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 5px 0;
+  margin-bottom: 10px;
 }
 
-.price-row.total-profit {
-  border-top: 1px solid #eee; /* 区切り線 */
-  margin-top: 10px;
-  padding-top: 15px;
+.total-profit {
   font-weight: bold;
 }
 
-.price-label {
-  font-size: 15px;
-  color: #555;
-}
-
-.price-value {
-  font-size: 16px;
-  color: #333;
-}
-
-.price-value.yen {
-  font-size: 18px;
-  font-weight: bold;
-}
-
+/* 更新ボタン */
 .update-button {
-  background-color: #f7d54b; /* 更新ボタンの黄色 */
+  width: 100%;
+  background: #ff3e3e;
   color: #fff;
-  font-size: 18px;
-  font-weight: bold;
-  padding: 15px 20px;
+  padding: 14px;
+  font-size: 17px;
+  border-radius: 8px;
   border: none;
-  border-radius: 12px;
-  width: calc(100% - 40px); /* 左右のマージンを考慮 */
-  margin: 0 20px 20px; /* 左右マージンと下マージン */
   cursor: pointer;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
-  transition: background-color 0.2s ease;
+  margin-top: 25px;
 }
 
 .update-button:hover {
-  background-color: #f2cc3a;
+  background: #e63232;
 }
 
-.slider-container {
-    width: 200px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    gap: 5px;
+/* メイン画像（アップロードボックスに表示） */
+.main-preview {
+  width: 160px;
+  height: 160px;
+  object-fit: contain;
+  border-radius: 12px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  cursor: pointer;
 }
 
-.slider-track {
-    display: flex;
-    overflow-x: auto;
-    scroll-behavior: smooth;
-    gap: 8px;
-    padding: 10px;
-    width: 100%;
-    flex-wrap: nowrap;
-}
-
-.slider-track::-webkit-scrollbar {
-    display: none;
-}
-
-.upload-box {
-    width: 110px;
-    height: 110px;
-    border: 2px dashed #aaa;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    flex-shrink: 0;
-}
-
-.upload-box input {
-    display: none;
-}
-
-.preview-img {
-    width: 110px;
-    height: 110px;
-    object-fit: cover;
-    border-radius: 10px;
-    flex-shrink: 0;
-}
-
-.slide-btn {
-    padding: 6px 10px;
-    border: none;
-    background: #eee;
-    border-radius: 8px;
-    cursor: pointer;
+/* スライダー内の画像（2枚目以降） */
+.preview-image {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  border-radius: 10px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  cursor: pointer;
 }

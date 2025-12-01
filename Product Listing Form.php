@@ -1,39 +1,32 @@
-<?php session_start(); ?>
 <?php
-$css_files = ['main-style.css', 'selledit_style.css', 'title.css'];
-// ログイン確認
-if (!isset($_SESSION['user']['user_id'])) {
-    header("Location: login.php");
-    exit;
-}
-$css_files = ['main-style.css','Product Listing Form.css'];
+$css_files = ['main-style.css', 'Product Listing Form.css', 'title.css'];
 require 'header.php';
 require 'header-menu.php';
 require_once 'db-connect.php';
- 
+
 $item_id = $_GET['item_id'] ?? null;
 if (!$item_id) {
     echo "<script>alert('商品が指定されていません'); location.href='sell-list.php';</script>";
     exit;
 }
- 
+
 // DB接続
 $pdo = new PDO($connect, USER, PASS);
- 
+
 // 商品情報取得
 $stmt = $pdo->prepare('SELECT * FROM item WHERE item_id=?');
 $stmt->execute([$item_id]);
 $item = $stmt->fetch(PDO::FETCH_ASSOC);
- 
+
 // カテゴリ取得
 $categories = $pdo->query("SELECT * FROM category ORDER BY category_id ASC")->fetchAll(PDO::FETCH_ASSOC);
- 
+
 // 画像取得
 $stmt = $pdo->prepare("SELECT * FROM item_image WHERE item_id=?");
 $stmt->execute([$item_id]);
 $imageList = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
- 
+
 <!-- ページタイトル -->
 <nav id="page_title" class="navbar is-justify-content-space-between is-align-items-center" role="navigation" aria-label="main navigation">
     <a href="sell-list.php" id="back_button" class="button is-medium is-outlined">
@@ -41,13 +34,13 @@ $imageList = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <i class="fas fa-angle-left"></i>
         </span>
     </a>
- 
+
 </nav>
- 
+
 <div class="content">
     <form action="update-item.php" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="item_id" value="<?= htmlspecialchars($item_id) ?>">
- 
+
         <!-- 画像アップロード -->
         <div class="image-upload-wrapper">
             <div class="slider-container">
@@ -57,7 +50,7 @@ $imageList = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <span class="camera-icon">📸</span>
                         <span class="image-count" id="image-count"><?= count($imageList) ?>/20</span>
                     </label>
- 
+
                     <?php foreach ($imageList as $img): ?>
                         <img src="item-image/<?= htmlspecialchars($img['image_path']) ?>" class="preview-img">
                     <?php endforeach; ?>
@@ -65,21 +58,21 @@ $imageList = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <button type="button" id="slide-right" class="slide-btn">→</button>
             </div>
         </div>
- 
+
         <input type="file" id="product_images" name="product_images[]" accept="image/*" multiple style="display:none;">
- 
+
         <!-- 商品名 -->
         <div class="form-group">
             <label for="product_name">商品名</label>
             <input type="text" id="product_name" name="product_name" value="<?= htmlspecialchars($item['item_name']) ?>" placeholder="40文字以内" maxlength="40" required>
         </div>
- 
+
         <!-- 商品説明 -->
         <div class="form-group">
             <label for="product_description">商品の説明</label>
             <textarea id="product_description" name="product_description" placeholder="1000文字以内" maxlength="1000" rows="4" required><?= htmlspecialchars($item['detail']) ?></textarea>
         </div>
- 
+
         <!-- カテゴリ -->
         <div class="form-group">
             <label for="product_category">カテゴリ</label>
@@ -91,37 +84,37 @@ $imageList = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <?php endforeach; ?>
             </select>
         </div>
- 
+
         <!-- 販売価格 -->
         <div class="price-display-box">
             <label for="price">販売価格</label>
             <input type="number" name="product_price" id="price" value="<?= htmlspecialchars($item['price']) ?>" min="300" max="99999" required>
         </div>
- 
+
         <button type="submit" class="update-button">更新する</button>
     </form>
 </div>
- 
+
 <script>
     const fileInput = document.getElementById("product_images");
     const sliderTrack = document.getElementById("slider-track");
     const imageCount = document.getElementById("image-count");
- 
+
     fileInput.addEventListener("change", () => {
         const files = fileInput.files;
- 
+
         if (files.length > 20) {
             alert("画像は最大20枚までです。");
             fileInput.value = "";
             imageCount.textContent = "0/20";
             return;
         }
- 
+
         // 既存のプレビュー削除
         sliderTrack.querySelectorAll(".preview-img").forEach(e => e.remove());
- 
+
         imageCount.textContent = `${files.length}/20`;
- 
+
         Array.from(files).forEach(file => {
             if (!file.type.startsWith("image/")) return;
             const reader = new FileReader();
@@ -134,7 +127,7 @@ $imageList = $stmt->fetchAll(PDO::FETCH_ASSOC);
             reader.readAsDataURL(file);
         });
     });
- 
+
     document.getElementById("slide-left").addEventListener("click", () => {
         sliderTrack.scrollBy({ left: -115, behavior: "smooth" });
     });
@@ -142,6 +135,6 @@ $imageList = $stmt->fetchAll(PDO::FETCH_ASSOC);
         sliderTrack.scrollBy({ left: 115, behavior: "smooth" });
     });
 </script>
- 
+
 <?php require 'footer-menu.php'; ?>
 <?php require 'footer.php'; ?>
