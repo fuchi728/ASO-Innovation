@@ -18,10 +18,12 @@ $from = $_GET['from'] ?? null;
 $item_id = $_GET['item_id'] ?? null;
 $other_user_id = $_GET['user'] ?? null;
 
-if ($from === 'mypage') {
+if ($_SESSION['user']['role'] == 1) {
+  $back_link = 'admin-home.php';
+} else if ($from === 'mypage') {
   $back_link = 'mypage.php';
-} else if ($from === 'item-detail') {
-  $back_link = 'item-detail.php?user=' . urlencode($other_user_id)
+} else if ($from === 'other-user') {
+  $back_link = 'other-user.php?user=' . urlencode($other_user_id)
     . '&item_id=' . urlencode($item_id)
     . '&from=' . urlencode($from);
 } else {
@@ -214,5 +216,9 @@ $isFollowing = $sql2->fetch() ? true : false;
 <script src="./script/self-introduction.js"></script>
 <script src="./script/sell.js"></script>
 
-<?php require 'footer-menu.php'; ?>
+<?php
+if ($_SESSION['user']['role'] == 0) {
+  require 'footer-menu.php';
+}
+?>
 <?php require 'footer.php'; ?>

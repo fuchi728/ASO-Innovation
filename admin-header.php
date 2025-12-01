@@ -35,7 +35,7 @@
                 <div class="admin-search-icon ml-5" @click.prevent="toggleSearch">
                     <i class="fas fa-search"></i>
                 </div>
-                
+
             </div>
 
             <!-- 下段メニュー -->
@@ -88,6 +88,15 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="field">
+                    <label class="checkbox">
+                        <input type="checkbox" name="onsale" value="1"
+                            <?= (!empty($_GET['onsale']) && $_GET['onsale'] == 1) ? 'checked' : '' ?>>
+                        販売中のみ
+                    </label>
+                </div>
+
                 <?php
                 require_once 'db-connect.php';
                 $pdo = new PDO($connect, USER, PASS);
