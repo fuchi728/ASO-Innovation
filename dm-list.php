@@ -2,7 +2,7 @@
 <?php require_once 'db-connect.php'; ?>
 
 <?php
-$css_files = ['main-style.css', 'dm-list-style.css'];
+$css_files = ['main-style.css', 'dm-list-style.css', 'title.css'];
 require 'header.php';
 ?>
 <?php require 'header-menu.php'; ?>
