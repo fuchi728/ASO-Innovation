@@ -4,15 +4,62 @@ html {
     background-color: #fffaeb;
 }
 
-body{
+body {
     padding-bottom: 3.25rem;
 }
 
 .content {
-    margin:3% 10% 0 10%;
+    margin: 3% 10% 0 10%;
 }
 
 #button {
     background-color: #E8B931;
     color: white;
+}
+
+.search-bar {
+    position: fixed;
+    right: 0;
+    top: 60px;
+    z-index: 1000;
+    width: 100%;
+    max-width: 400px;
+    background-color: #EFEBE8;
+    box-shadow: 0 0 12px 3px rgba(0, 0, 0, 0.35);
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    position: absolute;
+    top: 4px;
+    right: 20px;
+    cursor: pointer;
+}
+
+.text_btn {
+    cursor: pointer;
+    pointer-events: auto !important;
+}
+
+/* ===== SOLD ==== */
+.sold-tag {
+  position: absolute;
+  top: 12px;
+  left: -8px;
+
+  background: #ff2b2b;
+  color: #fff;
+  padding: 6px 30px;
+  font-size: 0.9rem;
+  font-weight: bold;
+
+  transform: rotate(-20deg);
+  z-index: 10;
+
+  /* カード内に収めるための制御 */
+  max-width: 120px;
+  overflow: hidden;
+  text-align: center;
 }

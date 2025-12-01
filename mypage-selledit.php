@@ -1,4 +1,10 @@
+<?php session_start(); ?>
 <?php
+// ログイン確認
+if (!isset($_SESSION['user']['user_id'])) {
+    header("Location: login.php");
+    exit;
+}
 $css_files = ['main-style.css','selledit_style.css'];
 require 'header.php';
 ?>

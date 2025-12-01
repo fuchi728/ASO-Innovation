@@ -1,63 +1,104 @@
+<?php session_start(); ?>
 <?php
+// ログイン確認
+if (!isset($_SESSION['user']['user_id'])) {
+  header("Location: login.php");
+  exit;
+}
 // ========================================
 // フォロワー一覧（自分をフォローしている人）
 // ========================================
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-require 'db-connect.php';
+require_once 'db-connect.php';
 
-$css_files = ['main-style.css', 'follower-list.css'];
+$css_files = ['main-style.css', 'follow-list.css', 'title.css'];
 require 'header.php';
 require 'header-menu.php';
 
 $pdo = new PDO($connect, USER, PASS);
 
-// 仮ログイン中ユーザー（例：3番）
-$login_user = 3;
+if (isset($_GET['user'])) {
+  $user = intval($_GET['user']);
+} else {
+  $user = $_SESSION['user']['user_id'];
+}
+
+// 遷移先
+$from = $_GET['from'] ?? null;
+if ($from == 'other-user') {
+  $back_link = 'other-user.php?user=' . $user;
+} else {
+  $back_link = 'mypage.php';
+}
 
 // -----------------------------
-// フォロワー一覧を取得（nickname 表示）
+// フォロワー一覧（nickname 表示）
 // -----------------------------
 $sql = $pdo->prepare("
   SELECT 
     u.user_id,
-    u.nickname,
-    u.email
+    u.nickname
   FROM follow f
   JOIN user_info u ON f.follower_id = u.user_id
   WHERE f.followed_id = ?
   AND u.is_delete = 0
 ");
-$sql->execute([$login_user]);
+$sql->execute([$user]);
 $followers = $sql->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
-<link rel="stylesheet" href="css/follow-list.css">
-
 <section class="section has-background-warning-light">
   <div class="container">
-
-    <!-- 戻るボタン＋タイトル -->
-    <div class="title-bar">
-      <a href="mypage.php" class="back-arrow">＜</a>
-      <h2 class="title is-5">フォロワー</h2>
-    </div>
+    <!--ページタイトル-->
+    <nav id="page_title" class="navbar is-flex is-fixed-top is-justify-content-space-between is-align-items-center">
+      <a href="<?= $back_link ?>" id="back_button" class="button is-medium is-outlined">
+        <span class="icon is-small"><i class="fas fa-angle-left"></i></span>
+      </a>
+      <div class="navbar-center">
+        <span class="page_title title is-6">フォロワー</span>
+      </div>
+    </nav>
 
     <?php if (empty($followers)): ?>
       <p class="has-text-centered">フォロワーはいません。</p>
     <?php else: ?>
       <div class="follow-list">
-        <?php foreach ($followers as $follower): ?>
+
+        <?php foreach ($followers as $f): ?>
           <div class="follow-card">
-            <span class="user-name"><?= htmlspecialchars($follower['nickname'] ?: '名無しユーザー') ?></span>
-            <a href="user-page.php?user_id=<?= htmlspecialchars($follower['user_id']) ?>" 
-               class="button is-warning is-small">プロフィール</a>
+
+            <div class="is-flex is-align-items-center">
+              <figure id="user_icon" class="m-3">
+                <?php
+                if (empty($user['profile_image'])) {
+                  echo '<img src="user-icon/default.png" alt="ユーザー画像">';
+                } else {
+                  echo '<img src="user-icon/' . htmlspecialchars($user['profile_image']) . '" alt="ユーザー画像">';
+                }
+                ?>
+              </figure>
+              <span class="user-name">
+                <?= htmlspecialchars($f['nickname'] ?: '名無しユーザー') ?>
+              </span>
+            </div>
+
+            <!-- 他人のフォロー一覧のとき -->
+            <?php if ($f['user_id'] != $_SESSION['user']['user_id']): ?>
+              <a href="other-user.php?user=<?= $f['user_id'] ?>&from=follow-list"
+                class="button is-warning is-small">
+                プロフィール
+              </a>
+            <?php endif; ?>
+
           </div>
         <?php endforeach; ?>
+
       </div>
     <?php endif; ?>
 
   </div>
 </section>
 
-<?php require 'footer-menu.php'; require 'footer.php'; ?>
+<?php require 'footer-menu.php';
+require 'footer.php'; ?>

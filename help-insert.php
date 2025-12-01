@@ -1,5 +1,11 @@
-<?php require 'db-connect.php'; ?>
+<?php session_start(); ?>
+<?php require_once 'db-connect.php'; ?>
 <?php
+// ログイン確認
+if (!isset($_SESSION['user']['user_id'])) {
+    header("Location: login.php");
+    exit;
+}
 $pdo = new PDO($connect, USER, PASS);
 
 $email = htmlspecialchars(trim($_POST['email']));

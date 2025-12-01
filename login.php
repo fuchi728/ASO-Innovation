@@ -40,7 +40,7 @@
     input[type="password"] {
         width: 90%;
         padding: 10px;
-        border: 2px solid #ccc;
+        border: 2px solid #fff4e0;
         border-radius: 8px;
         margin: 8px 0;
         font-size: 14px;
@@ -86,8 +86,10 @@
     }
 </style>
 <div class="login-container">
-    <div class="logo">🛍️<span>Vanika</span></div>
-    <h2>ログイン</h2>
+    <div class="container">
+        <img src="logo-image/Vanikaロゴ.png">
+        <h2>ログイン</h2>
+    </div>
 
     <?php
     if (isset($_SESSION['login_error'])) {

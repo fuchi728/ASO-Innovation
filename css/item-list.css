@@ -1,103 +1,56 @@
-section {
-  background: #fff8e1;
-  border-radius: 16px 16px 0 0;
-  padding: 10px;
-}
-
-/* ===== ソートバー（中央寄せ） ===== */
-.sort-bar {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 15px;
-}
-
-.sort-center {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.sort-bar select {
-  background: #fff;
-  font-size: 0.9rem;
-  padding: 6px 10px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-}
-
-.sort-bar i {
-  font-size: 20px;
-  color: #333;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.sort-bar i:hover {
-  transform: scale(1.1);
-}
-
-/* ===== 商品一覧（2列） ===== */
+/* ===== グリッド ===== */
 .item-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
+  gap: 15px;
   margin-top: 20px;
 }
 
-/* ===== 商品カード ===== */
-.item {
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  padding: 10px;
-  border: 1px solid #ddd;
+@media (min-width: 1024px) {
+  .item-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
-/* ===== カード全体をクリック可能に ===== */
+/* ===== カード ===== */
+.item {
+  position: relative;          /* SOLD を載せるため */
+  background: #fff;
+  border-radius: 10px;
+  padding: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  overflow: hidden;            /* はみ出し防止 */
+  text-align: center;
+}
+
 .item-link {
   text-decoration: none;
   color: inherit;
   display: block;
 }
 
-/* ===== hoverしても背景は変わらない ===== */
-.item-link:hover .item {
-  background-color: #fff;
-  transition: none;
-}
-
-/* ===== 画像ボックス（白枠で正方形） ===== */
+/* ===== 商品画像 ===== */
 .image-box {
-  position: relative;
   width: 100%;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 1/1;
+  border-radius: 8px;
   background: #fff;
   display: flex;
-  align-items: center;
   justify-content: center;
-  border: 1px solid #eee;
-  border-radius: 6px;
+  align-items: center;
   overflow: hidden;
 }
 
-/* ===== 画像（暗くならない） ===== */
 .image-box img {
-  max-width: 90%;
-  max-height: 90%;
+  width: 90%;
+  height: 90%;
   object-fit: contain;
-  filter: none;
-  transition: none;
 }
 
-/* ===== 商品名・価格（常に黒） ===== */
+
+
+/* ===== 商品名・価格 ===== */
 .item p {
-  margin: 6px 0;
+  margin: 8px 0 0;
   font-size: 0.9rem;
-  color: #000;
-}
-
-/* ===== hoverしても黒のまま ===== */
-.item-link:hover p {
-  color: #000;
 }

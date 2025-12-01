@@ -38,6 +38,10 @@
   border: 1px solid black;
 }
 
+a{
+  color: black;
+}
+
 /* コメント */
 .comment-scroll-area {
   max-height: 200px;
@@ -53,6 +57,14 @@
 }
 
 .purchase{
+  position: fixed;
+  bottom: 5rem;
+  right: 25px;
+}
+
+.item_delete{
+  background-color: red;
+  color: white;
   position: fixed;
   bottom: 5rem;
   right: 25px;

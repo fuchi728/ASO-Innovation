@@ -1,0 +1,24 @@
+#news-box {
+    padding: 30px;
+    padding-left: 50px;
+}
+
+textarea {
+    resize: vertical;
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.fixed-buttons {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 1000;
+}
+
+.fixed-buttons .button {
+    width: 150px;
+}

@@ -1,5 +1,5 @@
 <?php session_start(); ?>
-<?php require 'db-connect.php'; ?>
+<?php require_once 'db-connect.php'; ?>
 <?php
 if (isset($_POST['email']) && isset($_POST['password'])) {
     $pdo = new PDO($connect, USER, PASS);
@@ -21,7 +21,11 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
             'nickname' => $user['nickname'],
             'role' => $user['role']
         ];
-        header('Location: item-list.php');
+        if ($user['role'] == 1) {
+            header('Location: admin-home.php'); // 管理者ページ
+        } else {
+            header('Location: item-list.php');   // 一般ユーザー
+        }
         exit;
     } else {
         $_SESSION['login_error'] = "ユーザー名またはパスワードが違います。";

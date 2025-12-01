@@ -4,11 +4,25 @@ section.section {
   padding-top: 10px;
 }
 
+/* ===== スマホ：2列 ===== */
 .item-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 10px;
   margin-top: 20px;
+}
+
+/* ===== PC：4列 ===== */
+@media (min-width: 1024px) {
+  .item-grid {
+    width: 100vw !important;              /* container の幅制限を突破 */
+    margin-left: 50% !important;
+    transform: translateX(-50%) !important;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    padding: 0 20px;
+    box-sizing: border-box;
+  }
 }
 
 .item {
@@ -55,4 +69,16 @@ section.section {
   display: block;
   font-size: 1.3rem;
   margin-bottom: 2px;
+}
+
+
+
+
+.item {
+  position: relative;
+  background: white;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  overflow: hidden;
 }

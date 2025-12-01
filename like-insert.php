@@ -1,11 +1,14 @@
 <?php
 session_start();
 header('Content-Type: application/json; charset=utf-8');
-require 'db-connect.php';
+require_once 'db-connect.php';
 
 // ログイン確認
 if (!isset($_SESSION['user']['user_id'])) {
-    echo json_encode(["success" => false, "error" => "ログインしてください"]);
+    echo json_encode([
+        "success" => false,
+        "require_login" => true
+    ]);
     exit;
 }
 

@@ -1,4 +1,10 @@
+<?php session_start(); ?>
 <?php
+// ログイン確認
+if (!isset($_SESSION['user']['user_id'])) {
+    header("Location: login.php");
+    exit;
+}
 $css_files = ['main-style.css','Listing_style.css'];
 require 'header.php';
 ?>
@@ -9,6 +15,7 @@ require 'header.php';
   <div class="container">
 
     <!-- 出品中ステータスカード -->
+    <a href="sell-list.php">
     <div class="status-card">
       <div class="status-icon grid-icon">
         <div class="grid-square"></div>
@@ -21,8 +28,10 @@ require 'header.php';
         <span class="status-count">2件</span>
       </div>
     </div>
+    </a>
 
     <!-- 取引中ステータスカード -->
+    <a href="dm-list.php">
     <div class="status-card">
       <span class="status-icon">📦</span>
       <div class="status-info">
@@ -30,6 +39,7 @@ require 'header.php';
         <span class="status-count">1件</span>
       </div>
     </div>
+    </a>
 
     <!-- 🔽 ここに移動（コンテナ内） -->
     <button class="listing-button">

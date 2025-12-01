@@ -1,5 +1,12 @@
+<?php session_start(); ?>
 <?php
 $css_files = ['main-style.css', 'selledit_style.css', 'title.css'];
+// ログイン確認
+if (!isset($_SESSION['user']['user_id'])) {
+    header("Location: login.php");
+    exit;
+}
+$css_files = ['main-style.css','Product Listing Form.css'];
 require 'header.php';
 require 'header-menu.php';
 require_once 'db-connect.php';

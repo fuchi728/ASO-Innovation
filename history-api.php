@@ -1,7 +1,13 @@
 <?php session_start(); ?>
-<?php require 'db-connect.php'; ?>
+<?php require_once 'db-connect.php'; ?>
 
 <?php
+// ログイン確認
+if (!isset($_SESSION['user']['user_id'])) {
+    header("Location: login.php");
+    exit;
+}
+
 $limit = $_GET['limit'] ?? 4;
 $user_id = $_SESSION['user']['user_id'];
 
@@ -9,8 +15,10 @@ $pdo = new PDO($connect, USER, PASS);
 
 $count = $pdo->prepare("
     SELECT COUNT(*) 
-    FROM view_history 
-    WHERE user_id = ?
+    FROM view_history vh
+    JOIN item i ON vh.item_id = i.item_id
+    WHERE vh.user_id = ?
+      AND i.is_deleted = 0
 ");
 $count->execute([$user_id]);
 $total = $count->fetchColumn();
@@ -21,6 +29,7 @@ $sql = $pdo->prepare("
     JOIN item i ON vh.item_id = i.item_id
     LEFT JOIN item_image img ON i.item_id = img.item_id AND img.show_home = 1
     WHERE vh.user_id = ?
+     AND i.is_deleted = 0
     ORDER BY vh.view_time DESC
     LIMIT $limit
 ");

@@ -1,12 +1,23 @@
+<?php session_start(); ?>
 <?php
+// ログイン確認
+if (!isset($_SESSION['user']['user_id'])) {
+  header("Location: login.php");
+  exit;
+}
+$item_id = $_POST['item_id'] ?? null;
+if (!$item_id) {
+  header("Location: item-list.php");
+  exit;
+}
 // ========================================
 // 購入画面（buyテーブル利用）
 // ========================================
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-require 'db-connect.php';
+require_once 'db-connect.php';
 
-$css_files = ['main-style.css', 'purchase.css'];
+$css_files = ['main-style.css', 'purchase.css','title.css'];
 require 'header.php';
 require 'header-menu.php';
 
@@ -15,6 +26,8 @@ $pdo = new PDO($connect, USER, PASS);
 // ----------------------------------------
 // 購入処理
 // ----------------------------------------
+$user_id = $_SESSION['user']['user_id'];
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $item_id = $_POST['item_id'] ?? null;
   $address = $_POST['delivery_address'] ?? '';
@@ -24,14 +37,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if ($item_id && $address) {
     // 1️⃣ 購入情報をbuyテーブルに追加
     $sql = $pdo->prepare('
-      INSERT INTO buy (item_id, user_id, buy_time, delivery_address, is_delete)
-      VALUES (?, 1, NOW(), ?, 0)
+      INSERT INTO buy (item_id, user_id, delivery_address)
+      VALUES (?, ?, ?)
     ');
-    $sql->execute([$item_id, $address]);
+    $sql->execute([$item_id, $user_id, $address]);
 
-    // 2️⃣ itemテーブルのis_deleteを1（購入済み）に更新
-    $pdo->prepare('UPDATE item SET is_delete = 1 WHERE item_id = ?')
-        ->execute([$item_id]);
+    // 2️⃣ itemテーブルのis_soldを1（購入済み）に更新
+    $pdo->prepare('UPDATE item SET is_sold = 1 WHERE item_id = ?')
+      ->execute([$item_id]);
 
     echo '
       <section class="section has-background-warning-light">
@@ -52,12 +65,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // ----------------------------------------
 // 商品情報取得（item＋item_image）
 // ----------------------------------------
-$item_id = $_GET['item_id'] ?? 1;
+
 $sql = $pdo->prepare('
   SELECT i.item_id, i.item_name, i.price, im.image_path
   FROM item i
   LEFT JOIN item_image im ON i.item_id = im.item_id AND im.show_home = 1
-  WHERE i.item_id = ?
+  WHERE i.item_id = ? AND i.is_sold = 0
 ');
 $sql->execute([$item_id]);
 $item = $sql->fetch(PDO::FETCH_ASSOC);
@@ -66,17 +79,19 @@ $shipping_fee = 500;
 $total_price = $item ? $item['price'] + $shipping_fee : 0;
 ?>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<link rel="stylesheet" href="css/purchase.css">
-
 <section class="section has-background-warning-light">
   <div class="container">
 
-    <!-- タイトル行 -->
-    <div class="title-bar">
-      <a href="item-detail.php?item_id=<?= htmlspecialchars($item_id) ?>" class="back-arrow">＜</a>
-      <h2 class="title is-5">購入手続き</h2>
-    </div>
+    <nav id="page_title" class="navbar is-flex is-fixed-top is-justify-content-space-between is-align-items-center" role="navigation" aria-label="main navigation">
+      <a href="item-detail.php?item_id=<?= htmlspecialchars($item_id) ?>" id="back_button" class="button is-medium is-outlined">
+        <span class="icon is-small">
+          <i class="fas fa-angle-left"></i>
+        </span>
+      </a>
+      <div class="navbar-center">
+        <span class="title is-6">購入手続き</span>
+      </div>
+    </nav>
 
     <!-- 商品概要 -->
     <div class="item-summary">
@@ -137,4 +152,5 @@ $total_price = $item ? $item['price'] + $shipping_fee : 0;
   </div>
 </section>
 
-<?php require 'footer-menu.php'; require 'footer.php'; ?>
+<?php require 'footer-menu.php';
+require 'footer.php'; ?>
