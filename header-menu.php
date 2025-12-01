@@ -56,6 +56,15 @@
           </div>
         </div>
       </div>
+
+      <div class="field">
+        <label class="checkbox">
+          <input type="checkbox" name="onsale" value="1"
+            <?= (!empty($_GET['onsale']) && $_GET['onsale'] == 1) ? 'checked' : '' ?>>
+          販売中のみ
+        </label>
+      </div>
+
       <?php
       require_once 'db-connect.php';
       $pdo = new PDO($connect, USER, PASS);
@@ -79,6 +88,7 @@
           ?>
         </div>
       </div>
+      
 
       <div class="field mt-4 has-text-centered">
         <button id="button" class="button is-info" type="submit">検索</button>
