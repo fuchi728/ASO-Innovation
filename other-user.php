@@ -18,10 +18,12 @@ $from = $_GET['from'] ?? null;
 $item_id = $_GET['item_id'] ?? null;
 $other_user_id = $_GET['user'] ?? null;
 
-if ($from === 'mypage') {
+if ($_SESSION['user']['role'] == 1) {
+  $back_link = 'admin-home.php';
+} else if ($from === 'mypage') {
   $back_link = 'mypage.php';
-} else if ($from === 'item-detail') {
-  $back_link = 'item-detail.php?user=' . urlencode($other_user_id)
+} else if ($from === 'other-user') {
+  $back_link = 'other-user.php?user=' . urlencode($other_user_id)
     . '&item_id=' . urlencode($item_id)
     . '&from=' . urlencode($from);
 } else {
@@ -84,7 +86,12 @@ $isFollowing = $sql2->fetch() ? true : false;
   <div class="follow block">
     <?php
     // 出品数
-    $sql3 = $pdo->prepare('select count(*) from sell where user_id=? and is_delete=0');
+    $sql3 = $pdo->prepare('
+      select count(*) 
+      from sell s
+      join item i on s.item_id = i.item_id
+      where s.user_id=? and i.is_deleted = 0
+    ');
     $sql3->execute([$other_user['user_id']]);
     $sell_count = $sql3->fetchColumn();
     // フォロワー数
@@ -97,8 +104,8 @@ $isFollowing = $sql2->fetch() ? true : false;
     $follower = $sql5->fetchColumn();
     ?>
     <span class="mr-3"><?= $sell_count ?> 出品</span>
-    <a href="follower-list" class="mr-3"><?= $followed ?> フォロワー</a>
-    <a href="follow-list"><?= $follower ?> フォロー中</a>
+    <a href="follower-list?user=<?= htmlspecialchars($other_user_id) ?>&from=other-user" class="mr-3"><?= $followed ?> フォロワー</a>
+    <a href="follow-list?user=<?= htmlspecialchars($other_user_id) ?>&from=other-user"><?= $follower ?> フォロー中</a>
   </div>
 
   <!-- 自己紹介文 -->
@@ -127,12 +134,12 @@ $isFollowing = $sql2->fetch() ? true : false;
     "select i.item_id, 
             i.item_name, 
             i.price,
-            i.is_delete as item_is_delete,
+            i.is_sold as item_is_sold,
             i.category_id,
             img.image_path,
             s.user_id
      from sell s
-     join item i on s.item_id = i.item_id
+     join item i on s.item_id = i.item_id and i.is_deleted = 0
      left join item_image img on i.item_id = img.item_id and img.show_home = 1
      where s.user_id = ?"
   );
@@ -142,7 +149,7 @@ $isFollowing = $sql2->fetch() ? true : false;
   $sql7 = $pdo->prepare("
     select distinct c.category_id, c.category
     from sell s
-    join item i on s.item_id = i.item_id
+    join item i on s.item_id = i.item_id and i.is_deleted = 0
     join category c on i.category_id = c.category_id
     where s.user_id = ?
   ");
@@ -209,5 +216,9 @@ $isFollowing = $sql2->fetch() ? true : false;
 <script src="./script/self-introduction.js"></script>
 <script src="./script/sell.js"></script>
 
-<?php require 'footer-menu.php'; ?>
+<?php
+if ($_SESSION['user']['role'] == 0) {
+  require 'footer-menu.php';
+}
+?>
 <?php require 'footer.php'; ?>

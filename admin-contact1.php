@@ -2,24 +2,19 @@
 session_start();
 require 'db-connect.php';
 
-// // 管理者ログインチェック（必要なら）
-// if (!isset($_SESSION['admin'])) {
-//     header("Location: admin-login.php");
-//     exit;
-// }
-$page_title = 'アカウント削除申請一覧';
-$css_files = ['main-style.css', 'admin-header.css', 'admin-account-del-style.css'];
+$page_title = '問い合わせ';
+$css_files = ['main-style.css', 'admin-header.css', 'admin-contact-style.css'];
 require 'admin-header.php';
 
 $pdo = new PDO($connect, USER, PASS);
 
 // is_deal = 0（未対応）だけ取得
 $sql = $pdo->prepare("
-    SELECT dr.*, ui.nickname 
-    FROM delete_request AS dr
-    LEFT JOIN user_info AS ui ON dr.user_id = ui.user_id
-    WHERE dr.is_deal = 0
-    ORDER BY dr.request_time DESC
+    SELECT h.*, ui.nickname 
+    FROM help AS h
+    LEFT JOIN user_info AS ui ON h.user_id = ui.user_id
+    WHERE h.is_deal = 0
+    ORDER BY h.send_time DESC
 ");
 $sql->execute();
 $requests = $sql->fetchAll(PDO::FETCH_ASSOC);
@@ -30,7 +25,7 @@ $requests = $sql->fetchAll(PDO::FETCH_ASSOC);
     <section class="section py-4">
         <div class="container">
             <p class="has-text-centered has-text-grey">
-                現在、未処理のアカウント削除申請はありません。
+                現在、未対応の問い合わせはありません。
             </p>
         </div>
     </section>
@@ -42,7 +37,7 @@ $requests = $sql->fetchAll(PDO::FETCH_ASSOC);
 
                 <div class="box notice-box is-flex is-justify-content-space-between is-align-items-center">
 
-                    <!-- 左側（申請内容） -->
+                    <!-- 左側（問い合わせ内容） -->
                     <div class="is-flex is-flex-direction-column">
 
                         <div style="display: flex; align-items: center; gap: 8px;">
@@ -62,26 +57,25 @@ $requests = $sql->fetchAll(PDO::FETCH_ASSOC);
                         </div>
 
                         <p class="is-size-7 has-text-grey">
-                            <strong>申請日時：</strong>
-                            <?= htmlspecialchars($req['request_time']) ?>
+                            <strong>送信日時：</strong>
+                            <?= htmlspecialchars($req['send_time']) ?>
                         </p>
 
                         <?php
-                        // $reason に退会理由が入っている場合
                         $max_length = 50; // リスト上で表示する最大文字数
-                        $reason = $req['reason'] ?? '';
-                        $display_reason = mb_strlen($reason) > $max_length ? mb_substr($reason, 0, $max_length) . '…' : $reason;
+                        $content = $req['content'] ?? '';
+                        $display_content = mb_strlen($content) > $max_length ? mb_substr($content, 0, $max_length) . '…' : $content;
                         ?>
                         <p class="is-size-7 has-text-grey">
-                            <strong>申請理由：</strong>
-                            <?= htmlspecialchars($display_reason); ?>
+                            <strong>送信内容：</strong>
+                            <?= htmlspecialchars($display_content); ?>
                         </p>
                     </div>
 
                     <!-- 右側（詳細ボタン） -->
                     <span>
                         <a
-                            href="admin-account-del2.php?delete_id=<?= urlencode($req['delete_id']) ?>"
+                            href="admin-contact2.php?help_id=<?= urlencode($req['help_id']) ?>"
                             class="button is-warning">
                             詳細を確認
                         </a>
@@ -94,5 +88,4 @@ $requests = $sql->fetchAll(PDO::FETCH_ASSOC);
     <?php endforeach; ?>
 <?php endif; ?>
 
-<!-- フッターリンク、不要なら削除 -->
 <?php require 'footer.php'; ?>

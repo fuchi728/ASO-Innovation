@@ -2,36 +2,35 @@
 session_start();
 require 'db-connect.php';
 
-$page_title = 'アカウント削除申請詳細';
-$css_files = ['main-style.css', 'admin-header.css', 'admin-account-del-style.css'];
+$page_title = '問い合わせ詳細';
+$css_files = ['main-style.css', 'admin-header.css', 'admin-contact-style.css'];
 require 'admin-header.php';
 
 $pdo = new PDO($connect, USER, PASS);
 
-// GET で delete_id を取得
-$delete_id = $_GET['delete_id'] ?? 0;
+// GET で help_id を取得
+$help_id = $_GET['help_id'] ?? 0;
 
-// delete_request と user_info を JOIN して該当申請を取得
 $sql = $pdo->prepare("
-    SELECT dr.*, ui.nickname 
-    FROM delete_request AS dr
-    LEFT JOIN user_info AS ui ON dr.user_id = ui.user_id
-    WHERE dr.delete_id = ?
+    SELECT h.*, ui.nickname 
+    FROM help AS h
+    LEFT JOIN user_info AS ui ON h.user_id = ui.user_id
+    WHERE h.help_id = ?
 ");
-$sql->execute([$delete_id]);
+$sql->execute([$help_id]);
 $request = $sql->fetch(PDO::FETCH_ASSOC);
 
 if (!$request) {
   echo '<section class="section py-4"><div class="container">';
-  echo '<p class="has-text-centered has-text-grey">対象のアカウント削除申請は存在しません。</p>';
+  echo '<p class="has-text-centered has-text-grey">対象の問い合わせは存在しません。</p>';
   echo '</div></section>';
   require 'footer.php';
   exit;
 }
 
 // 日付と時間に分割
-$request_date = date('Y/m/d', strtotime($request['request_time']));
-$request_time = date('H:i:s', strtotime($request['request_time']));
+$request_date = date('Y/m/d', strtotime($request['send_time']));
+$request_time = date('H:i:s', strtotime($request['send_time']));
 ?>
 
 <section class="section py-4">
@@ -49,13 +48,13 @@ $request_time = date('H:i:s', strtotime($request['request_time']));
           <br>
 
           <div class="mt-4 has-text-centered">
-            <a href="admin-account-del1.php" class="button  is-warning">一覧に戻る</a>
+            <a href="admin-contact1.php" class="button  is-warning">一覧に戻る</a>
           </div>
 
           <div class="mt-2 has-text-centered">
             <?php if ($request['is_deal'] == 0): ?>
-              <form method="post" action="admin-account-del3.php">
-                <input type="hidden" name="delete_id" value="<?= htmlspecialchars($delete_id) ?>">
+              <form method="post" action="admin-contact3.php">
+                <input type="hidden" name="help_id" value="<?= htmlspecialchars($help_id) ?>">
                 <button type="submit" class="button is-success">対応完了</button>
               </form>
             <?php else: ?>
@@ -65,10 +64,10 @@ $request_time = date('H:i:s', strtotime($request['request_time']));
         </div>
       </div>
 
-      <!-- 右カラム：退会理由全文 -->
+      <!-- 右カラム：問い合わせ内容全文 -->
       <div class="column notification" id="rigth-display">
-        <p class="is-size-4"><strong>退会理由：</strong></p>
-        <p class="is-size-4"><?= nl2br(htmlspecialchars($request['reason'])) ?></p>
+        <p class="is-size-4"><strong>内容：</strong></p>
+        <p class="is-size-4"><?= nl2br(htmlspecialchars($request['content'])) ?></p>
       </div>
 
     </div>

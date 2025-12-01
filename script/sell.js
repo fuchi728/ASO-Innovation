@@ -14,7 +14,7 @@ new Vue({
 
       // 販売中のみ
       if (this.onlyAvailable) {
-        list = list.filter(item => item.item_is_delete == 0);
+        list = list.filter(item => item.item_is_sold == 0);
       }
 
       // カテゴリ絞り込み

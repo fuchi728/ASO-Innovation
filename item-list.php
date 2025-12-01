@@ -36,7 +36,7 @@ $sql = "
   FROM item i
   LEFT JOIN good g ON i.item_id = g.item_id AND g.is_delete = 0
   LEFT JOIN item_image im ON i.item_id = im.item_id AND im.show_home = 1
-  WHERE 1=1
+  WHERE 1=1 AND i.is_deleted = 0
 ";
  
 $params = [];
@@ -69,12 +69,19 @@ if (!empty($categories)) {
     }
     $sql .= " AND i.category_id IN (" . implode(',', $in) . ")";
 }
+
+// 販売中のみ
+if (!empty($_GET['onsale']) && $_GET['onsale'] == 1) {
+    $sql .= " AND i.is_sold = 0";
+}
  
 $sql .= " GROUP BY i.item_id ORDER BY $orderBy";
  
 $stmt = $pdo->prepare($sql);
 $stmt->execute($params);
 $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$from = 'item-list';
 ?>
  
 <section class="section has-background-warning-light">
@@ -102,11 +109,11 @@ $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <?php else: ?>
         <?php foreach ($items as $item): ?>
           <!-- like-list.php と同じ構造 -->
-          <a href="item-detail.php?item_id=<?= intval($item['item_id']) ?>" class="item-link">
+          <a href="history-insert.php?item_id=<?= intval($item['item_id'])?>&from=<?= $from ?>" class="item-link">
             <div class="item">
  
               <!-- SOLD タグ -->
-              <?php if ($item['is_delete'] == 1): ?>
+              <?php if ($item['is_sold'] == 1): ?>
                 <span class="sold-tag">SOLD</span>
               <?php endif; ?>
  

@@ -16,7 +16,7 @@ require 'header.php';
 </nav>
 
 <?php
-if (!isset($_SESSION['user'])) {
+if (!isset($_SESSION['user']['user_id'])) {
     header('Location: login.php');
     exit;
 }
@@ -78,7 +78,7 @@ $messages = $sql->fetchAll(PDO::FETCH_ASSOC);
             </div>
 
             <!-- メッセージ本文 -->
-            <div class="balloon <?php echo $isMyMessage ? 'right' : 'left'; ?>">
+            <div class="balloon mb-5 <?php echo $isMyMessage ? 'right' : 'left'; ?>">
                 <p><?php echo htmlspecialchars($msg['main_text']); ?></p>
             </div>
 

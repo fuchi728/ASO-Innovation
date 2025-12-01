@@ -65,13 +65,29 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     </span>
 </a>
       <div class="image-upload-wrapper">
-        <div class="image-upload-box">
-          <span class="camera-icon">📸</span>
-          <span class="image-count">1〜20枚</span>
-          <input type="file" id="product_images" name="product_images[]" accept="image/*" multiple required>
-        </div>
-      </div>
-    </div>
+  <!-- スライドプレビュー -->
+  <div class="slider-container">
+    <div id="preview-area" class="slider-track"></div>
+  </div>
+
+  <!-- アップロードボックス -->
+  <label class="image-upload-box" id="upload-box">
+    <span class="camera-icon" id="camera-icon">📸</span>
+    <span class="image-count" id="image-count">1〜20枚</span>
+    <input type="file" id="product_images" name="product_images[]" accept="image/*" multiple required>
+  </label>
+</div>
+
+<!-- スライダーの左右ボタン -->
+<div class="slider-controls">
+  <button type="button" id="slide-left" class="slide-btn">←</button>
+  <div id="preview-area" class="slider-track"></div>
+  <button type="button" id="slide-right" class="slide-btn">→</button>
+</div>
+
+
+
+
 
     <form action="" method="POST" enctype="multipart/form-data">
       <div class="form-section">
@@ -131,23 +147,81 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   </div>
 
   <script>
-    const priceInput = document.getElementById("price");
-    const feeDisplay = document.getElementById("fee-display");
-    const profitDisplay = document.getElementById("profit-display");
+const imageInput = document.getElementById("product_images");
+const previewArea = document.getElementById("preview-area");
+const uploadBox = document.getElementById("upload-box");
+const cameraIcon = document.getElementById("camera-icon");
+const imageCount = document.getElementById("image-count");
 
-    priceInput.addEventListener("input", () => {
-      const price = parseInt(priceInput.value);
-      if (!isNaN(price) && price >= 300) {
-        const fee = Math.floor(price * 0.10);
-        const profit = price - fee;
-        feeDisplay.textContent = `¥${fee}`;
-        profitDisplay.textContent = `¥${profit}`;
-      } else {
-        feeDisplay.textContent = "-";
-        profitDisplay.textContent = "-";
-      }
-    });
-  </script>
+imageInput.addEventListener("change", () => {
+  previewArea.innerHTML = ""; // プレビュー初期化
+  const files = imageInput.files;
+
+  if (files.length > 0) {
+    // 最初の画像でアップロードボックスを置き換え
+    const firstReader = new FileReader();
+    firstReader.onload = (e) => {
+      uploadBox.innerHTML = `
+        <img src="${e.target.result}" class="main-preview" id="main-preview">
+        <input type="file" id="product_images" name="product_images[]" accept="image/*" multiple required style="display:none;">
+      `;
+      // 再度選択できるようにクリックイベントを追加
+      const mainPreview = document.getElementById("main-preview");
+      const newInput = uploadBox.querySelector('input[type="file"]');
+      mainPreview.addEventListener("click", () => newInput.click());
+      newInput.addEventListener("change", () => {
+        imageInput.files = newInput.files;
+        imageInput.dispatchEvent(new Event("change"));
+      });
+    };
+    firstReader.readAsDataURL(files[0]);
+  }
+
+  // スライダーに全画像表示（2枚目以降）
+  Array.from(files).forEach((file, index) => {
+    if (!file.type.startsWith("image/")) return;
+    if (index === 0) return; // 最初の画像はアップロードボックスに表示済み
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = document.createElement("img");
+      img.src = e.target.result;
+      img.classList.add("preview-image");
+      previewArea.appendChild(img);
+    };
+    reader.readAsDataURL(file);
+  });
+
+  // カウント表示更新
+  imageCount.textContent = `${files.length}枚選択中（最大20枚）`;
+});
+
+// スライドボタンの動作
+document.getElementById("slide-left").addEventListener("click", () => {
+  previewArea.scrollBy({ left: -100, behavior: "smooth" });
+});
+
+document.getElementById("slide-right").addEventListener("click", () => {
+  previewArea.scrollBy({ left: 100, behavior: "smooth" });
+});
+
+imageInput.addEventListener("change", () => {
+  const files = imageInput.files;
+
+  if (files.length > 20) {
+    alert("画像は最大20枚まで選択できます。");
+    imageInput.value = ""; // リセット
+    return;
+  }
+
+  // 以下、既存のプレビュー処理を続けてOK
+});
+
+
+</script>
+
+
+
   </div>
   <?php require 'footer-menu.php'; ?>
 <?php require 'footer.php'; ?>

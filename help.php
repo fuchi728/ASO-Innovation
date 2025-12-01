@@ -4,7 +4,7 @@ require 'header.php';
 ?>
 <?php require 'header-menu.php'; ?>
 
-<div id="app" class="content">
+<div id="help_app" class="content">
     <h1>お問い合わせ</h1>
     <p> ご質問・ご相談は以下のフォームよりご送信ください。</p>
     <form ref="helpForm" action="help-insert.php" method="post" @submit.prevent="handleSubmit">

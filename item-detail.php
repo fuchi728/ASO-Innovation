@@ -12,7 +12,10 @@ $from = $_GET['from'] ?? null;
 $item_id = $_GET['item_id'] ?? null;
 $other_user_id = $_GET['user'] ?? null;
 
-if ($from === 'mypage') {
+
+if ($_SESSION['user']['role'] == 1) {
+    $back_link = 'admin-home.php';
+} else if ($from === 'mypage') {
     $back_link = 'mypage.php';
 } else if ($from === 'other-user') {
     $back_link = 'other-user.php?user=' . urlencode($other_user_id)
@@ -203,7 +206,7 @@ if ($user_id) {
         <input type="hidden" name="item_id" value="<?= $item_id ?>">
         <input type="hidden" name="from" value=" <?= $from ?>">
         <?php
-        if ($item['is_delete'] == 1 && !$isAdmin) {
+        if ($item['is_sold'] == 1 && !$isAdmin) {
             // 一般ユーザーで売り切れの場合
             echo '<button disabled id="button" type="submit" class="purchase button is-medium">SOLD OUT</button>';
         } else {
@@ -237,5 +240,9 @@ if ($user_id) {
 <script src="https://cdn.jsdelivr.net/npm/vue@2.7.11/dist/vue.js"></script>
 <script src="./script/good.js"></script>
 
-<?php require 'footer-menu.php'; ?>
+<?php
+if ($_SESSION['user']['role'] == 0) {
+  require 'footer-menu.php';
+}
+?>
 <?php require 'footer.php'; ?>
