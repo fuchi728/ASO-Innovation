@@ -22,7 +22,7 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
             'nickname' => $user['nickname'],
             'role' => $user['role']
         ];
-        if (empty($user['name'])) {
+        if ($user['name'] == '未設定') {
             header('Location: first-setup.php');
             exit;
         }
