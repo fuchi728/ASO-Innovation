@@ -18,17 +18,17 @@ require 'header-menu.php';
 
 $pdo = new PDO($connect, USER, PASS);
 
-if(isset($_GET['user'])){
+if (isset($_GET['user'])) {
   $user = intval($_GET['user']);
-}else{
+} else {
   $user = $_SESSION['user']['user_id'];
 }
 
 // 遷移先
 $from = $_GET['from'] ?? null;
-if($from == 'other-user'){
-  $back_link = 'other-user.php?user='. $user;
-}else{
+if ($from == 'other-user') {
+  $back_link = 'other-user.php?user=' . $user;
+} else {
   $back_link = 'mypage.php';
 }
 
@@ -68,16 +68,28 @@ $followers = $sql->fetchAll(PDO::FETCH_ASSOC);
         <?php foreach ($followers as $f): ?>
           <div class="follow-card">
 
-            <!-- ★ 左寄せで名前だけ -->
-            <span class="user-name">
-              <?= htmlspecialchars($f['nickname'] ?: '名無しユーザー') ?>
-            </span>
+            <div class="is-flex is-align-items-center">
+              <figure id="user_icon" class="m-3">
+                <?php
+                if (empty($user['profile_image'])) {
+                  echo '<img src="user-icon/default.png" alt="ユーザー画像">';
+                } else {
+                  echo '<img src="user-icon/' . htmlspecialchars($user['profile_image']) . '" alt="ユーザー画像">';
+                }
+                ?>
+              </figure>
+              <span class="user-name">
+                <?= htmlspecialchars($f['nickname'] ?: '名無しユーザー') ?>
+              </span>
+            </div>
 
-            <!-- ★ プロフィールへ (other-user.php?user=◯◯) -->
-            <a href="other-user.php?user=<?= $f['user_id'] ?>&from=follower-list"
-              class="button is-warning is-small">
-              プロフィール
-            </a>
+            <!-- 他人のフォロー一覧のとき -->
+            <?php if ($f['user_id'] != $_SESSION['user']['user_id']): ?>
+              <a href="other-user.php?user=<?= $f['user_id'] ?>&from=follow-list"
+                class="button is-warning is-small">
+                プロフィール
+              </a>
+            <?php endif; ?>
 
           </div>
         <?php endforeach; ?>
