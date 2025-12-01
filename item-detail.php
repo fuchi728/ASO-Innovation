@@ -177,7 +177,7 @@ if ($user_id) {
         </div>
         <!-- コメント入力 -->
         <form action="comment-insert.php" method="post">
-            <div class="field has-addons pt-3 pr-6">
+            <div class="field has-addons pt-3 pr-6 mr-6">
                 <div class="control is-expanded">
                     <input class="input" type="text" placeholder="メッセージを入力" name="main_text">
                     <input type="hidden" name="item_id" value="<?= $item_id ?>">
