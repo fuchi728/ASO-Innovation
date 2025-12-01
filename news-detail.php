@@ -18,7 +18,7 @@ echo '<div class="container">';
 echo '<h1 class="title">', $news['title'], '</h1>';
 echo '<p class="is-size-7 has-text-grey">', $news['send_time'], '</p>';
 echo '<hr>';
-echo '<div class="content">', $news['detail'], '</div>';
+echo '<div class="content">', nl2br($news['detail']), '</div>';
 echo '<a href="notice-2.php" class="button is-light mt-4">戻る</a>';
 echo '</div>';
 echo '</section>';
