@@ -4,9 +4,9 @@
     top: 0;
     left: 0;
     width: 100%;
-    background: #FBE7B2; /* 画像の背景色 */
+    background: #FFE08A;
     z-index: 999;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* 上段 */
@@ -40,7 +40,7 @@
 /* 下段メニュー */
 .admin-menu {
     display: flex;
-    background: #F5D69D;
+    background: #F5CA85;
     border-top: 1px solid #e7c992;
 }
 
@@ -49,7 +49,7 @@
     text-align: center;
     padding: 12px 0;
     font-weight: bold;
-    color: #000;
+    color: white;
     text-decoration: none;
     border-right: 1px solid #e7c992;
 }
