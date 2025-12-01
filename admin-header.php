@@ -25,7 +25,9 @@
             <!-- 上段：ロゴ＋タイトル＋検索 -->
             <div class="admin-header-top">
                 <div class="admin-title-area">
-                    <img src="logo-image/Vanikaロゴ.png" class="admin-logo">
+                    <a class="navbar-item" href="admin-home.php">
+                        <img src="logo-image/Vanikaロゴ.png" class="admin-logo">
+                    </a>
                     <span class="admin-title is-size-6-mobile">管理者画面 </span>
                     <span class="admin-title is-hidden-mobile">- <?= $page_title ?? 'トップページ' ?> -</span>
                 </div>

@@ -1,7 +1,7 @@
 <div id="app">
   <nav class="navbar is-flex is-fixed-top is-justify-content-space-between is-align-items-center has-background-warning" role="navigation" aria-label="main navigation">
     <div class="navbar-brand ml-5">
-      <a class="navbar-item" href="#">
+      <a class="navbar-item" href="item-list.php">
         <img src="logo-image/Vanikaロゴ.png">
       </a>
     </div>
