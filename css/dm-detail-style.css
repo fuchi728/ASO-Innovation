@@ -101,12 +101,11 @@
   padding: 0 0.7rem;
 }
 
-/* メッセージ一覧の下に余白を作る（固定入力欄とフッターの分） */
 
 .dm-area {
   position: fixed;
-  top: 60px;      /* headerの高さに合わせて調整 */
-  bottom: 60px;   /* 入力欄の高さに合わせて調整 */
+  top: 60px;
+  bottom: 60px;
   left: 0;
   right: 0;
 
