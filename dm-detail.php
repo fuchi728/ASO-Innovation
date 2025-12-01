@@ -16,7 +16,7 @@ require 'header.php';
 </nav>
 
 <?php
-if (!isset($_SESSION['user'])) {
+if (!isset($_SESSION['user']['user_id'])) {
     header('Location: login.php');
     exit;
 }
