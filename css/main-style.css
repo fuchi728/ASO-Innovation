@@ -44,6 +44,16 @@ body {
 }
 
 /* ===== SOLD ==== */
+.item {
+  position: relative;          /* SOLD を載せるため */
+  background: #fff;
+  border-radius: 10px;
+  padding: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  overflow: hidden;            /* はみ出し防止 */
+  text-align: center;
+}
+
 .sold-tag {
   position: absolute;
   top: 12px;

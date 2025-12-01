@@ -24,7 +24,7 @@ $count->execute([$user_id]);
 $total = $count->fetchColumn();
 
 $sql = $pdo->prepare("
-    SELECT i.item_id, i.item_name, i.price, img.image_path
+    SELECT i.item_id, i.item_name, i.price, i.is_sold, img.image_path
     FROM view_history vh
     JOIN item i ON vh.item_id = i.item_id
     LEFT JOIN item_image img ON i.item_id = img.item_id AND img.show_home = 1
