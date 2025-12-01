@@ -2,8 +2,8 @@
 <?php
 // ログイン確認
 if (!isset($_SESSION['user']['user_id'])) {
-    header("Location: login.php");
-    exit;
+  header("Location: login.php");
+  exit;
 }
 // ========================================
 // フォロー中一覧（フォロー解除機能付き）
@@ -18,17 +18,17 @@ require 'header-menu.php';
 
 $pdo = new PDO($connect, USER, PASS);
 
-if(isset($_GET['user'])){
+if (isset($_GET['user'])) {
   $user = intval($_GET['user']);
-}else{
+} else {
   $user = $_SESSION['user']['user_id'];
 }
 
 // 遷移先
 $from = $_GET['from'] ?? null;
-if($from == 'other-user'){
-  $back_link = 'other-user.php?user='. $user;
-}else{
+if ($from == 'other-user') {
+  $back_link = 'other-user.php?user=' . $user;
+} else {
   $back_link = 'mypage.php';
 }
 
@@ -77,11 +77,34 @@ $follows = $sql->fetchAll(PDO::FETCH_ASSOC);
       <div class="follow-list">
         <?php foreach ($follows as $follow): ?>
           <div class="follow-card">
-            <span class="user-name"><?= htmlspecialchars($follow['nickname'] ?: '名無しユーザー') ?></span>
-            <form method="post">
-              <input type="hidden" name="followed_id" value="<?= htmlspecialchars($follow['user_id']) ?>">
-              <button type="submit" class="button is-warning is-small">フォロー解除</button>
-            </form>
+            <div class="is-flex is-align-items-center">
+              <figure id="user_icon" class="m-3">
+                <?php
+                if (empty($user['profile_image'])) {
+                  echo '<img src="user-icon/default.png" alt="ユーザー画像">';
+                } else {
+                  echo '<img src="user-icon/' . htmlspecialchars($user['profile_image']) . '" alt="ユーザー画像">';
+                }
+                ?>
+              </figure>
+              <span class="user-name">
+                <?= htmlspecialchars($follow['nickname'] ?: '名無しユーザー') ?>
+              </span>
+            </div>
+            <!-- 他人のフォロー一覧のとき -->
+            <?php if ($follow['user_id'] != $_SESSION['user']['user_id']): ?>
+              <a href="other-user.php?user=<?= $follow['user_id'] ?>&from=follow-list"
+                class="button is-warning is-small">
+                プロフィール
+              </a>
+            <?php endif; ?>
+            <!-- 自分のフォロー一覧のとき -->
+            <?php if ($from === 'mypage'): ?>
+              <form method="post">
+                <input type="hidden" name="followed_id" value="<?= htmlspecialchars($follow['user_id']) ?>">
+                <button type="submit" class="button is-warning is-small">フォロー解除</button>
+              </form>
+            <?php endif; ?>
           </div>
         <?php endforeach; ?>
       </div>
@@ -90,4 +113,5 @@ $follows = $sql->fetchAll(PDO::FETCH_ASSOC);
   </div>
 </section>
 
-<?php require 'footer-menu.php'; require 'footer.php'; ?>
+<?php require 'footer-menu.php';
+require 'footer.php'; ?>
