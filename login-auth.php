@@ -7,6 +7,7 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
         select 
             user_info.user_id,
             user_info.nickname,
+            user_info.name,
             user_info.role,
             login.password
         from user_info
@@ -21,6 +22,10 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
             'nickname' => $user['nickname'],
             'role' => $user['role']
         ];
+        if (empty($user['name'])) {
+            header('Location: first-setup.php');
+            exit;
+        }
         if ($user['role'] == 1) {
             header('Location: admin-home.php'); // 管理者ページ
         } else {
