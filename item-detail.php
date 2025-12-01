@@ -244,4 +244,5 @@ if ($user_id) {
 if ($_SESSION['user']['role'] == 0) {
   require 'footer-menu.php';
 }
-?><?php require 'footer.php'; ?>
+?>
+<?php require 'footer.php'; ?>
