@@ -5,7 +5,10 @@ require_once 'db-connect.php';
 
 // ログイン確認
 if (!isset($_SESSION['user']['user_id'])) {
-    header("Location: login.php");
+    echo json_encode([
+        "success" => false,
+        "require_login" => true
+    ]);
     exit;
 }
 
