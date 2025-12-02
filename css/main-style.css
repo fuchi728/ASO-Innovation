@@ -73,3 +73,7 @@ body {
   overflow: hidden;
   text-align: center;
 }
+
+[v-cloak] {
+  display: none;
+}

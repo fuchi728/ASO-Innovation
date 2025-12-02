@@ -20,7 +20,7 @@
   </nav>
 
   <!-- 検索欄 -->
-  <div v-if="showSearch" class="search-bar box">
+  <div v-show="showSearch" class="search-bar box" v-cloak>
     <form action="item-list.php" method="GET">
       <p class="title is-6 has-text-centered">条件を入力して下さい</p>
       <button class="close-btn" @click="showSearch = false">

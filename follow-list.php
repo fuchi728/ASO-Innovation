@@ -92,7 +92,7 @@ $follows = $sql->fetchAll(PDO::FETCH_ASSOC);
               </span>
             </div>
             <!-- 他人のフォロー一覧のとき -->
-            <?php if ($follow['user_id'] != $_SESSION['user']['user_id']): ?>
+            <?php if ($follow['user_id'] != $_SESSION['user']['user_id'] && $from != 'mypage'): ?>
               <a href="other-user.php?user=<?= $follow['user_id'] ?>&from=follow-list"
                 class="button is-warning is-small">
                 プロフィール
