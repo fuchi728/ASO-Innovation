@@ -91,5 +91,4 @@ $user = $sql->fetch(PDO::FETCH_ASSOC);
 
 </div>
 
-<?php require 'footer-menu.php'; ?>
 <?php require 'footer.php'; ?>
