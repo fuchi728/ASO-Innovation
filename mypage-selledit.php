@@ -5,7 +5,7 @@ if (!isset($_SESSION['user']['user_id'])) {
     header("Location: login.php");
     exit;
 }
-$css_files = ['main-style.css','selledit_style.css','Product Listing Form.css'];
+$css_files = ['main-style.css','Product Listing Form.css'];
 require 'header.php';
 ?>
 <?php require 'header-menu.php'; ?>
@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 }
 ?>
 
-<div class="miya">
+<div class="content">
   <div class="container">
 
     <div class="image-upload-wrapper">
