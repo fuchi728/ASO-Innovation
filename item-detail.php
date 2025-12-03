@@ -180,16 +180,16 @@ if ($user_id) {
             <?php endforeach; ?>
         </div>
         <!-- コメント入力 -->
-        <form action="comment-insert.php" method="post">
+        <form action="comment-insert.php" method="post" >
             <div class="field has-addons pt-3 pr-6 mr-6">
                 <div class="control is-expanded">
-                    <input class="input" type="text" placeholder="メッセージを入力" name="main_text">
+                    <input class="input" <?= $item['is_sold'] ? 'disabled' : '' ?> type="text" name="main_text">
                     <input type="hidden" name="item_id" value="<?= $item_id ?>">
                     <input type="hidden" name="from" value="<?= $from ?>">
                 </div>
                 <!-- 送信アイコン -->
                 <div class="control">
-                    <button class="button">
+                    <button class="button" <?= $item['is_sold'] ? 'disabled' : '' ?>>
                         <i class="fas fa-pen-square is-size-4"></i>
                     </button>
                 </div>

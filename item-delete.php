@@ -25,7 +25,7 @@ try {
 
     echo "<script>
             alert('商品を削除しました');
-            window.location.href='item-list.php';
+            window.location.href='admin-home.php';
           </script>";
     exit();
 
