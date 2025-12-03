@@ -32,6 +32,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   $fee = floor($price * 0.10);
   $profit = $price - $fee;
 }
+// カテゴリ取得
+$categories = $pdo->query("SELECT * FROM category ORDER BY category_id ASC")->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 
 <div class="content">
@@ -83,7 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <label for="product_category">カテゴリ</label>
             <select id="product_category" name="product_category" required>
                 <?php foreach ($categories as $c): ?>
-                    <option value="<?= $c['category_id'] ?>" <?= $c['category_id'] == $item['category_id'] ? 'selected' : '' ?>>
+                    <option value="<?= $c['category_id'] ?>">
                         <?= htmlspecialchars($c['category']) ?>
                     </option>
                 <?php endforeach; ?>
@@ -119,7 +122,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   <?php require 'footer-menu.php'; ?>
   <?php require 'footer.php'; ?>
 
-  <!-- ▼▼▼ update-item と同じ JS 完全コピー ▼▼▼ -->
   <script>
     const fileInput = document.getElementById("product_images");
     const sliderTrack = document.getElementById("slider-track");
