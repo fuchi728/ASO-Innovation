@@ -35,23 +35,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   $price = intval($_POST["product_price"]);
   $fee = floor($price * 0.10);
   $profit = $price - $fee;
-
-  echo "<div style='padding:1em; font-family:sans-serif'>";
-  echo "<h2>📝 出品内容</h2>";
-  echo "<p><strong>商品名:</strong> {$name}</p>";
-  echo "<p><strong>説明:</strong> {$description}</p>";
-  echo "<p><strong>カテゴリ:</strong> {$category}</p>";
-  echo "<p><strong>販売価格:</strong> ¥{$price}</p>";
-  echo "<p><strong>販売手数料 (10%):</strong> ¥{$fee}</p>";
-  echo "<p><strong>販売利益:</strong> ¥{$profit}</p>";
-  if ($imagePaths) {
-    echo "<p><strong>画像:</strong><br>";
-    foreach ($imagePaths as $path) {
-      echo "<img src='{$path}' style='width:100px; height:100px; object-fit:cover; margin:5px; border-radius:8px'>";
-    }
-    echo "</p>";
-  }
-  echo "<hr></div>";
 }
 ?>
 
