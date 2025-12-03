@@ -55,42 +55,41 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 }
 ?>
 
-
-  <div class="miya">
+<div class="miya">
   <div class="container">
-    <div class="header">
-      <a href="home.php" class="button is-medium is-outlined">
-    <span class="icon is-small">
-        <i class="fas fa-angle-left"></i>
-    </span>
-</a>
-      <div class="image-upload-wrapper">
-  <!-- スライドプレビュー -->
-  <div class="slider-container">
-    <div id="preview-area" class="slider-track"></div>
-  </div>
 
-  <!-- アップロードボックス -->
-  <label class="image-upload-box" id="upload-box">
-    <span class="camera-icon" id="camera-icon">📸</span>
-    <span class="image-count" id="image-count">1〜20枚</span>
-    <input type="file" id="product_images" name="product_images[]" accept="image/*" multiple required>
-  </label>
-</div>
+    <!-- ▼▼▼ ここから：アップデート版と完全一致の画像アップロード部分 ▼▼▼ -->
+    <div class="image-upload-wrapper">
+        <div class="slider-container">
 
-<!-- スライダーの左右ボタン -->
-<div class="slider-controls">
-  <button type="button" id="slide-left" class="slide-btn">←</button>
-  <div id="preview-area" class="slider-track"></div>
-  <button type="button" id="slide-right" class="slide-btn">→</button>
-</div>
+            <!-- 左ボタン -->
+            <button type="button" id="slide-left" class="slide-btn">←</button>
 
+            <!-- スライダー本体 -->
+            <div id="slider-track" class="slider-track">
 
+                <!-- アップロードボックス -->
+                <label class="upload-box" onclick="document.getElementById('product_images').click()">
+                    <span class="camera-icon">📸</span>
+                    <span class="image-count" id="image-count">0/20</span>
+                </label>
 
+                <!-- ここに JS でプレビュー画像が追加される -->
+            </div>
+
+            <!-- 右ボタン -->
+            <button type="button" id="slide-right" class="slide-btn">→</button>
+        </div>
+    </div>
+
+    <!-- ファイル入力 -->
+    <input type="file" id="product_images" name="product_images[]" accept="image/*" multiple style="display:none;">
+    <!-- ▲▲▲ 完全移植ここまで ▲▲▲ -->
 
 
     <form action="" method="POST" enctype="multipart/form-data">
       <div class="form-section">
+
         <!-- 商品名 -->
         <div class="form-group">
           <label for="product_name">商品名</label>
@@ -126,10 +125,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
           <label for="price">販売価格</label>
           <span class="price-range">¥ 300〜</span>
         </div>
-        <input type="number" name="product_price" id="price" min="300" max="99999" style="margin-bottom: 20px;" required>
+        <input type="number" name="product_price" id="price" min="300" max="99999" required>
       </div>
 
-      <!-- 手数料・利益（リアルタイム表示） -->
+      <!-- 手数料・利益 -->
       <div class="price-details-section">
         <div class="price-row">
           <span class="price-label">販売手数料（10%）</span>
@@ -141,87 +140,51 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         </div>
       </div>
 
-      <!-- 更新ボタン -->
-      <button type="submit" class="update-button">更新する</button>
+      <button type="submit" class="update-button">出品する</button>
     </form>
   </div>
 
-  <script>
-const imageInput = document.getElementById("product_images");
-const previewArea = document.getElementById("preview-area");
-const uploadBox = document.getElementById("upload-box");
-const cameraIcon = document.getElementById("camera-icon");
-const imageCount = document.getElementById("image-count");
-
-imageInput.addEventListener("change", () => {
-  previewArea.innerHTML = ""; // プレビュー初期化
-  const files = imageInput.files;
-
-  if (files.length > 0) {
-    // 最初の画像でアップロードボックスを置き換え
-    const firstReader = new FileReader();
-    firstReader.onload = (e) => {
-      uploadBox.innerHTML = `
-        <img src="${e.target.result}" class="main-preview" id="main-preview">
-        <input type="file" id="product_images" name="product_images[]" accept="image/*" multiple required style="display:none;">
-      `;
-      // 再度選択できるようにクリックイベントを追加
-      const mainPreview = document.getElementById("main-preview");
-      const newInput = uploadBox.querySelector('input[type="file"]');
-      mainPreview.addEventListener("click", () => newInput.click());
-      newInput.addEventListener("change", () => {
-        imageInput.files = newInput.files;
-        imageInput.dispatchEvent(new Event("change"));
-      });
-    };
-    firstReader.readAsDataURL(files[0]);
-  }
-
-  // スライダーに全画像表示（2枚目以降）
-  Array.from(files).forEach((file, index) => {
-    if (!file.type.startsWith("image/")) return;
-    if (index === 0) return; // 最初の画像はアップロードボックスに表示済み
-
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const img = document.createElement("img");
-      img.src = e.target.result;
-      img.classList.add("preview-image");
-      previewArea.appendChild(img);
-    };
-    reader.readAsDataURL(file);
-  });
-
-  // カウント表示更新
-  imageCount.textContent = `${files.length}枚選択中（最大20枚）`;
-});
-
-// スライドボタンの動作
-document.getElementById("slide-left").addEventListener("click", () => {
-  previewArea.scrollBy({ left: -100, behavior: "smooth" });
-});
-
-document.getElementById("slide-right").addEventListener("click", () => {
-  previewArea.scrollBy({ left: 100, behavior: "smooth" });
-});
-
-imageInput.addEventListener("change", () => {
-  const files = imageInput.files;
-
-  if (files.length > 20) {
-    alert("画像は最大20枚まで選択できます。");
-    imageInput.value = ""; // リセット
-    return;
-  }
-
-  // 以下、既存のプレビュー処理を続けてOK
-});
-
-
-</script>
-
-
-
-  </div>
-  <?php require 'footer-menu.php'; ?>
+<?php require 'footer-menu.php'; ?>
 <?php require 'footer.php'; ?>
+
+<!-- ▼▼▼ update-item と同じ JS 完全コピー ▼▼▼ -->
+<script>
+    const fileInput = document.getElementById("product_images");
+    const sliderTrack = document.getElementById("slider-track");
+    const imageCount = document.getElementById("image-count");
+
+    fileInput.addEventListener("change", () => {
+        const files = fileInput.files;
+
+        if (files.length > 20) {
+            alert("画像は最大20枚までです。");
+            fileInput.value = "";
+            imageCount.textContent = "0/20";
+            return;
+        }
+
+        // 既存のプレビュー削除
+        sliderTrack.querySelectorAll(".preview-img").forEach(e => e.remove());
+
+        imageCount.textContent = `${files.length}/20`;
+
+        Array.from(files).forEach(file => {
+            if (!file.type.startsWith("image/")) return;
+            const reader = new FileReader();
+            reader.onload = e => {
+                const img = document.createElement("img");
+                img.src = e.target.result;
+                img.classList.add("preview-img");
+                sliderTrack.appendChild(img);
+            };
+            reader.readAsDataURL(file);
+        });
+    });
+
+    document.getElementById("slide-left").addEventListener("click", () => {
+        sliderTrack.scrollBy({ left: -115, behavior: "smooth" });
+    });
+    document.getElementById("slide-right").addEventListener("click", () => {
+        sliderTrack.scrollBy({ left: 115, behavior: "smooth" });
+    });
+</script>

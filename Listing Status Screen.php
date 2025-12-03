@@ -42,10 +42,11 @@ require 'header.php';
     </a>
 
     <!-- 🔽 ここに移動（コンテナ内） -->
-    <button class="listing-button">
-      <span class="camera-icon">📸</span>
-      出品する
-    </button>
+<button class="listing-button" onclick="location.href='https://aso2401373.oops.jp/2025/ASO-Innovation/mypage-selledit.php'">
+  <span class="camera-icon">📸</span>
+  出品する
+</button>
+
 
   </div>
 </div>
