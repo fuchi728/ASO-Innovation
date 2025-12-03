@@ -16,8 +16,14 @@ $user_id = $_SESSION['user']['user_id'];
 $pdo = new PDO($connect, USER, PASS);
 
 // 出品件数
-$sql = $pdo->prepare("SELECT COUNT(*) FROM sell WHERE user_id = ? AND is_delete = 0");
-$sql->execute([$user_id]);
+$sql = $pdo->prepare("
+    SELECT COUNT(*)
+    FROM sell s
+    JOIN item i ON i.item_id = s.item_id
+    WHERE s.user_id = ?
+      AND s.is_delete = 0
+      AND i.is_deleted = 0
+");$sql->execute([$user_id]);
 $sell_count = $sql->fetchColumn();
 
 // 取引件数
@@ -26,16 +32,23 @@ $sql = $pdo->prepare("
     SELECT s.item_id
     FROM sell s
     JOIN buy b ON b.item_id = s.item_id AND b.is_delete = 0
-    WHERE s.user_id = :uid AND s.is_delete = 0
+    JOIN item i ON i.item_id = s.item_id
+    WHERE s.user_id = :uid 
+      AND s.is_delete = 0
+      AND i.is_deleted = 0
 )
 UNION ALL
 (
     SELECT b.item_id
     FROM buy b
     JOIN sell s ON s.item_id = b.item_id AND s.is_delete = 0
-    WHERE b.user_id = :uid AND b.is_delete = 0
+    JOIN item i ON i.item_id = b.item_id
+    WHERE b.user_id = :uid 
+      AND b.is_delete = 0
+      AND i.is_deleted = 0
 )
 ");
+
 $sql->execute(['uid' => $user_id]);
 $trade_count = $sql->rowCount();
 ?>
