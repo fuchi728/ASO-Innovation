@@ -28,11 +28,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       }
     }
   }
-
-  $name = htmlspecialchars($_POST["product_name"]);
-  $description = htmlspecialchars($_POST["product_description"]);
-  $category = htmlspecialchars($_POST["product_category"]);
-  $price = intval($_POST["product_price"]);
   $fee = floor($price * 0.10);
   $profit = $price - $fee;
 }
@@ -41,7 +36,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <div class="miya">
   <div class="container">
 
-    <!-- ▼▼▼ ここから：アップデート版と完全一致の画像アップロード部分 ▼▼▼ -->
     <div class="image-upload-wrapper">
         <div class="slider-container">
 
@@ -67,7 +61,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     <!-- ファイル入力 -->
     <input type="file" id="product_images" name="product_images[]" accept="image/*" multiple style="display:none;">
-    <!-- ▲▲▲ 完全移植ここまで ▲▲▲ -->
 
 
     <form action="" method="POST" enctype="multipart/form-data">
