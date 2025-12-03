@@ -104,7 +104,7 @@ if ($user_id) {
                 <div class="mb-3">
                     <span class="title is-6">商品概要</span>
                 </div>
-                <span><?= htmlspecialchars($item['detail']) ?></span>
+                <span><?= nl2br(htmlspecialchars($item['detail'])) ?></span>
             </div>
             <!-- 出品者 -->
             <div class="block">
