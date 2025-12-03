@@ -28,11 +28,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       }
     }
   }
-
-  // $name = htmlspecialchars($_POST["product_name"]);
-  // $description = htmlspecialchars($_POST["product_description"]);
-  // $category = htmlspecialchars($_POST["product_category"]);
-  // $price = intval($_POST["product_price"]);
   $fee = floor($price * 0.10);
   $profit = $price - $fee;
 }
