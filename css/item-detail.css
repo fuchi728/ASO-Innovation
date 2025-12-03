@@ -69,3 +69,11 @@ a{
   bottom: 5rem;
   right: 25px;
 }
+
+/* 商品概要スクロール */
+#detail_display {
+    background: #FFFAEB;
+    max-height: 150px;
+    overflow-y: auto;
+    padding: 30px;
+}
