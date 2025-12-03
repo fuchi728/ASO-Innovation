@@ -17,6 +17,8 @@ if ($_SESSION['user']['role'] == 1) {
     $back_link = 'admin-home.php';
 } else if ($from === 'mypage') {
     $back_link = 'mypage.php';
+} else if ($from === 'like-list') {
+    $back_link = 'like-list.php';
 } else if ($from === 'other-user') {
     $back_link = 'other-user.php?user=' . urlencode($other_user_id)
         . '&item_id=' . urlencode($item_id)
@@ -244,7 +246,7 @@ if ($user_id) {
 
 <?php
 if ($_SESSION['user']['role'] == 0) {
-  require 'footer-menu.php';
+    require 'footer-menu.php';
 }
 ?>
 <?php require 'footer.php'; ?>

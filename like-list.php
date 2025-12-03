@@ -55,7 +55,7 @@ $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
       <?php else: ?>
         <?php foreach ($items as $item): ?>
-          <a href="history-insert.php?item_id=<?= htmlspecialchars($item['item_id']) ?>" class="item-link">
+          <a href="history-insert.php?item_id=<?= htmlspecialchars($item['item_id']) ?>&from=like-list.php" class="item-link">
             <div class="item">
 
               <!-- ★ SOLD タグ（item-list.php と同じ）-->
