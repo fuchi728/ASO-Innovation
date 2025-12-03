@@ -100,10 +100,6 @@ require 'header.php';
                         <img :src="'item-image/' + item.image_path">
                       </figure>
                     </div>
-                    <div class="card-content pt-2">
-                      <p class="title is-6  mb-5">{{item.item_name}}</p>
-                      <p class="subtitle is-6">¥{{item.price.toLocaleString()}}</p>
-                    </div>
                   </div>
                 </div>
               </div>
