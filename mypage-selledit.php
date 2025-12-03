@@ -2,13 +2,14 @@
 <?php
 // ログイン確認
 if (!isset($_SESSION['user']['user_id'])) {
-    header("Location: login.php");
-    exit;
+  header("Location: login.php");
+  exit;
 }
-$css_files = ['main-style.css','Product Listing Form.css'];
+$css_files = ['main-style.css', 'Product Listing Form.css'];
 require 'header.php';
 ?>
 <?php require 'header-menu.php'; ?>
+<?php require 'db-connect.php'; ?>
 
 <?php
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -37,33 +38,32 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   <div class="container">
 
     <div class="image-upload-wrapper">
-        <div class="slider-container">
+      <div class="slider-container">
 
-            <!-- 左ボタン -->
-            <button type="button" id="slide-left" class="slide-btn">←</button>
+        <!-- 左ボタン -->
+        <button type="button" id="slide-left" class="slide-btn">←</button>
 
-            <!-- スライダー本体 -->
-            <div id="slider-track" class="slider-track">
+        <!-- スライダー本体 -->
+        <div id="slider-track" class="slider-track">
 
-                <!-- アップロードボックス -->
-                <label class="upload-box" onclick="document.getElementById('product_images').click()">
-                    <span class="camera-icon">📸</span>
-                    <span class="image-count" id="image-count">0/20</span>
-                </label>
+          <!-- アップロードボックス -->
+          <label class="upload-box" onclick="document.getElementById('product_images').click()">
+            <span class="camera-icon">📸</span>
+            <span class="image-count" id="image-count">0/20</span>
+          </label>
 
-                <!-- ここに JS でプレビュー画像が追加される -->
-            </div>
-
-            <!-- 右ボタン -->
-            <button type="button" id="slide-right" class="slide-btn">→</button>
+          <!-- ここに JS でプレビュー画像が追加される -->
         </div>
+
+        <!-- 右ボタン -->
+        <button type="button" id="slide-right" class="slide-btn">→</button>
+      </div>
     </div>
 
     <!-- ファイル入力 -->
-    <input type="file" id="product_images" name="product_images[]" accept="image/*" multiple style="display:none;">
-
-
     <form action="item-insert.php" method="POST" enctype="multipart/form-data">
+      <input type="file" id="product_images" name="product_images[]" accept="image/*" multiple style="display:none;">
+
       <div class="form-section">
 
         <!-- 商品名 -->
@@ -80,18 +80,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         <!-- カテゴリ -->
         <div class="form-group">
-          <label for="product_category">カテゴリ</label>
-          <select id="product_category" name="product_category" required>
-            <option value="">選択</option>
-            <option value="ファッション">ファッション</option>
-            <option value="家電・スマホ・カメラ">家電・スマホ・カメラ</option>
-            <option value="本・音楽・ゲーム">本・音楽・ゲーム</option>
-            <option value="ホビー・エンタメ">ホビー・エンタメ</option>
-            <option value="コスメ・美容">コスメ・美容</option>
-            <option value="スポーツ・アウトドア">スポーツ・アウトドア</option>
-            <option value="インテリア・住まい">インテリア・住まい</option>
-            <option value="その他">その他</option>
-          </select>
+            <label for="product_category">カテゴリ</label>
+            <select id="product_category" name="product_category" required>
+                <?php foreach ($categories as $c): ?>
+                    <option value="<?= $c['category_id'] ?>" <?= $c['category_id'] == $item['category_id'] ? 'selected' : '' ?>>
+                        <?= htmlspecialchars($c['category']) ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
         </div>
       </div>
 
@@ -120,48 +116,54 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     </form>
   </div>
 
-<?php require 'footer-menu.php'; ?>
-<?php require 'footer.php'; ?>
+  <?php require 'footer-menu.php'; ?>
+  <?php require 'footer.php'; ?>
 
-<!-- ▼▼▼ update-item と同じ JS 完全コピー ▼▼▼ -->
-<script>
+  <!-- ▼▼▼ update-item と同じ JS 完全コピー ▼▼▼ -->
+  <script>
     const fileInput = document.getElementById("product_images");
     const sliderTrack = document.getElementById("slider-track");
     const imageCount = document.getElementById("image-count");
 
     fileInput.addEventListener("change", () => {
-        const files = fileInput.files;
+      const files = fileInput.files;
 
-        if (files.length > 20) {
-            alert("画像は最大20枚までです。");
-            fileInput.value = "";
-            imageCount.textContent = "0/20";
-            return;
-        }
+      if (files.length > 20) {
+        alert("画像は最大20枚までです。");
+        fileInput.value = "";
+        imageCount.textContent = "0/20";
+        return;
+      }
 
-        // 既存のプレビュー削除
-        sliderTrack.querySelectorAll(".preview-img").forEach(e => e.remove());
+      // 既存のプレビュー削除
+      sliderTrack.querySelectorAll(".preview-img").forEach(e => e.remove());
 
-        imageCount.textContent = `${files.length}/20`;
+      imageCount.textContent = `${files.length}/20`;
 
-        Array.from(files).forEach(file => {
-            if (!file.type.startsWith("image/")) return;
-            const reader = new FileReader();
-            reader.onload = e => {
-                const img = document.createElement("img");
-                img.src = e.target.result;
-                img.classList.add("preview-img");
-                sliderTrack.appendChild(img);
-            };
-            reader.readAsDataURL(file);
-        });
+      Array.from(files).forEach(file => {
+        if (!file.type.startsWith("image/")) return;
+        const reader = new FileReader();
+        reader.onload = e => {
+          const img = document.createElement("img");
+          img.src = e.target.result;
+          img.classList.add("preview-img");
+          sliderTrack.appendChild(img);
+        };
+        reader.readAsDataURL(file);
+      });
     });
 
     document.getElementById("slide-left").addEventListener("click", () => {
-        sliderTrack.scrollBy({ left: -115, behavior: "smooth" });
+      sliderTrack.scrollBy({
+        left: -115,
+        behavior: "smooth"
+      });
     });
     document.getElementById("slide-right").addEventListener("click", () => {
-        sliderTrack.scrollBy({ left: 115, behavior: "smooth" });
+      sliderTrack.scrollBy({
+        left: 115,
+        behavior: "smooth"
+      });
     });
 
     const priceInput = document.getElementById("price");
@@ -169,18 +171,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     const profitDisplay = document.getElementById("profit-display");
 
     priceInput.addEventListener("input", () => {
-        const price = parseInt(priceInput.value);
+      const price = parseInt(priceInput.value);
 
-        if (!price || price < 300) {
-            feeDisplay.textContent = "-";
-            profitDisplay.textContent = "-";
-            return;
-        }
+      if (!price || price < 300) {
+        feeDisplay.textContent = "-";
+        profitDisplay.textContent = "-";
+        return;
+      }
 
-        const fee = Math.floor(price * 0.10);
-        const profit = price - fee;
+      const fee = Math.floor(price * 0.10);
+      const profit = price - fee;
 
-        feeDisplay.textContent = `¥${fee.toLocaleString()}`;
-        profitDisplay.textContent = `¥${profit.toLocaleString()}`;
+      feeDisplay.textContent = `¥${fee.toLocaleString()}`;
+      profitDisplay.textContent = `¥${profit.toLocaleString()}`;
     });
-</script>
+  </script>
