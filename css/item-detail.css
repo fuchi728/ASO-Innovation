@@ -38,14 +38,15 @@
   border: 1px solid black;
 }
 
-a{
+a {
   color: black;
 }
 
 /* コメント */
 .comment-scroll-area {
   max-height: 200px;
-  overflow-y: auto;/* 縦スクロール */
+  overflow-y: auto;
+  /* 縦スクロール */
   padding-right: 10px;
   padding-bottom: 30px;
 }
@@ -56,13 +57,13 @@ a{
   border-radius: 5px;
 }
 
-.purchase{
+.purchase {
   position: fixed;
   bottom: 5rem;
   right: 25px;
 }
 
-.item_delete{
+.item_delete {
   background-color: red;
   color: white;
   position: fixed;
@@ -71,9 +72,11 @@ a{
 }
 
 /* 商品概要スクロール */
-#detail_display {
+@media screen and (min-width: 1024px) {
+  #detail_display {
     background: #FFFAEB;
     max-height: 150px;
     overflow-y: auto;
     padding: 30px;
+  }
 }
