@@ -187,4 +187,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     document.getElementById("slide-right").addEventListener("click", () => {
         sliderTrack.scrollBy({ left: 115, behavior: "smooth" });
     });
+
+    const priceInput = document.getElementById("price");
+    const feeDisplay = document.getElementById("fee-display");
+    const profitDisplay = document.getElementById("profit-display");
+
+    priceInput.addEventListener("input", () => {
+        const price = parseInt(priceInput.value);
+
+        if (!price || price < 300) {
+            feeDisplay.textContent = "-";
+            profitDisplay.textContent = "-";
+            return;
+        }
+
+        const fee = Math.floor(price * 0.10);
+        const profit = price - fee;
+
+        feeDisplay.textContent = `¥${fee.toLocaleString()}`;
+        profitDisplay.textContent = `¥${profit.toLocaleString()}`;
+    });
 </script>
