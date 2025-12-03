@@ -65,7 +65,7 @@ $messages = $sql->fetchAll(PDO::FETCH_ASSOC);
             <div class="user-info is-flex is-align-items-center">
                 <figure class="user_icon image is-24x24 m-2" id="user_icon">
                     <img class="is-rounded"
-                        src="icon_image/<?php echo $msg['profile_image'] ?: 'default.png'; ?>">
+                        src="user-icon/<?php echo $msg['profile_image'] ?: 'default.png'; ?>">
                 </figure>
 
                 <span class="nickname">
