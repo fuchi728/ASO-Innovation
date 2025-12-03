@@ -5,7 +5,7 @@ if (!isset($_SESSION['user']['user_id'])) {
     header("Location: login.php");
     exit;
 }
-$css_files = ['main-style.css','selledit_style.css'];
+$css_files = ['main-style.css','selledit_style.css','Product Listing Form.css'];
 require 'header.php';
 ?>
 <?php require 'header-menu.php'; ?>
@@ -63,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <input type="file" id="product_images" name="product_images[]" accept="image/*" multiple style="display:none;">
 
 
-    <form action="" method="POST" enctype="multipart/form-data">
+    <form action="item-insert.php" method="POST" enctype="multipart/form-data">
       <div class="form-section">
 
         <!-- 商品名 -->
