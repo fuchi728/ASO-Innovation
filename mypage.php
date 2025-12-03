@@ -30,22 +30,18 @@ require 'header.php';
       <div class="column is-narrow p-0">
         <div class="is-flex is-align-items-center">
           <figure id="user_icon" class="m-3">
-            <a href="sell-list.php">
-              <?php
-              if (empty($user['profile_image'])) {
-                echo '<img src="user-icon/default.png" alt="ユーザー画像">';
-              } else {
-                echo '<img src="user-icon/' . htmlspecialchars($user['profile_image']) . '" alt="ユーザー画像">';
-              }
-              ?>
-            </a>
+            <?php
+            if (empty($user['profile_image'])) {
+              echo '<img src="user-icon/default.png" alt="ユーザー画像">';
+            } else {
+              echo '<img src="user-icon/' . htmlspecialchars($user['profile_image']) . '" alt="ユーザー画像">';
+            }
+            ?>
           </figure>
         </div>
       </div>
       <div class="column">
-        <a href="sell-list.php?from=mypage" class="title is-5 m-0">
-          <?= $user['nickname'] ?>
-        </a>
+        <?= $user['nickname'] ?>
       </div>
       <div class="column is-narrow">
         <a href="mypage-edit.php">編集</a>

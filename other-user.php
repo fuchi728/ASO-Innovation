@@ -55,7 +55,6 @@ $isFollowing = $sql2->fetch() ? true : false;
       <!-- アイコン -->
       <div class="column is-narrow ml-1">
         <figure id="user_icon" class="m-0">
-          <a href="sell-list.php">
             <?php
             if (empty($other_user['profile_image'])) {
               echo '<img src="user-icon/default.png" alt="ユーザー画像">';
@@ -63,7 +62,6 @@ $isFollowing = $sql2->fetch() ? true : false;
               echo '<img src="user-icon/' . htmlspecialchars($other_user['profile_image']) . '" alt="ユーザー画像">';
             }
             ?>
-          </a>
         </figure>
       </div>
       <!-- ニックネーム -->
