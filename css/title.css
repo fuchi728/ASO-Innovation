@@ -1,7 +1,8 @@
 #page_title {
   position: relative;
-  margin:20px 0 20px 20px;
+  margin: 20px 0 20px 20px;
   background-color: #fffaeb;
+  z-index: 1;
 }
 
 .navbar-center {
@@ -14,7 +15,7 @@
   pointer-events: none;
 }
 
-#back_button{
-  border:none;
+#back_button {
+  border: none;
   background-color: #fffaeb;
 }
