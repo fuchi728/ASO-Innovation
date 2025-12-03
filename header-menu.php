@@ -89,7 +89,6 @@
         </div>
       </div>
       
-
       <div class="field mt-4 has-text-centered">
         <button id="button" class="button is-info" type="submit">検索</button>
       </div>
