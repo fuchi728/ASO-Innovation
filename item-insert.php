@@ -64,8 +64,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     // --- 出品者登録 ---
     $stmtSell = $pdo->prepare("
-        INSERT INTO sell (item_id, user_id, sell_time)
-        VALUES (?, ?, NOW())
+        INSERT INTO sell (item_id, user_id)
+        VALUES (?, ?)
     ");
     $stmtSell->execute([$item_id, $user_id]);
 
