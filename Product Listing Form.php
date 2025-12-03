@@ -78,7 +78,7 @@ $imageList = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <label for="product_category">カテゴリ</label>
             <select id="product_category" name="product_category" required>
                 <?php foreach ($categories as $c): ?>
-                    <option value="<?= $c['category_id'] ?>" <?= $c['category_id']==$item['category_id']?'selected':'' ?>>
+                    <option value="<?= $c['category_id'] ?>" <?= $c['category_id'] == $item['category_id'] ? 'selected' : '' ?>>
                         <?= htmlspecialchars($c['category']) ?>
                     </option>
                 <?php endforeach; ?>
@@ -88,10 +88,16 @@ $imageList = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <!-- 販売価格 -->
         <div class="price-display-box">
             <label for="price">販売価格</label>
-            <input type="number" name="product_price" id="price" value="<?= htmlspecialchars($item['price']) ?>" min="300" max="99999" required>
+            <input type="number" name="product_price" id="price" value="<?= htmlspecialchars($item['price']) ?>" min="300" required>
         </div>
 
-        <button type="submit" class="update-button">更新する</button>
+        <?php
+        if ($item['is_sold'] == 1) {
+            echo  '<button type="submit" class="update-button" disabled>SOLD OUTのため更新不可</button>';
+        } else {
+            echo '<button type="submit" class="update-button">更新する</button>';
+        }
+        ?>
     </form>
 </div>
 
@@ -129,10 +135,16 @@ $imageList = $stmt->fetchAll(PDO::FETCH_ASSOC);
     });
 
     document.getElementById("slide-left").addEventListener("click", () => {
-        sliderTrack.scrollBy({ left: -115, behavior: "smooth" });
+        sliderTrack.scrollBy({
+            left: -115,
+            behavior: "smooth"
+        });
     });
     document.getElementById("slide-right").addEventListener("click", () => {
-        sliderTrack.scrollBy({ left: 115, behavior: "smooth" });
+        sliderTrack.scrollBy({
+            left: 115,
+            behavior: "smooth"
+        });
     });
 </script>
 
