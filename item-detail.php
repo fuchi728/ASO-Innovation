@@ -103,12 +103,14 @@ if ($user_id) {
             <div class="block">
                 <div class="mb-3 is-flex">
                     <span class="title"><?= htmlspecialchars($item['item_name']) ?></span>
-                    <!-- いいね -->
-                    <div id="app" class="ml-auto">
-                        <i class="fa-heart is-size-2 has-text-danger"
-                            :class="liked ? 'fas' : 'far'"
-                            @click="toggleLike"></i>
-                    </div>
+                    <!-- いいね 一般ユーザーのみ-->
+                    <?php if ($_SESSION['user']['role'] != 1): ?>
+                        <div id="app" class="ml-auto">
+                            <i class="fa-heart is-size-2 has-text-danger"
+                                :class="liked ? 'fas' : 'far'"
+                                @click="toggleLike"></i>
+                        </div>
+                    <?php endif; ?>
                 </div>
                 <span class="subtitle is-4">¥<?= number_format($item['price']) ?></span>
             </div>
@@ -196,10 +198,8 @@ if ($user_id) {
         </div>
         <!-- コメント入力 -->
         <?php
-        // 管理者かどうか
         $isAdmin = ($_SESSION['user']['role'] == 1);
-
-        // コメント禁止条件（売り切れ or 管理者）
+        // SOLDOUT商品と管理者はコメント不可
         $disabled = ($item['is_sold'] || $isAdmin);
         ?>
         <form action="comment-insert.php" method="post">
