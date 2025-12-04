@@ -100,7 +100,7 @@ $imageList = $stmt->fetchAll(PDO::FETCH_ASSOC);
         ?>
     </form>
 
-    <form action="item-delete.php">
+    <form action="item-delete.php" method="post">
         <input type="hidden" name="item_id" value="<?= $item_id ?>">
         <input type="hidden" name="from" value="Product Listing Form">
         <button class="button is-danger" type="submit">商品を削除する</button>
