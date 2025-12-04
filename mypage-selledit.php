@@ -100,7 +100,7 @@ $categories = $pdo->query("SELECT * FROM category ORDER BY category_id ASC")->fe
           <label for="price">販売価格</label>
           <span class="price-range">¥ 300〜</span>
         </div>
-        <input type="number" name="product_price" id="price" min="300" max="99999" required>
+        <input type="number" name="product_price" id="price" min="300" required>
       </div>
 
       <!-- 手数料・利益 -->
