@@ -52,7 +52,7 @@ $sql = $pdo->prepare("
 $sql->execute([':user' => $login_user]);
 $purchase_notices = $sql->fetchAll(PDO::FETCH_ASSOC);
 
-// DM通知（出品購入区別なし）
+// DM通知
 $sql = $pdo->prepare("
     SELECT
         DM.send_time AS notice_time,
@@ -63,6 +63,7 @@ $sql = $pdo->prepare("
     FROM DM
     INNER JOIN item AS i ON i.item_id = DM.item_id
     WHERE DM.receiver_id = :user
+      AND DM.sender_id != :user
       AND DM.is_delete = 0
       AND i.is_deleted = 0
 ");

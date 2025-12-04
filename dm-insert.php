@@ -20,5 +20,5 @@ $sql = $pdo->prepare("insert into DM (main_text, sender_id, receiver_id, item_id
 $sql->execute([$main_text, $sender_id, $partner_id, $item_id]);
 
 // メッセージ画面にリダイレクト
-header("Location: dm-detail.php?item_id=" . urlencode($item_id) . '&partner_id=' . urlencode($sender_id));
+header("Location: dm-detail.php?item_id=" . urlencode($item_id) . '&partner_id=' . urlencode($partner_id));
 exit;
