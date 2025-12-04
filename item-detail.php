@@ -77,6 +77,11 @@ if ($user_id) {
     <div class="columns">
         <div class="column">
             <div class="is-flex is-justify-content-center block">
+                <div class="item">
+                <!-- SOLD タグ -->
+                <?php if ($item['is_sold'] == 1): ?>
+                    <span class="sold-tag">SOLD</span>
+                <?php endif; ?>
                 <!-- 画像スライダー -->
                 <div class="swiper mySwiper">
                     <div class="swiper-wrapper">
@@ -89,6 +94,7 @@ if ($user_id) {
                         ?>
                     </div>
                     <div class="swiper-pagination"></div>
+                </div>
                 </div>
             </div>
         </div>
