@@ -2,15 +2,9 @@
 session_start();
 require_once 'db-connect.php';
 
-// 管理者チェック
-if (!isset($_SESSION['user']['role']) || $_SESSION['user']['role'] != 1) {
-    header("Location: item-list.php");
-    exit();
-}
-
-// POSTチェック
-if (!isset($_POST['item_id']) || empty($_POST['item_id'])) {
-    header("Location: item-list.php");
+// ログインチェック
+if (!isset($_SESSION['user']['user_id'])) {
+    header("Location: login.php");
     exit();
 }
 
