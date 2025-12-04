@@ -91,4 +91,12 @@ $user = $sql->fetch(PDO::FETCH_ASSOC);
 
 </div>
 
+<script>
+    document.getElementById('file-input').addEventListener('change', function() {
+        const fileName = this.files.length > 0 ? this.files[0].name : "";
+        document.getElementById('file-name').textContent = fileName;
+    });
+</script>
+
+
 <?php require 'footer.php'; ?>
