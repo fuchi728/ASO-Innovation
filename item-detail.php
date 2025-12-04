@@ -44,10 +44,15 @@ if ($_SESSION['user']['role'] == 1) {
 // 商品情報取得
 $pdo = new PDO($connect, USER, PASS);
 $sql1 = $pdo->prepare('
-    select i.*, s.user_id as other_user, u.nickname as seller_nickname,u.profile_image AS seller_profile
+    select i.*,
+        s.user_id as other_user,
+        u.nickname as seller_nickname,
+        u.profile_image AS seller_profile,
+        c.category
     from item i
     left join sell s on i.item_id = s.item_id and s.is_delete = 0
     left join user_info u on s.user_id = u.user_id
+    left join category c on i.category_id = c.category_id
     where i.item_id = ?
 ');
 $sql1->execute([$item_id]);
@@ -101,13 +106,17 @@ if ($user_id) {
                 </div>
                 <span class="subtitle is-4">¥<?= number_format($item['price']) ?></span>
             </div>
-
+            <!-- 商品概要 -->
             <div class="block">
                 <div class="mb-3">
                     <span class="title is-6">商品概要</span>
                 </div>
                 <div id="detail_display">
                     <?= nl2br(htmlspecialchars($item['detail'])) ?>
+                </div>
+                <div class="mt-4">
+                    <span class="title is-6">カテゴリ</span><br>
+                    <span><?= htmlspecialchars($item['category']) ?></span>
                 </div>
             </div>
             <!-- 出品者 -->
@@ -180,7 +189,7 @@ if ($user_id) {
             <?php endforeach; ?>
         </div>
         <!-- コメント入力 -->
-        <form action="comment-insert.php" method="post" >
+        <form action="comment-insert.php" method="post">
             <div class="field has-addons pt-3 pr-6 mr-6">
                 <div class="control is-expanded">
                     <input class="input" <?= $item['is_sold'] ? 'disabled' : '' ?> type="text" name="main_text">
