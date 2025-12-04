@@ -1,13 +1,20 @@
-<?php require_once 'db-connect.php'; ?>
+<?php
+session_start();
+require_once 'db-connect.php'; ?>
 <?php
 $css_files = ['main-style.css', 'notice-style.css'];
 require 'header.php';
+require 'header-menu.php';
+
+// タブのリンク切り替え
+$notice_link = isset($_SESSION['user']['user_id'])
+    ? "notice-1.php"
+    : "login.php";
 ?>
-<?php require 'header-menu.php'; ?>
 
 <div class="tabs is-fullwidth">
     <ul>
-        <li><a href="notice-1.php">お知らせ</a></li>
+        <li><a href="<?= $notice_link ?>">お知らせ</a></li>
         <li class="is-active"><a href="notice-2.php">NEWS</a></li>
     </ul>
 </div>
