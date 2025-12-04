@@ -78,23 +78,23 @@ if ($user_id) {
         <div class="column">
             <div class="is-flex is-justify-content-center block">
                 <div class="item">
-                <!-- SOLD タグ -->
-                <?php if ($item['is_sold'] == 1): ?>
-                    <span class="sold-tag">SOLD</span>
-                <?php endif; ?>
-                <!-- 画像スライダー -->
-                <div class="swiper mySwiper">
-                    <div class="swiper-wrapper">
-                        <?php
-                        foreach ($images as $img) {
-                            echo '<div class="swiper-slide">';
-                            echo '<img class="image_size " src="item-image/', htmlspecialchars($img), '" alt="商品画像">';
-                            echo '</div>';
-                        };
-                        ?>
+                    <!-- SOLD タグ -->
+                    <?php if ($item['is_sold'] == 1): ?>
+                        <span class="sold-tag">SOLD</span>
+                    <?php endif; ?>
+                    <!-- 画像スライダー -->
+                    <div class="swiper mySwiper">
+                        <div class="swiper-wrapper">
+                            <?php
+                            foreach ($images as $img) {
+                                echo '<div class="swiper-slide">';
+                                echo '<img class="image_size " src="item-image/', htmlspecialchars($img), '" alt="商品画像">';
+                                echo '</div>';
+                            };
+                            ?>
+                        </div>
+                        <div class="swiper-pagination"></div>
                     </div>
-                    <div class="swiper-pagination"></div>
-                </div>
                 </div>
             </div>
         </div>
@@ -220,6 +220,7 @@ if ($user_id) {
         $action = "purchase.php";
         $isAdmin = false;
     }
+    $isOwner = ($user_id == $item['other_user']);
     ?>
     <form action="<?= $action ?>" method="post">
         <input type="hidden" name="item_id" value="<?= $item_id ?>">
@@ -229,10 +230,14 @@ if ($user_id) {
             // 一般ユーザーで売り切れの場合
             echo '<button disabled id="button" type="submit" class="purchase button is-medium">SOLD OUT</button>';
         } else {
-            // ボタンの表示を切り替え
             if ($isAdmin) {
+                // 管理者
                 echo '<button type="submit" class="item_delete button is-medium">商品削除</button>';
+            } else if ($isOwner) {
+                // 出品者
+                echo '<button disabled id="button" type="button" class="purchase button is-medium">購入</button>';
             } else {
+                // 購入可能
                 echo '<button id="button" type="submit" class="purchase button is-medium">購入</button>';
             }
         }
