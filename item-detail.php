@@ -195,16 +195,23 @@ if ($user_id) {
             <?php endforeach; ?>
         </div>
         <!-- コメント入力 -->
+        <?php
+        // 管理者かどうか
+        $isAdmin = ($_SESSION['user']['role'] == 1);
+
+        // コメント禁止条件（売り切れ or 管理者）
+        $disabled = ($item['is_sold'] || $isAdmin);
+        ?>
         <form action="comment-insert.php" method="post">
             <div class="field has-addons pt-3 pr-6 mr-6">
                 <div class="control is-expanded">
-                    <input class="input" <?= $item['is_sold'] ? 'disabled' : '' ?> type="text" name="main_text">
+                    <input class="input" <?= $disabled ? 'disabled' : '' ?> type="text" name="main_text">
                     <input type="hidden" name="item_id" value="<?= $item_id ?>">
                     <input type="hidden" name="from" value="<?= $from ?>">
                 </div>
                 <!-- 送信アイコン -->
                 <div class="control">
-                    <button class="button" <?= $item['is_sold'] ? 'disabled' : '' ?>>
+                    <button class="button" <?= $disabled ? 'disabled' : '' ?>>
                         <i class="fas fa-pen-square is-size-4"></i>
                     </button>
                 </div>
