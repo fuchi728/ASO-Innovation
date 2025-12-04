@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         // パスワードをハッシュ化
         $hashed = password_hash($password, PASSWORD_DEFAULT);
 
-        // login テーブルへ登録（外部キー user_id が必要）
+        // login テーブルへ登録
         $insert_login = $pdo->prepare("
             INSERT INTO login (user_id, email, password)
             VALUES (?, ?, ?)
