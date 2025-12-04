@@ -4,13 +4,13 @@ require_once 'db-connect.php';
 
 // 管理者チェック
 if (!isset($_SESSION['user']['role']) || $_SESSION['user']['role'] != 1) {
-    header("Location: index.php");
+    header("Location: item-list.php");
     exit();
 }
 
 // POSTチェック
 if (!isset($_POST['item_id']) || empty($_POST['item_id'])) {
-    header("Location: index.php");
+    header("Location: item-list.php");
     exit();
 }
 
@@ -23,12 +23,19 @@ try {
     $stmt = $pdo->prepare("UPDATE item SET is_deleted = 1 WHERE item_id = ?");
     $stmt->execute([$item_id]);
 
-    echo "<script>
+    if ($_POST['from'] == 'Product Listing Form') {
+        echo "<script>
+            alert('商品を削除しました');
+            window.location.href='sell-list.php';
+          </script>";
+        exit();
+    } else {
+        echo "<script>
             alert('商品を削除しました');
             window.location.href='admin-home.php';
           </script>";
-    exit();
-
+        exit();
+    }
 } catch (PDOException $e) {
     echo "削除に失敗しました: " . htmlspecialchars($e->getMessage());
 }
