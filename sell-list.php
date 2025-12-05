@@ -60,7 +60,7 @@ $sells = $sql->fetchAll(); // ← これ1回だけ
     </nav>
     <p>出品数：<?= count($sells) ?></p>
 
-    <!-- 🔸 商品カード一覧 -->
+    <!-- 商品カード一覧 -->
     <div class="item-grid">
       <?php if (empty($sells)): ?>
         <p>現在出品されている商品はありません。</p>

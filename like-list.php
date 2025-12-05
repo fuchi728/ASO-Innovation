@@ -58,7 +58,7 @@ $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
           <a href="history-insert.php?item_id=<?= htmlspecialchars($item['item_id']) ?>&from=like-list" class="item-link">
             <div class="item">
 
-              <!-- ★ SOLD タグ（item-list.php と同じ）-->
+              <!--  SOLD タグ（item-list.php と同じ）-->
               <?php if ($item['is_sold'] == 1): ?>
                 <span class="sold-tag">SOLD</span>
               <?php endif; ?>
