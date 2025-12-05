@@ -55,13 +55,13 @@ $isFollowing = $sql2->fetch() ? true : false;
       <!-- アイコン -->
       <div class="column is-narrow ml-1">
         <figure id="user_icon" class="m-0">
-            <?php
-            if (empty($other_user['profile_image'])) {
-              echo '<img src="user-icon/default.png" alt="ユーザー画像">';
-            } else {
-              echo '<img src="user-icon/' . htmlspecialchars($other_user['profile_image']) . '" alt="ユーザー画像">';
-            }
-            ?>
+          <?php
+          if (empty($other_user['profile_image'])) {
+            echo '<img src="user-icon/default.png" alt="ユーザー画像">';
+          } else {
+            echo '<img src="user-icon/' . htmlspecialchars($other_user['profile_image']) . '" alt="ユーザー画像">';
+          }
+          ?>
         </figure>
       </div>
       <!-- ニックネーム -->
@@ -69,15 +69,17 @@ $isFollowing = $sql2->fetch() ? true : false;
         <span class="title is-5 m-0"><?= $other_user['nickname'] ?></span>
       </div>
       <!-- フォローボタン -->
-      <div class="column is-narrow ml-auto mt-1">
-        <div id="follow_app">
-          <button class="button is-danger"
-            :class="following ? 'is-danger' : 'is-outlined'"
-            @click="toggleFollow">
-            {{ following ? 'フォロー中' : '+フォロー' }}
-          </button>
+      <?php if ($_SESSION['user']['role'] == 0): ?>
+        <div class="column is-narrow ml-auto mt-1">
+          <div id="follow_app">
+            <button class="button is-danger"
+              :class="following ? 'is-danger' : 'is-outlined'"
+              @click="toggleFollow">
+              {{ following ? 'フォロー中' : '+フォロー' }}
+            </button>
+          </div>
         </div>
-      </div>
+      <?php endif; ?>
     </div>
   </div>
 
