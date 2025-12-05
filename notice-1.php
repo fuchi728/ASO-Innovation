@@ -2,15 +2,15 @@
 session_start();
 require_once 'db-connect.php';
 
+// ログイン確認
+if (!isset($_SESSION['user']['user_id'])) {
+    header('Location: notice-2.php');
+    exit;
+}
+
 $css_files = ['main-style.css', 'notice-style.css'];
 require 'header.php';
 require 'header-menu.php';
-
-// ログイン確認
-if (!isset($_SESSION['user']['user_id'])) {
-    header('Location: login.php');
-    exit;
-}
 
 $login_user = $_SESSION['user']['user_id'];
 $pdo = new PDO($connect, USER, PASS);
