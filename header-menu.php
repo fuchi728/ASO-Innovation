@@ -81,7 +81,7 @@
             if (!empty($_GET['categories']) && in_array($c['category_id'], $_GET['categories'])) {
               $checked = 'checked';
             }
-            echo '<label class="checkbox is-block mb-3">';
+            echo '<label class="checkbox mr-5">';
             echo '<input type="checkbox" name="categories[]" value="' . $c['category_id'] . '"' . $checked . '>' . $c['category'];
             echo '</label>';
           }
