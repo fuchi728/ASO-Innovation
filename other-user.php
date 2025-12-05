@@ -69,8 +69,8 @@ $isFollowing = $sql2->fetch() ? true : false;
         <span class="title is-5 m-0"><?= $other_user['nickname'] ?></span>
       </div>
       <!-- フォローボタン -->
-      <?php if ($_SESSION['user']['role'] == 0): ?>
-        <div class="column is-narrow ml-auto mt-1">
+      <div class="column is-narrow ml-auto mt-1">
+        <?php if ($_SESSION['user']['role'] == 0): ?>
           <div id="follow_app">
             <button class="button is-danger"
               :class="following ? 'is-danger' : 'is-outlined'"
@@ -78,8 +78,8 @@ $isFollowing = $sql2->fetch() ? true : false;
               {{ following ? 'フォロー中' : '+フォロー' }}
             </button>
           </div>
-        </div>
-      <?php endif; ?>
+        <?php endif; ?>
+      </div>
     </div>
   </div>
 
