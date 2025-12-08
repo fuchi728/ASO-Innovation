@@ -48,7 +48,8 @@ $sql = $pdo->prepare("
   SELECT 
     u.user_id,
     u.nickname,
-    u.email
+    u.email,
+    u.profile_image
   FROM follow f
   JOIN user_info u ON f.followed_id = u.user_id
   WHERE f.follower_id = ?
