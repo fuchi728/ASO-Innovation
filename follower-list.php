@@ -39,6 +39,7 @@ $sql = $pdo->prepare("
   SELECT 
     u.user_id,
     u.nickname
+    u.profile_image
   FROM follow f
   JOIN user_info u ON f.follower_id = u.user_id
   WHERE f.followed_id = ?
@@ -71,7 +72,7 @@ $followers = $sql->fetchAll(PDO::FETCH_ASSOC);
             <div class="is-flex is-align-items-center">
               <figure id="user_icon" class="m-3">
                 <?php
-                if (empty($user['profile_image'])) {
+                if (empty($f['profile_image'])) {
                   echo '<img src="user-icon/default.png" alt="ユーザー画像">';
                 } else {
                   echo '<img src="user-icon/' . htmlspecialchars($user['profile_image']) . '" alt="ユーザー画像">';
