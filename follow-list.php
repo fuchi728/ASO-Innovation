@@ -81,7 +81,7 @@ $follows = $sql->fetchAll(PDO::FETCH_ASSOC);
             <div class="is-flex is-align-items-center">
               <figure id="user_icon" class="m-3">
                 <?php
-                if (empty($user['profile_image'])) {
+                if (empty($follows['profile_image'])) {
                   echo '<img src="user-icon/default.png" alt="ユーザー画像">';
                 } else {
                   echo '<img src="user-icon/' . htmlspecialchars($user['profile_image']) . '" alt="ユーザー画像">';
