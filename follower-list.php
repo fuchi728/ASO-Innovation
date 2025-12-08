@@ -75,7 +75,7 @@ $followers = $sql->fetchAll(PDO::FETCH_ASSOC);
                 if (empty($f['profile_image'])) {
                   echo '<img src="user-icon/default.png" alt="ユーザー画像">';
                 } else {
-                  echo '<img src="user-icon/' . htmlspecialchars($user['profile_image']) . '" alt="ユーザー画像">';
+                  echo '<img src="user-icon/' . htmlspecialchars($f['profile_image']) . '" alt="ユーザー画像">';
                 }
                 ?>
               </figure>
