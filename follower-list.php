@@ -38,7 +38,7 @@ if ($from == 'other-user') {
 $sql = $pdo->prepare("
   SELECT 
     u.user_id,
-    u.nickname
+    u.nickname,
     u.profile_image
   FROM follow f
   JOIN user_info u ON f.follower_id = u.user_id
